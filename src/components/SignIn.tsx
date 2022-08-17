@@ -2,8 +2,6 @@ import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -11,18 +9,35 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { LoginResponse } from '../types';
+import sendRequest, { loginUrl, unmarshal } from '../services/requestService';
 
-export default function SignIn() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password')
-    });
-  };
+const SignIn: React.FunctionComponent = () => {
+  type initialFormData = { email: string, password: string }
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: {errors}
+  } = useForm<initialFormData>();
 
-  const navigate = useNavigate()
+  const errorCallback = () => {
+    console.log('ERROR')
+  }
+
+  const callbackFn = async (res: Response) => {
+    const loginResponse: LoginResponse = await unmarshal<LoginResponse>(res, errorCallback)
+    console.log(loginResponse)
+  }
+
+  const login = (data: initialFormData) => {
+    console.log(data)
+    sendRequest(loginUrl, 'POST', data, callbackFn, true)
+  }
+
 
   return (
     <Container component="main" maxWidth="xs">
@@ -40,8 +55,9 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit(login)} noValidate sx={{ mt: 1 }}>
           <TextField
+            {...register('email')}
             margin="normal"
             required
             fullWidth
@@ -52,6 +68,7 @@ export default function SignIn() {
             autoFocus
           />
           <TextField
+            {...register('password')}
             margin="normal"
             required
             fullWidth
@@ -60,10 +77,6 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
           />
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Sign In
@@ -75,7 +88,12 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link onClick={() => {navigate('/register')}} variant="body2">
+              <Link
+                onClick={() => {
+                  navigate('/register');
+                }}
+                variant="body2"
+              >
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
@@ -85,3 +103,5 @@ export default function SignIn() {
     </Container>
   );
 }
+
+export default SignIn
