@@ -11,33 +11,42 @@ import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { LoginResponse } from '../types';
-import sendRequest, { loginUrl, unmarshal } from '../services/requestService';
+import sendRequest, { loginUrl } from '../services/requestService';
+import { authenticationManager } from '../services/AuthenticationManager';
+import moment from 'moment';
+import { useSnackbar } from 'notistack';
 
 const SignIn: React.FunctionComponent = () => {
-  type initialFormData = { email: string, password: string }
+  type initialFormData = { email: string; password: string };
   const navigate = useNavigate();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const {
     register,
     handleSubmit,
     setValue,
     watch,
-    formState: {errors}
+    formState: { errors }
   } = useForm<initialFormData>();
 
-  const errorCallback = () => {
-    console.log('ERROR')
-  }
-
-  const callbackFn = async (res: Response) => {
-    const loginResponse: LoginResponse = await unmarshal<LoginResponse>(res, errorCallback)
-    console.log(loginResponse)
-  }
-
-  const login = (data: initialFormData) => {
-    console.log(data)
-    sendRequest(loginUrl, 'POST', data, callbackFn, true)
-  }
-
+  const login = async (data: initialFormData) => {
+    console.log(`Entered user credentials`, data);
+    const res = await sendRequest(loginUrl, 'POST', data, true);
+    if (res) {
+      const loginData = (await res.json()) as LoginResponse;
+      authenticationManager.updateAuthData({
+        jwt: loginData.jwtToken,
+        refreshToken: loginData.refreshToken,
+        userID: loginData.userID,
+        jwtExpiry: moment().add(15, 'm').toDate(),
+        refreshTokenExpiry: moment().add(7, 'd').toDate()
+      });
+      enqueueSnackbar('Successfully logged in.', { variant: 'success' })
+      navigate('/')
+    } else {
+      enqueueSnackbar('Log in failed. Please try again', { variant: 'warning' })
+      navigate('/login')
+    }
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -102,6 +111,6 @@ const SignIn: React.FunctionComponent = () => {
       </Box>
     </Container>
   );
-}
+};
 
-export default SignIn
+export default SignIn;
