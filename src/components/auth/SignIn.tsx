@@ -9,29 +9,29 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { LoginResponse } from '../types';
-import sendRequest, { loginUrl } from '../services/requestService';
-import { authenticationManager } from '../services/AuthenticationManager';
+import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
+import { LoginResponse } from '../../types';
+import sendRequest, { loginUrl } from '../../services/requestService';
+import { authenticationManager } from '../../services/AuthenticationManager';
 import moment from 'moment';
 import { useSnackbar } from 'notistack';
+import PasswordInput from './PasswordInput';
 
 const SignIn: React.FunctionComponent = () => {
-  type initialFormData = { email: string; password: string };
+  type IFormData = { email: string; password: string };
   const navigate = useNavigate();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const {
     register,
     handleSubmit,
-    setValue,
-    watch,
     formState: { errors }
-  } = useForm<initialFormData>();
+  } = useForm<IFormData>();
 
-  const login = async (data: initialFormData) => {
+  const login: SubmitHandler<IFormData> = async (data: IFormData) => {
     console.log(`Entered user credentials`, data);
     const res = await sendRequest(loginUrl, 'POST', data, true);
     if (res) {
+      if (res.status !== 200) {retryLogin(); return;}
       const loginData = (await res.json()) as LoginResponse;
       authenticationManager.updateAuthData({
         jwt: loginData.jwtToken,
@@ -43,16 +43,24 @@ const SignIn: React.FunctionComponent = () => {
       enqueueSnackbar('Successfully logged in.', { variant: 'success' })
       navigate('/')
     } else {
-      enqueueSnackbar('Log in failed. Please try again', { variant: 'warning' })
-      navigate('/login')
+      retryLogin()
     }
   };
+
+  const invalidSubmitHandler: SubmitErrorHandler<IFormData> = () => {
+    enqueueSnackbar('Missing data in fields.', { variant: 'warning' })
+  }
+
+  const retryLogin = () => {
+    enqueueSnackbar('Log in failed. Please try again', { variant: 'warning' })
+    navigate('/login')
+  }
 
   return (
     <Container component="main" maxWidth="xs">
       <Box
         sx={{
-          marginTop: 8,
+          paddingTop: 8,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center'
@@ -64,7 +72,7 @@ const SignIn: React.FunctionComponent = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <Box component="form" onSubmit={handleSubmit(login)} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit(login, invalidSubmitHandler)} sx={{ mt: 1 }}>
           <TextField
             {...register('email')}
             margin="normal"
@@ -76,14 +84,10 @@ const SignIn: React.FunctionComponent = () => {
             autoComplete="email"
             autoFocus
           />
-          <TextField
-            {...register('password')}
-            margin="normal"
-            required
-            fullWidth
+          <PasswordInput
+            formRegister={register('password')}
             name="password"
             label="Password"
-            type="password"
             id="password"
             autoComplete="current-password"
           />
