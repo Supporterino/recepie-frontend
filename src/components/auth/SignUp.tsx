@@ -74,7 +74,7 @@ const SignUp: React.FunctionComponent = () => {
         </Typography>
         <Box component="form" onSubmit={handleSubmit(reg, invalidSubmitHandler)} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
                 {...register('username')}
                 autoComplete="username"
