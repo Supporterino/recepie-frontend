@@ -12,25 +12,55 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
+import { useForm, SubmitHandler, SubmitErrorHandler } from 'react-hook-form';
+import sendRequest, { registerUrl } from '../../services/requestService';
+import { LoginResponse } from '../../types';
+import PasswordInput from './PasswordInput';
 
-export default function SignUp() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password')
-    });
+const SignUp: React.FunctionComponent = () => {
+  type IFormData = { username: string, email: string; password: string };
+  const navigate = useNavigate();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<IFormData>();
+
+  const reg: SubmitHandler<IFormData> = async (data: IFormData) => {
+    console.log(`Entered user credentials`, data);
+    const res = await sendRequest(registerUrl, 'POST', data, true);
+    if (res) {
+      if (res.status === 409) {alreadyRegistered(); return;}
+      if (res.status !== 200) {retryRegister(); return;}
+      enqueueSnackbar('Registration successfull.', { variant: 'success' })
+      navigate('/login')
+    } else {
+      retryRegister()
+    }
   };
 
-  const navigate = useNavigate();
+  const invalidSubmitHandler: SubmitErrorHandler<IFormData> = () => {
+    enqueueSnackbar('Missing data in fields.', { variant: 'warning' })
+  }
+
+  const retryRegister = () => {
+    enqueueSnackbar('Registration failed. Please try again', { variant: 'warning' })
+    navigate('/register')
+  }
+
+  const alreadyRegistered = () => {
+    enqueueSnackbar('E-Mail already in use for an account. Please sign in.', { variant: 'warning' })
+    navigate('/login')
+  }
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
         sx={{
-          marginTop: 8,
+          paddingTop: 8,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center'
@@ -42,33 +72,27 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Box component="form" onSubmit={handleSubmit(reg, invalidSubmitHandler)} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
-                autoComplete="given-name"
-                name="firstName"
+                {...register('username')}
+                autoComplete="username"
+                name="username"
+                margin="normal"
                 required
                 fullWidth
-                id="firstName"
-                label="First Name"
+                id="username"
+                label="Username"
                 autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="family-name"
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
+                {...register('email')}
                 required
                 fullWidth
+                margin="normal"
                 id="email"
                 label="Email Address"
                 name="email"
@@ -76,21 +100,19 @@ export default function SignUp() {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
+              <PasswordInput
+                formRegister={register('password')}
                 name="password"
                 label="Password"
-                type="password"
                 id="password"
                 autoComplete="new-password"
               />
             </Grid>
             <Grid item xs={12}>
-              <FormControlLabel
+              {/* <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                 label="I want to receive inspiration, marketing promotions and updates via email."
-              />
+              /> */}
             </Grid>
           </Grid>
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
@@ -113,3 +135,5 @@ export default function SignUp() {
     </Container>
   );
 }
+
+export default SignUp
