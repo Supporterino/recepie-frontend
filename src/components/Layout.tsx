@@ -1,15 +1,14 @@
-import { AlertColor, Box, Paper, Snackbar } from '@mui/material';
-import { useState } from 'react';
+import { Box, Paper } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
 import NavBar from './NavBar';
 import RecipeList from './RecipeList';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
+import SignIn from './auth/SignIn';
+import SignUp from './auth/SignUp';
 
 const Layout: React.FunctionComponent = () => {
   return (
-    <Box>
-      <Paper>
+    <Box sx={{ height: '100vh' }}>
+      <Paper sx={{ height: '100%' }}>
         <Routes>
           <Route path="/login" element={<SignIn />} />
           <Route path="/register" element={<SignUp />} />
