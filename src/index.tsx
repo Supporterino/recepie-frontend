@@ -16,7 +16,12 @@ root.render(
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <SnackbarProvider maxSnack={3} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} autoHideDuration={3000} dense>
+          <SnackbarProvider
+            maxSnack={3}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            autoHideDuration={3000}
+            dense
+          >
             <CssBaseline />
             <App />
           </SnackbarProvider>

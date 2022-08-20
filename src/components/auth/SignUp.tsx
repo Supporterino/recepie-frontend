@@ -19,9 +19,9 @@ import { LoginResponse } from '../../types';
 import PasswordInput from './PasswordInput';
 
 const SignUp: React.FunctionComponent = () => {
-  type IFormData = { username: string, email: string; password: string };
+  type IFormData = { username: string; email: string; password: string };
   const navigate = useNavigate();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const {
     register,
     handleSubmit,
@@ -32,28 +32,36 @@ const SignUp: React.FunctionComponent = () => {
     console.log(`Entered user credentials`, data);
     const res = await sendRequest(registerUrl, 'POST', data, true);
     if (res) {
-      if (res.status === 409) {alreadyRegistered(); return;}
-      if (res.status !== 200) {retryRegister(); return;}
-      enqueueSnackbar('Registration successfull.', { variant: 'success' })
-      navigate('/login')
+      if (res.status === 409) {
+        alreadyRegistered();
+        return;
+      }
+      if (res.status !== 200) {
+        retryRegister();
+        return;
+      }
+      enqueueSnackbar('Registration successfull.', { variant: 'success' });
+      navigate('/login');
     } else {
-      retryRegister()
+      retryRegister();
     }
   };
 
   const invalidSubmitHandler: SubmitErrorHandler<IFormData> = () => {
-    enqueueSnackbar('Missing data in fields.', { variant: 'warning' })
-  }
+    enqueueSnackbar('Missing data in fields.', { variant: 'warning' });
+  };
 
   const retryRegister = () => {
-    enqueueSnackbar('Registration failed. Please try again', { variant: 'warning' })
-    navigate('/register')
-  }
+    enqueueSnackbar('Registration failed. Please try again', { variant: 'warning' });
+    navigate('/register');
+  };
 
   const alreadyRegistered = () => {
-    enqueueSnackbar('E-Mail already in use for an account. Please sign in.', { variant: 'warning' })
-    navigate('/login')
-  }
+    enqueueSnackbar('E-Mail already in use for an account. Please sign in.', {
+      variant: 'warning'
+    });
+    navigate('/login');
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -134,6 +142,6 @@ const SignUp: React.FunctionComponent = () => {
       </Box>
     </Container>
   );
-}
+};
 
-export default SignUp
+export default SignUp;

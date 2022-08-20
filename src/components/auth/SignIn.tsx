@@ -20,7 +20,7 @@ import PasswordInput from './PasswordInput';
 const SignIn: React.FunctionComponent = () => {
   type IFormData = { email: string; password: string };
   const navigate = useNavigate();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const {
     register,
     handleSubmit,
@@ -31,7 +31,10 @@ const SignIn: React.FunctionComponent = () => {
     console.log(`Entered user credentials`, data);
     const res = await sendRequest(loginUrl, 'POST', data, true);
     if (res) {
-      if (res.status !== 200) {retryLogin(); return;}
+      if (res.status !== 200) {
+        retryLogin();
+        return;
+      }
       const loginData = (await res.json()) as LoginResponse;
       authenticationManager.updateAuthData({
         jwt: loginData.jwtToken,
@@ -40,21 +43,21 @@ const SignIn: React.FunctionComponent = () => {
         jwtExpiry: moment().add(15, 'm').toDate(),
         refreshTokenExpiry: moment().add(7, 'd').toDate()
       });
-      enqueueSnackbar('Successfully logged in.', { variant: 'success' })
-      navigate('/')
+      enqueueSnackbar('Successfully logged in.', { variant: 'success' });
+      navigate('/');
     } else {
-      retryLogin()
+      retryLogin();
     }
   };
 
   const invalidSubmitHandler: SubmitErrorHandler<IFormData> = () => {
-    enqueueSnackbar('Missing data in fields.', { variant: 'warning' })
-  }
+    enqueueSnackbar('Missing data in fields.', { variant: 'warning' });
+  };
 
   const retryLogin = () => {
-    enqueueSnackbar('Log in failed. Please try again', { variant: 'warning' })
-    navigate('/login')
-  }
+    enqueueSnackbar('Log in failed. Please try again', { variant: 'warning' });
+    navigate('/login');
+  };
 
   return (
     <Container component="main" maxWidth="xs">
