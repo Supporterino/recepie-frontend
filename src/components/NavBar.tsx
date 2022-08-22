@@ -58,6 +58,10 @@ const NavBar: React.FunctionComponent = () => {
           navigate('/login');
         }}
       />}
+      {loggedIn && <BottomNavigationAction
+        label="Account"
+        icon={<LoginIcon />}
+      />}
     </BottomNavigation>
   );
 };

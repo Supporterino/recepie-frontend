@@ -13,7 +13,7 @@ export const receipesURL = () =>
 
 const getToken = async (): Promise<string> => {
   const validAuth = await authenticationManager.refreshJWT();
-  console.log(validAuth)
+  console.log('Has auth:',validAuth)
   if (!validAuth) return '';
   return authenticationManager.getJWT();
 };
@@ -29,17 +29,26 @@ const buildHeaders = async (isJSON: boolean, needsAuth: boolean): Promise<Header
 };
 
 const sendRequest = async (url: string, method: string, data?: any, isJSON: boolean = true) => {
+  console.log('--- REQUEST ---')
+  console.log(url)
   const fetchOptions: RequestInit = {
     method: method,
     headers: await buildHeaders(isJSON, url.includes(secured)),
     ...(method !== 'GET' && { body: isJSON ? JSON.stringify(data) : data })
   };
+  console.log('--- OPTIONS ---')
+  console.log(fetchOptions.headers?.toString())
 
   try {
     const res: Response | null = await fetch(url, fetchOptions);
-    if (!res) throw new Error('No response received');
+    if (!res) console.error(new Error('No response received'));
+    console.log('--- RESPONSE ---')
+    console.log(res)
+    console.log('--- -------- ---')
     return res;
-  } catch (error) {}
+  } catch (error) {
+    console.error(error)
+  }
 };
 
 export default sendRequest;

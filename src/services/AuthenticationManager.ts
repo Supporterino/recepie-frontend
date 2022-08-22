@@ -20,7 +20,7 @@ class AuthenticationManager {
   isJWTvalid(): boolean {
     const storeData = localStorage.getItem(this.storageKey);
     if (!storeData) return false;
-    return (JSON.parse(storeData) as AuthData).jwtExpiry > new Date();
+    return new Date((JSON.parse(storeData) as AuthData).jwtExpiry) > new Date();
   }
 
   getJWT(): string {
@@ -32,7 +32,7 @@ class AuthenticationManager {
   isRefreshTokenValid(): boolean {
     const storeData = localStorage.getItem(this.storageKey);
     if (!storeData) return false;
-    return (JSON.parse(storeData) as AuthData).refreshTokenExpiry > new Date();
+    return new Date((JSON.parse(storeData) as AuthData).refreshTokenExpiry) > new Date();
   }
 
   getRefreshToken(): string {
@@ -70,7 +70,10 @@ class AuthenticationManager {
   }
 
   async refreshJWT(): Promise<boolean> {
+    console.log('has:', this.hasJWT())
+    console.log('valid:', this.isJWTvalid())
     if (this.hasJWT() && this.isJWTvalid()) return true;
+    console.log('NO valid JWT')
     if (this.hasRefreshToken() && this.isRefreshTokenValid()) {
       const res = await sendRequest(refreshTokenUrl, 'POST', { token: this.getRefreshToken() });
       if (!res) {
@@ -86,8 +89,10 @@ class AuthenticationManager {
         refreshTokenExpiry: moment().add(7, 'd').toDate()
       });
       return true;
+    } else {
+      this.clear()
+      return false;
     }
-    return false;
   }
 }
 

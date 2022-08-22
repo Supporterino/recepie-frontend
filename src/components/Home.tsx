@@ -14,8 +14,8 @@ const Home: React.FunctionComponent = () => {
 
   return (
     <Container>
-      {data.map((receipe: Recipe) => {
-        return <Typography>{receipe.name}</Typography>;
+      {data.map((receipe: Recipe, index: number) => {
+        return <Typography key={index}>{receipe.name}</Typography>;
       })}
     </Container>
   );
