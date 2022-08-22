@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardMedia, Typography } from "@mui/material"
+import { Card, CardContent, CardMedia, Typography } from "@mui/material"
 import { Recipe } from "../../types"
 
 export type CardPreviewProps = {
@@ -6,7 +6,7 @@ export type CardPreviewProps = {
 }
 
 const CardPreview: React.FunctionComponent<CardPreviewProps> = ({ recipe }: CardPreviewProps) => {
-    return <Card sx={{ maxWidth: 200, margin: 'auto', padding: 0 }}>
+    return <Card sx={{ maxWidth: 200, margin: 'auto', padding: 1 }}>
         <CardMedia
         component="img"
         height="140"
