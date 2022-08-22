@@ -6,11 +6,13 @@ import LoginIcon from '@mui/icons-material/Login';
 import SearchIcon from '@mui/icons-material/Search';
 import ListIcon from '@mui/icons-material/List';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { authenticationManager } from '../services/AuthenticationManager';
 
 const NavBar: React.FunctionComponent = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(0);
   const location = useLocation();
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     switch (location.pathname) {
@@ -25,6 +27,11 @@ const NavBar: React.FunctionComponent = () => {
         break;
     }
   }, [location]);
+
+  useEffect(() => {
+    if (authenticationManager.hasUser() && !loggedIn) setLoggedIn(true)
+    if (!authenticationManager.hasUser() && loggedIn) setLoggedIn(false)
+  })
 
   return (
     <BottomNavigation
@@ -44,13 +51,13 @@ const NavBar: React.FunctionComponent = () => {
       <BottomNavigationAction label="Search" icon={<SearchIcon />} />
       <BottomNavigationAction label="New" icon={<AddOutlinedIcon />} />
       <BottomNavigationAction label="Lists" icon={<ListIcon />} />
-      <BottomNavigationAction
+      {!loggedIn && <BottomNavigationAction
         label="Login"
         icon={<LoginIcon />}
         onClick={() => {
           navigate('/login');
         }}
-      />
+      />}
     </BottomNavigation>
   );
 };

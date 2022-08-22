@@ -11,23 +11,27 @@ export const receipesURL = () =>
   (authenticationManager.hasUser() ? secured : unSecured) +
   'v1/recipe-provider/featuredRecipes';
 
-const getToken = (): string => {
-  const validAuth = authenticationManager.refreshJWT();
+const getToken = async (): Promise<string> => {
+  const validAuth = await authenticationManager.refreshJWT();
+  console.log(validAuth)
   if (!validAuth) return '';
   return authenticationManager.getJWT();
 };
 
-const buildHeaders = (isJSON: boolean, needsAuth: boolean): Headers => {
+const buildHeaders = async (isJSON: boolean, needsAuth: boolean): Promise<Headers> => {
   const header: Headers = new Headers();
   if (isJSON) header.set('Content-Type', 'application/json');
-  if (needsAuth) header.set('Authorization', `Token ${getToken()}`);
+  if (needsAuth) {
+    const token = await getToken()
+    header.set('Authorization', `Token ${token}`);
+  }
   return header;
 };
 
 const sendRequest = async (url: string, method: string, data?: any, isJSON: boolean = true) => {
   const fetchOptions: RequestInit = {
     method: method,
-    headers: buildHeaders(isJSON, url.includes(secured)),
+    headers: await buildHeaders(isJSON, url.includes(secured)),
     ...(method !== 'GET' && { body: isJSON ? JSON.stringify(data) : data })
   };
 

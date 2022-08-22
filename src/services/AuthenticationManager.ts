@@ -73,7 +73,10 @@ class AuthenticationManager {
     if (this.hasJWT() && this.isJWTvalid()) return true;
     if (this.hasRefreshToken() && this.isRefreshTokenValid()) {
       const res = await sendRequest(refreshTokenUrl, 'POST', { token: this.getRefreshToken() });
-      if (!res) return false;
+      if (!res) {
+        this.clear()
+        return false;
+      }
       const loginData = (await res.json()) as LoginResponse;
       authenticationManager.updateAuthData({
         jwt: loginData.jwtToken,
