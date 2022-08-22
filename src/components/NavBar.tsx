@@ -7,6 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import ListIcon from '@mui/icons-material/List';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { authenticationManager } from '../services/AuthenticationManager';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const NavBar: React.FunctionComponent = () => {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ const NavBar: React.FunctionComponent = () => {
       />}
       {loggedIn && <BottomNavigationAction
         label="Account"
-        icon={<LoginIcon />}
+        icon={<AccountCircleIcon />}
       />}
     </BottomNavigation>
   );
