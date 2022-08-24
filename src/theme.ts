@@ -1,20 +1,25 @@
-import { createTheme } from '@mui/material/styles';
-import { red } from '@mui/material/colors';
+import { createTheme, Theme } from '@mui/material/styles';
+import { blueGrey, indigo, red } from '@mui/material/colors';
 
-// A custom theme for this app
-const theme = createTheme({
+export const colorDefinition = {
+  primary: indigo[500],
+  secondary: blueGrey[500],
+  error: red.A400
+}
+
+export const theme = (mode: 'light' | 'dark'): Theme => { return createTheme({
   palette: {
-    mode: 'dark',
-    primary: {
-      main: '#556cd6'
-    },
-    secondary: {
-      main: '#19857b'
-    },
-    error: {
-      main: red.A400
-    }
-  }
-});
+      mode: mode,
+      primary: {
+          main: colorDefinition.primary,
+      },
+      secondary: {
+          main: colorDefinition.secondary,
+      },
+      error: {
+        main: colorDefinition.error
+      }
+  },
+})};
 
 export default theme;

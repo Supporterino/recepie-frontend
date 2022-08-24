@@ -21,7 +21,10 @@ const NavBar: React.FunctionComponent = () => {
         setActiveTab(0);
         break;
       case '/login':
-        setActiveTab(4);
+        setActiveTab(3);
+        break;
+      case '/settings':
+        setActiveTab(5);
         break;
       default:
         setActiveTab(-1);
@@ -61,7 +64,9 @@ const NavBar: React.FunctionComponent = () => {
         />
       )}
       {loggedIn && <BottomNavigationAction label="Account" icon={<AccountCircleIcon />} />}
-      <BottomNavigationAction label="Settings" icon={<SettingsIcon />} />
+      <BottomNavigationAction label="Settings" icon={<SettingsIcon />} onClick={() => {
+          navigate('/settings');
+        }}/>
     </BottomNavigation>
   );
 };

@@ -4,6 +4,7 @@ import NavBar from '../views/NavBar';
 import SignIn from '../views/SignIn';
 import SignUp from '../views/SignUp';
 import Home from '../views/Home';
+import Settings from '../views/Settings';
 
 const Layout: React.FunctionComponent = () => {
   return (
@@ -12,6 +13,7 @@ const Layout: React.FunctionComponent = () => {
         <Routes>
           <Route path="/login" element={<SignIn />} />
           <Route path="/register" element={<SignUp />} />
+          <Route path='/settings' element={<Settings />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </Paper>

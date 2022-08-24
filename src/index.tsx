@@ -3,31 +3,14 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import theme from './theme';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { SnackbarProvider } from 'notistack';
 
-const queryClient = new QueryClient();
+
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+
+
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <SnackbarProvider
-            maxSnack={3}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-            autoHideDuration={3000}
-            dense
-          >
-            <CssBaseline />
-            <App />
-          </SnackbarProvider>
-        </BrowserRouter>
-      </QueryClientProvider>
-    </ThemeProvider>
+    <App />
   </React.StrictMode>
 );
 
