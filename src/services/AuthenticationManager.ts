@@ -70,14 +70,14 @@ class AuthenticationManager {
   }
 
   async refreshJWT(): Promise<boolean> {
-    console.log('has:', this.hasJWT())
-    console.log('valid:', this.isJWTvalid())
+    console.log('has:', this.hasJWT());
+    console.log('valid:', this.isJWTvalid());
     if (this.hasJWT() && this.isJWTvalid()) return true;
-    console.log('NO valid JWT')
+    console.log('NO valid JWT');
     if (this.hasRefreshToken() && this.isRefreshTokenValid()) {
       const res = await sendRequest(refreshTokenUrl, 'POST', { token: this.getRefreshToken() });
       if (!res) {
-        this.clear()
+        this.clear();
         return false;
       }
       const loginData = (await res.json()) as LoginResponse;
@@ -90,7 +90,7 @@ class AuthenticationManager {
       });
       return true;
     } else {
-      this.clear()
+      this.clear();
       return false;
     }
   }

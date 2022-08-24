@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import HomeIcon from '@mui/icons-material/Home';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import LoginIcon from '@mui/icons-material/Login';
-import SearchIcon from '@mui/icons-material/Search';
+import SettingsIcon from '@mui/icons-material/Settings';
 import ListIcon from '@mui/icons-material/List';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { authenticationManager } from '../services/AuthenticationManager';
@@ -30,9 +30,9 @@ const NavBar: React.FunctionComponent = () => {
   }, [location]);
 
   useEffect(() => {
-    if (authenticationManager.hasUser() && !loggedIn) setLoggedIn(true)
-    if (!authenticationManager.hasUser() && loggedIn) setLoggedIn(false)
-  })
+    if (authenticationManager.hasUser() && !loggedIn) setLoggedIn(true);
+    if (!authenticationManager.hasUser() && loggedIn) setLoggedIn(false);
+  });
 
   return (
     <BottomNavigation
@@ -49,20 +49,19 @@ const NavBar: React.FunctionComponent = () => {
           navigate('/');
         }}
       />
-      <BottomNavigationAction label="Search" icon={<SearchIcon />} />
-      <BottomNavigationAction label="New" icon={<AddOutlinedIcon />} />
       <BottomNavigationAction label="Lists" icon={<ListIcon />} />
-      {!loggedIn && <BottomNavigationAction
-        label="Login"
-        icon={<LoginIcon />}
-        onClick={() => {
-          navigate('/login');
-        }}
-      />}
-      {loggedIn && <BottomNavigationAction
-        label="Account"
-        icon={<AccountCircleIcon />}
-      />}
+      <BottomNavigationAction label="New" icon={<AddOutlinedIcon />} />
+      {!loggedIn && (
+        <BottomNavigationAction
+          label="Login"
+          icon={<LoginIcon />}
+          onClick={() => {
+            navigate('/login');
+          }}
+        />
+      )}
+      {loggedIn && <BottomNavigationAction label="Account" icon={<AccountCircleIcon />} />}
+      <BottomNavigationAction label="Settings" icon={<SettingsIcon />} />
     </BottomNavigation>
   );
 };

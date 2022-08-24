@@ -8,7 +8,7 @@ import Home from './Home';
 const Layout: React.FunctionComponent = () => {
   return (
     <Box sx={{ height: '100vh' }}>
-      <Paper sx={{ height: '100%' }}>
+      <Paper sx={{ height: '98%', marginTop: '2%' }} elevation={3}>
         <Routes>
           <Route path="/login" element={<SignIn />} />
           <Route path="/register" element={<SignUp />} />
