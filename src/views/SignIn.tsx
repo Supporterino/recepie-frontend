@@ -10,12 +10,12 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
-import { LoginResponse } from '../../types';
-import sendRequest, { loginUrl } from '../../services/requestService';
-import { authenticationManager } from '../../services/AuthenticationManager';
+import { LoginResponse } from '../types';
+import sendRequest, { loginUrl } from '../services/requestService';
+import { authenticationManager } from '../services/AuthenticationManager';
 import moment from 'moment';
 import { useSnackbar } from 'notistack';
-import PasswordInput from './PasswordInput';
+import PasswordInput from '../components/auth/PasswordInput';
 
 const SignIn: React.FunctionComponent = () => {
   type IFormData = { email: string; password: string };

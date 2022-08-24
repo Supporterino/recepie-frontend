@@ -1,9 +1,9 @@
 import { Box, Paper } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
-import NavBar from './NavBar';
-import SignIn from './auth/SignIn';
-import SignUp from './auth/SignUp';
-import Home from './Home';
+import NavBar from '../views/NavBar';
+import SignIn from '../views/SignIn';
+import SignUp from '../views/SignUp';
+import Home from '../views/Home';
 
 const Layout: React.FunctionComponent = () => {
   return (

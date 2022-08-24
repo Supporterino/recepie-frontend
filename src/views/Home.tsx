@@ -2,9 +2,9 @@ import { Grid } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { getAllReceipes } from '../services/requests';
 import { Recipe } from '../types';
-import CardPreview from './cards/CardsPreview';
-import ErrorDisplay from './queryUtils/ErrorText';
-import Loader from './queryUtils/Loader';
+import CardPreview from '../components/cards/CardsPreview';
+import ErrorDisplay from '../components/queryUtils/ErrorText';
+import Loader from '../components/queryUtils/Loader';
 
 const Home: React.FunctionComponent = () => {
   const { isLoading, isError, error, data } = useQuery(['receipes'], getAllReceipes);
