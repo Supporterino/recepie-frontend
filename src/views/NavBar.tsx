@@ -1,4 +1,4 @@
-import { BottomNavigation, BottomNavigationAction } from '@mui/material';
+import { BottomNavigation, BottomNavigationAction, useMediaQuery } from '@mui/material';
 import { useEffect, useState } from 'react';
 import HomeIcon from '@mui/icons-material/Home';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
@@ -8,12 +8,14 @@ import ListIcon from '@mui/icons-material/List';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { authenticationManager } from '../services/AuthenticationManager';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { isIOS } from 'react-device-detect';
 
 const NavBar: React.FunctionComponent = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(0);
   const location = useLocation();
   const [loggedIn, setLoggedIn] = useState(false);
+  const isStandalone = useMediaQuery('(display-mode: standalone)')
 
   useEffect(() => {
     switch (location.pathname) {
@@ -43,6 +45,9 @@ const NavBar: React.FunctionComponent = () => {
       value={activeTab}
       onChange={(event, newIndex) => {
         setActiveTab(newIndex);
+      }}
+      sx={{
+        paddingBottom: (isIOS&&isStandalone?3:0)
       }}
     >
       <BottomNavigationAction
