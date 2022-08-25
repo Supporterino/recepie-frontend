@@ -1,10 +1,8 @@
 import { Chip, Container, Divider, Grid, ToggleButton, ToggleButtonGroup, Typography, useTheme } from "@mui/material"
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
-import { useContext, useState } from "react";
-import ColorModeContext, { themeMode } from "../services/ThemeContext";
-import CardPreview from "../components/cards/CardsPreview";
-import { Recipe } from "../types";
+import { useContext } from "react";
+import ColorModeContext from "../services/ThemeContext";
 
 const Settings: React.FunctionComponent = () => {
     const theme = useTheme();
