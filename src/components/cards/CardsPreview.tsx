@@ -13,9 +13,9 @@ const CardPreview: React.FunctionComponent<CardPreviewProps> = ({ recipe }: Card
         image={recipe.picture !== '' ? recipe.picture : 'images/no-pictures.png'}
         alt="Image for the recipe"
         sx={{
-            height: 100,
-            width: '100%',
-            objectFit: 'cover'
+          height: 100,
+          width: '100%',
+          objectFit: 'cover'
         }}
       />
       <CardContent sx={{ padding: 0 }}>

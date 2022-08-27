@@ -15,7 +15,6 @@ const NavBar: React.FunctionComponent = () => {
   const [activeTab, setActiveTab] = useState(0);
   const location = useLocation();
   const [loggedIn, setLoggedIn] = useState(false);
-  const isStandalone = useMediaQuery('(display-mode: standalone)')
 
   useEffect(() => {
     switch (location.pathname) {
@@ -46,9 +45,6 @@ const NavBar: React.FunctionComponent = () => {
       onChange={(event, newIndex) => {
         setActiveTab(newIndex);
       }}
-      sx={{
-        paddingBottom: (isIOS&&isStandalone?3:0)
-      }}
     >
       <BottomNavigationAction
         label="Home"
@@ -58,7 +54,13 @@ const NavBar: React.FunctionComponent = () => {
         }}
       />
       <BottomNavigationAction label="Lists" icon={<ListIcon />} />
-      <BottomNavigationAction label="New" icon={<AddOutlinedIcon />} />
+      <BottomNavigationAction
+        label="New"
+        icon={<AddOutlinedIcon />}
+        onClick={() => {
+          navigate('/create');
+        }}
+      />
       {!loggedIn && (
         <BottomNavigationAction
           label="Login"
@@ -69,9 +71,13 @@ const NavBar: React.FunctionComponent = () => {
         />
       )}
       {loggedIn && <BottomNavigationAction label="Account" icon={<AccountCircleIcon />} />}
-      <BottomNavigationAction label="Settings" icon={<SettingsIcon />} onClick={() => {
+      <BottomNavigationAction
+        label="Settings"
+        icon={<SettingsIcon />}
+        onClick={() => {
           navigate('/settings');
-        }}/>
+        }}
+      />
     </BottomNavigation>
   );
 };

@@ -1,9 +1,9 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
 const ColorModeContext = createContext({
-    toggleColorMode: () => {}
-})
+  toggleColorMode: () => {}
+});
 
-export type themeMode = 'light' | 'dark'
+export type themeMode = 'light' | 'dark';
 
-export default ColorModeContext
+export default ColorModeContext;
