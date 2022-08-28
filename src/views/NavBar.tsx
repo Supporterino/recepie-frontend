@@ -1,4 +1,4 @@
-import { BottomNavigation, BottomNavigationAction, useMediaQuery } from '@mui/material';
+import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import { useEffect, useState } from 'react';
 import HomeIcon from '@mui/icons-material/Home';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
@@ -8,7 +8,6 @@ import ListIcon from '@mui/icons-material/List';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { authenticationManager } from '../services/AuthenticationManager';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { isIOS } from 'react-device-detect';
 
 const NavBar: React.FunctionComponent = () => {
   const navigate = useNavigate();
