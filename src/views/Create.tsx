@@ -1,8 +1,16 @@
 import { Button, Container, Grid, Step, StepButton, Stepper, Typography } from '@mui/material';
 import React from 'react';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import BasicInfos from '../components/createSteps/basicInfos';
 
 const steps = ['Basics', 'Ingredients', 'Steps'];
+
+type IFormData = {
+  name: string;
+  description: string;
+  numberOfServings: number;
+};
 
 const Create: React.FunctionComponent = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -31,16 +39,24 @@ const Create: React.FunctionComponent = () => {
     setActiveStep(0);
   };
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<IFormData>();
+
   const renderStepContent = (step: number): JSX.Element => {
     switch (step) {
       case 0:
         return (
-          <Container sx={{ flexGrow: 1 }}>
-            <Typography>Blubb</Typography>
-          </Container>
+          <BasicInfos
+            nameRegister={register('name')}
+            descriptionRegister={register('description')}
+            numOfServings={register('numberOfServings')}
+          />
         );
       case 1:
-        return <div>Description</div>;
+        return <div>Steps</div>;
       case 2:
         return <div>Steps</div>;
       default:
@@ -50,7 +66,7 @@ const Create: React.FunctionComponent = () => {
 
   return (
     <Container sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <Stepper activeStep={activeStep}>
+      <Stepper activeStep={activeStep} sx={{ marginTop: 2 }}>
         {steps.map((name: string, index: number) => (
           <Step key={index}>
             <StepButton>{name}</StepButton>
