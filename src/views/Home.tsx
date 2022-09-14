@@ -5,13 +5,14 @@ import { Recipe } from '../types';
 import CardPreview from '../components/cards/CardsPreview';
 import ErrorDisplay from '../components/queryUtils/ErrorText';
 import Loader from '../components/queryUtils/Loader';
+import FlexBox from '../components/layout/FlexContainer';
 
 const Home: React.FunctionComponent = () => {
   const { isLoading, isError, error, data } = useQuery(['receipes'], getAllReceipes);
 
-  if (isLoading) return <Loader></Loader>;
+  if (isLoading) return <FlexBox><Loader /></FlexBox>;
 
-  if (isError) return <ErrorDisplay text={`${error}`}></ErrorDisplay>;
+  if (isError) return <FlexBox><ErrorDisplay text={`${error}`} /></FlexBox>;
 
   return (
     <Grid
