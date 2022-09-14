@@ -10,10 +10,8 @@ export const receipesURL = () =>
   baseUrl +
   (authenticationManager.hasUser() ? secured : unSecured) +
   'v1/recipe-provider/featuredRecipes';
-  export const tagsURL = () =>
-  baseUrl +
-  (authenticationManager.hasUser() ? secured : unSecured) +
-  'v1/tags';
+export const tagsURL = () =>
+  baseUrl + (authenticationManager.hasUser() ? secured : unSecured) + 'v1/tags/getAsStrings';
 
 const getToken = async (): Promise<string> => {
   const validAuth = await authenticationManager.refreshJWT();

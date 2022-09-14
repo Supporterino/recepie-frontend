@@ -1,7 +1,18 @@
-import { Autocomplete, Chip, Container, Grid, TextField, Typography } from '@mui/material';
+import {
+  Autocomplete,
+  Chip,
+  Container,
+  createFilterOptions,
+  Grid,
+  TextField,
+  Typography
+} from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import { getAllTags } from '../../services/requests';
+import ErrorDisplay from '../queryUtils/ErrorText';
+import Loader from '../queryUtils/Loader';
 
 type BasicInfosProps = {
   nameRegister: UseFormRegisterReturn;
@@ -15,6 +26,22 @@ const BasicInfos: React.FunctionComponent<BasicInfosProps> = ({
   numOfServings
 }: BasicInfosProps) => {
   const { isLoading, isError, error, data } = useQuery(['receipes'], getAllTags);
+  const [tags, setTags] = useState<string[]>([]);
+
+  const deleteTag = (toDelete: string) => {
+    setTags(tags.filter((tag) => tag !== toDelete));
+  };
+
+  const updateTags = (tags: string[]) => {
+    const cleanedTags = tags.filter((tag) => tag.trim());
+    setTags(cleanedTags);
+  };
+
+  const filter = createFilterOptions<string>();
+
+  if (isLoading) return <Loader></Loader>;
+
+  if (isError) return <ErrorDisplay text={`${error}`}></ErrorDisplay>;
 
   return (
     <Container sx={{ flexGrow: 1 }}>
@@ -72,7 +99,7 @@ const BasicInfos: React.FunctionComponent<BasicInfosProps> = ({
       <Autocomplete
         multiple
         id="tags-filled"
-        options={data.sort().map((option) => option)}
+        options={data.sort().map((option: string) => option)}
         renderTags={(value: readonly string[]) =>
           value.map((tag: string) => (
             <Chip
@@ -87,7 +114,7 @@ const BasicInfos: React.FunctionComponent<BasicInfosProps> = ({
         value={tags}
         onChange={(event, value) => updateTags(value)}
         freeSolo
-        getOptionDisabled={(option) => option.includes('invalid input')}
+        // getOptionDisabled={(option) => option.includes('invalid input')}
         filterOptions={(options, params) => {
           const filtered = filter(options, params);
 

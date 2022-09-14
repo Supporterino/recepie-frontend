@@ -6,8 +6,8 @@ type ErrorDisplayProps = {
 
 const ErrorDisplay: React.FunctionComponent<ErrorDisplayProps> = ({ text }: ErrorDisplayProps) => {
   return (
-    <Container>
-      <Alert severity="error">
+    <Container sx={{ flexGrow: 1 }}>
+      <Alert sx={{ my: 3 }} severity="error">
         <AlertTitle>Error</AlertTitle>
         Failed to load ressources with error — {text}
       </Alert>
