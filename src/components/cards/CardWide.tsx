@@ -14,28 +14,33 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
   const imgURL = () => {
     return `url(${recipe.picture !== '' ? recipe.picture : 'images/no-pictures.png'})`;
   };
-  console.log(recipe);
+
+  const alignCenter = { justifyContent: 'center', alignItems: 'center' } as const
+  
+  const centerStyle = { display: 'flex', ...alignCenter } as const
+
+  const lineLimit = (num: number) => {
+    return {
+        display: '-webkit-box',
+        overflow: 'hidden',
+        WebkitBoxOrient: 'vertical',
+        WebkitLineClamp: num
+      } as const
+  }
+
   return (
     <Card sx={{ display: 'flex' }}>
       <CardContent sx={{ p: 1, flexBasis: '75%' }}>
         <Box sx={{ display: ' flex', flexDirection: 'column', width: '100%', height: '100%' }}>
           <Grid container sx={{ width: '100%' }}>
-            <Grid xs={7}>
-              <Typography>{recipe.name}</Typography>
-            </Grid>
-            <Grid xs={5}>
-              <Rating value={recipe.rating.avgRating} readOnly precision={0.5} size="small" />
+            <Grid xs={12}>
+              <Typography sx={lineLimit(1)}>{recipe.name}</Typography>
             </Grid>
           </Grid>
           <Grid container sx={{ width: '100%', flexGrow: 1 }}>
             <Grid xs={12}>
               <Typography
-                sx={{
-                  display: '-webkit-box',
-                  overflow: 'hidden',
-                  WebkitBoxOrient: 'vertical',
-                  WebkitLineClamp: 4
-                }}
+                sx={lineLimit(4)}
                 variant="body2"
                 color="text.secondary"
               >
@@ -43,15 +48,17 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
               </Typography>
             </Grid>
           </Grid>
-          <Grid container sx={{ width: '100%' }}>
-            <Grid xs={6}></Grid>
-            <Grid xs={3}>
+          <Grid container sx={{ width: '100%', ...alignCenter}}>
+            <Grid xs={6} sx={centerStyle}>
+            <Rating value={recipe.rating.avgRating} readOnly precision={0.5} size="small" />
+            </Grid>
+            <Grid xs={3} sx={centerStyle}>
               <IconButton>
                 {recipe.isFavorite && <FavoriteIcon color="error" />}
                 {!recipe.isFavorite && <FavoriteBorderIcon color="secondary" />}
               </IconButton>
             </Grid>
-            <Grid xs={3}>
+            <Grid xs={3} sx={centerStyle}>
               <IconButton>
                 {recipe.isCookList && <BookmarkIcon color="primary" />}
                 {!recipe.isCookList && <BookmarkBorderIcon color="secondary" />}
