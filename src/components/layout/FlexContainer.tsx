@@ -7,7 +7,7 @@ type FlexBoxProps = {
 const FlexBox: React.FunctionComponent<FlexBoxProps> = ({ children }: FlexBoxProps) => {
   return (
     <Container sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-        {children}
+      {children}
     </Container>
   );
 };

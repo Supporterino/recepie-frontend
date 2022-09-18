@@ -55,6 +55,7 @@ const NavBar: React.FunctionComponent = () => {
       <BottomNavigationAction label="Lists" icon={<ListIcon />} />
       <BottomNavigationAction
         label="New"
+        disabled={!loggedIn}
         icon={<AddOutlinedIcon />}
         onClick={() => {
           navigate('/create');

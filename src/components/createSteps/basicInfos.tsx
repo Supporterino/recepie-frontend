@@ -8,32 +8,34 @@ import {
   Typography
 } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
-import { UseFormRegisterReturn } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { useFormContext, UseFormRegisterReturn } from 'react-hook-form';
 import { getAllTags } from '../../services/requests';
 import ErrorDisplay from '../queryUtils/ErrorText';
 import Loader from '../queryUtils/Loader';
 
 type BasicInfosProps = {
-  nameRegister: UseFormRegisterReturn;
-  descriptionRegister: UseFormRegisterReturn;
-  numOfServings: UseFormRegisterReturn;
+  // nameRegister: UseFormRegisterReturn;
+  // descriptionRegister: UseFormRegisterReturn;
+  // numOfServings: UseFormRegisterReturn;
 };
 
-const BasicInfos: React.FunctionComponent<BasicInfosProps> = ({
-  nameRegister,
-  descriptionRegister,
-  numOfServings
-}: BasicInfosProps) => {
+const BasicInfos: React.FunctionComponent<BasicInfosProps> = () => {
   const { isLoading, isError, error, data } = useQuery(['receipes'], getAllTags);
   const [tags, setTags] = useState<string[]>([]);
+  const { register, setValue } = useFormContext();
+
+  useEffect(() => {
+    setValue('tags', tags);
+  }, [tags, setValue]);
 
   const deleteTag = (toDelete: string) => {
     setTags(tags.filter((tag) => tag !== toDelete));
   };
 
   const updateTags = (tags: string[]) => {
-    const cleanedTags = tags.filter((tag) => tag.trim());
+    const cleanedTags: string[] = [];
+    tags.forEach((tag) => cleanedTags.push(tag.replace('create new tag:', '').trim()));
     setTags(cleanedTags);
   };
 
@@ -46,7 +48,7 @@ const BasicInfos: React.FunctionComponent<BasicInfosProps> = ({
   return (
     <Container sx={{ flexGrow: 1 }}>
       <TextField
-        {...nameRegister}
+        {...register('name')}
         margin="normal"
         required
         fullWidth
@@ -71,7 +73,7 @@ const BasicInfos: React.FunctionComponent<BasicInfosProps> = ({
         </Grid>
         <Grid item xs={6}>
           <TextField
-            {...numOfServings}
+            {...register('numberOfServings')}
             margin="normal"
             required
             fullWidth
@@ -85,7 +87,7 @@ const BasicInfos: React.FunctionComponent<BasicInfosProps> = ({
         </Grid>
       </Grid>
       <TextField
-        {...descriptionRegister}
+        {...register('description')}
         margin="normal"
         required
         fullWidth
@@ -106,6 +108,7 @@ const BasicInfos: React.FunctionComponent<BasicInfosProps> = ({
               label={tag}
               key={tag}
               id={tag}
+              sx={{ mx: 0.2 }}
               color="secondary"
               onDelete={() => deleteTag(tag)}
             />
@@ -114,7 +117,7 @@ const BasicInfos: React.FunctionComponent<BasicInfosProps> = ({
         value={tags}
         onChange={(event, value) => updateTags(value)}
         freeSolo
-        // getOptionDisabled={(option) => option.includes('invalid input')}
+        getOptionDisabled={(option) => option.includes('invalid input')}
         filterOptions={(options, params) => {
           const filtered = filter(options, params);
 
