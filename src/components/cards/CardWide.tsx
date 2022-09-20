@@ -14,6 +14,7 @@ import sendRequest, {
   removeFavoriteUrl
 } from '../../services/requestService';
 import { useSnackbar } from 'notistack';
+import { alignCenter, centerStyle } from '../layout/commonSx';
 
 export type CardWideProps = {
   recipe: Recipe;
@@ -26,10 +27,6 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
   const imgURL = () => {
     return `url(${recipe.picture !== '' ? recipe.picture : 'images/no-pictures.png'})`;
   };
-
-  const alignCenter = { justifyContent: 'center', alignItems: 'center' } as const;
-
-  const centerStyle = { display: 'flex', ...alignCenter } as const;
 
   const lineLimit = (num: number) => {
     return {

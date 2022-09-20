@@ -7,6 +7,7 @@ import Home from '../views/Home';
 import Settings from '../views/Settings';
 import Create from '../views/Create';
 import { isIOS } from 'react-device-detect';
+import { centerTopStyle } from './layout/commonSx';
 
 const Layout: React.FunctionComponent = () => {
   const isStandalone = useMediaQuery('(display-mode: standalone)');
@@ -23,7 +24,7 @@ const Layout: React.FunctionComponent = () => {
         >
           <NavBar></NavBar>
         </Paper>
-        <Paper sx={{ flexGrow: 1, overflowY: 'auto' }} elevation={3}>
+        <Paper sx={{ flexGrow: 1, overflowY: 'auto', ...centerTopStyle }} elevation={3}>
           <Routes>
             <Route path="/login" element={<SignIn />} />
             <Route path="/register" element={<SignUp />} />
