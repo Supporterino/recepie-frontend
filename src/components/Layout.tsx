@@ -12,24 +12,27 @@ const Layout: React.FunctionComponent = () => {
   const isStandalone = useMediaQuery('(display-mode: standalone)');
 
   return (
-    <Box sx={{ height: '100vh', display: 'flex' }} flexDirection={'column'}>
-      <Paper sx={{ flexGrow: 1 }} elevation={3}>
-        <Routes>
-          <Route path="/login" element={<SignIn />} />
-          <Route path="/register" element={<SignUp />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/create" element={<Create />} />
-          <Route path="/" element={<Home />} />
-        </Routes>
-      </Paper>
-      <Paper
-        sx={{
-          paddingBottom: isIOS && isStandalone ? 3 : 0
-        }}
-        elevation={3}
-      >
-        <NavBar></NavBar>
-      </Paper>
+    <Box sx={{ height: '100%', overflow: 'hidden' }}>
+      <Box sx={{ display: 'flex', height: window.innerHeight }} flexDirection={'column-reverse'}>
+        <Paper
+          sx={{
+            paddingBottom: isIOS && isStandalone ? 3 : 0,
+            flex: 1
+          }}
+          elevation={3}
+        >
+          <NavBar></NavBar>
+        </Paper>
+        <Paper sx={{ flexGrow: 1, overflowY: 'auto' }} elevation={3}>
+          <Routes>
+            <Route path="/login" element={<SignIn />} />
+            <Route path="/register" element={<SignUp />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/create" element={<Create />} />
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </Paper>
+      </Box>
     </Box>
   );
 };
