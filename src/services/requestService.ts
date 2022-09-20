@@ -6,6 +6,11 @@ const unSecured = 'api/';
 export const loginUrl = baseUrl + unSecured + 'v1/auth/login';
 export const registerUrl = baseUrl + unSecured + 'v1/auth/register';
 export const refreshTokenUrl = baseUrl + unSecured + 'v1/auth/refreshToken';
+export const addFavoriteUrl = baseUrl + secured + 'v1/favorite/addFavorite';
+export const removeFavoriteUrl = baseUrl + secured + 'v1/favorite/removeFavorite';
+export const removeCookListUrl = baseUrl + secured + 'v1/cooklist/removeCookList';
+export const addCookListUrl = baseUrl + secured + 'v1/cooklist/addCookList';
+
 export const receipesURL = () =>
   baseUrl +
   (authenticationManager.hasUser() ? secured : unSecured) +
@@ -43,13 +48,14 @@ const sendRequest = async (url: string, method: string, data?: any, isJSON: bool
 
   try {
     const res: Response | null = await fetch(url, fetchOptions);
-    if (!res) console.error(new Error('No response received'));
+    if (!res) throw new Error('No response received');
     console.log('--- RESPONSE ---');
     console.log(res);
     console.log('--- -------- ---');
+    if (!res.ok) throw new Error(`Non OK Status code. $${res.status} - ${res.statusText}`);
     return res;
   } catch (error) {
-    console.error(error);
+    throw error;
   }
 };
 

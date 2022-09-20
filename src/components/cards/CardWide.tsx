@@ -4,32 +4,74 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import PendingIcon from '@mui/icons-material/Pending';
 import Grid from '@mui/system/Unstable_Grid';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import sendRequest, {
+  addCookListUrl,
+  addFavoriteUrl,
+  removeCookListUrl,
+  removeFavoriteUrl
+} from '../../services/requestService';
+import { useSnackbar } from 'notistack';
 
 export type CardWideProps = {
   recipe: Recipe;
 };
 
 const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWideProps) => {
+  const queryClient = useQueryClient();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
   const imgURL = () => {
     return `url(${recipe.picture !== '' ? recipe.picture : 'images/no-pictures.png'})`;
   };
 
-  const alignCenter = { justifyContent: 'center', alignItems: 'center' } as const
-  
-  const centerStyle = { display: 'flex', ...alignCenter } as const
+  const alignCenter = { justifyContent: 'center', alignItems: 'center' } as const;
+
+  const centerStyle = { display: 'flex', ...alignCenter } as const;
 
   const lineLimit = (num: number) => {
     return {
-        display: '-webkit-box',
-        overflow: 'hidden',
-        WebkitBoxOrient: 'vertical',
-        WebkitLineClamp: num
-      } as const
-  }
+      display: '-webkit-box',
+      overflow: 'hidden',
+      WebkitBoxOrient: 'vertical',
+      WebkitLineClamp: num
+    } as const;
+  };
+
+  const favMutation = useMutation(
+    () =>
+      recipe.isFavorite
+        ? sendRequest(removeFavoriteUrl, 'DELETE', { recipeID: recipe.id })
+        : sendRequest(addFavoriteUrl, 'POST', { recipeID: recipe.id }),
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(['recipes']);
+      },
+      onError: (error, variables, context) => {
+        enqueueSnackbar('Failed to set favorite on recipe', { variant: 'warning' });
+      }
+    }
+  );
+
+  const cooklistMutation = useMutation(
+    () =>
+      recipe.isCookList
+        ? sendRequest(removeCookListUrl, 'DELETE', { recipeID: recipe.id })
+        : sendRequest(addCookListUrl, 'POST', { recipeID: recipe.id }),
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(['recipes']);
+      },
+      onError: (error, variables, context) => {
+        enqueueSnackbar('Failed to set cooklist on recipe', { variant: 'warning' });
+      }
+    }
+  );
 
   return (
-    <Card sx={{ display: 'flex' }}>
+    <Card sx={{ display: 'flex', m: 1 }}>
       <CardContent sx={{ p: 1, flexBasis: '75%' }}>
         <Box sx={{ display: ' flex', flexDirection: 'column', width: '100%', height: '100%' }}>
           <Grid container sx={{ width: '100%' }}>
@@ -39,29 +81,44 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
           </Grid>
           <Grid container sx={{ width: '100%', flexGrow: 1 }}>
             <Grid xs={12}>
-              <Typography
-                sx={lineLimit(4)}
-                variant="body2"
-                color="text.secondary"
-              >
+              <Typography sx={lineLimit(4)} variant="body2" color="text.secondary">
                 {recipe.description}
               </Typography>
             </Grid>
           </Grid>
-          <Grid container sx={{ width: '100%', ...alignCenter}}>
+          <Grid container sx={{ width: '100%', ...alignCenter }}>
             <Grid xs={6} sx={centerStyle}>
-            <Rating value={recipe.rating.avgRating} readOnly precision={0.5} size="small" />
+              <Rating value={recipe.rating.avgRating} readOnly precision={0.5} size="small" />
+              <Typography sx={{ color: 'text.secondary' }} variant="body2" ml={0.5}>
+                ({recipe.rating.numOfRatings})
+              </Typography>
             </Grid>
             <Grid xs={3} sx={centerStyle}>
-              <IconButton>
-                {recipe.isFavorite && <FavoriteIcon color="error" />}
-                {!recipe.isFavorite && <FavoriteBorderIcon color="secondary" />}
+              <IconButton
+                onClick={() => {
+                  favMutation.mutate();
+                }}
+              >
+                {recipe.isFavorite && !favMutation.isLoading && <FavoriteIcon color="error" />}
+                {!recipe.isFavorite && !favMutation.isLoading && (
+                  <FavoriteBorderIcon color="secondary" />
+                )}
+                {favMutation.isLoading && <PendingIcon color="secondary" />}
               </IconButton>
             </Grid>
             <Grid xs={3} sx={centerStyle}>
-              <IconButton>
-                {recipe.isCookList && <BookmarkIcon color="primary" />}
-                {!recipe.isCookList && <BookmarkBorderIcon color="secondary" />}
+              <IconButton
+                onClick={() => {
+                  cooklistMutation.mutate();
+                }}
+              >
+                {recipe.isCookList && !cooklistMutation.isLoading && (
+                  <BookmarkIcon color="primary" />
+                )}
+                {!recipe.isCookList && !cooklistMutation.isLoading && (
+                  <BookmarkBorderIcon color="secondary" />
+                )}
+                {cooklistMutation.isLoading && <PendingIcon color="secondary" />}
               </IconButton>
             </Grid>
           </Grid>
