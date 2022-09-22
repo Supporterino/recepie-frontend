@@ -10,6 +10,7 @@ export const addFavoriteUrl = baseUrl + secured + 'v1/favorite/addFavorite';
 export const removeFavoriteUrl = baseUrl + secured + 'v1/favorite/removeFavorite';
 export const removeCookListUrl = baseUrl + secured + 'v1/cooklist/removeCookList';
 export const addCookListUrl = baseUrl + secured + 'v1/cooklist/addCookList';
+export const createRecipeUrl = baseUrl + secured + 'v1/recipe-creation/createRecipe';
 
 export const receipesURL = () =>
   baseUrl +

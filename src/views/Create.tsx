@@ -1,4 +1,6 @@
-import { Box, Button, Container, Grid, Step, StepButton, Stepper } from '@mui/material';
+import { Box, Button, Grid, Step, StepButton, Stepper } from '@mui/material';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useSnackbar } from 'notistack';
 import React from 'react';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -7,7 +9,8 @@ import Ingredients from '../components/createSteps/ingredients';
 import Steps from '../components/createSteps/steps';
 import { flexCol } from '../components/layout/commonSx';
 import FlexColContainer from '../components/layout/FlexColContainer';
-import { Ingredient } from '../types';
+import sendRequest, { createRecipeUrl } from '../services/requestService';
+import { CreationData, Ingredient } from '../types';
 
 const steps = ['Basics', 'Ingredients', 'Steps'];
 
@@ -22,6 +25,8 @@ type IFormData = {
 
 const Create: React.FunctionComponent = () => {
   const [activeStep, setActiveStep] = useState(0);
+  const queryClient = useQueryClient();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const totalSteps = () => {
     return steps.length;
@@ -44,7 +49,7 @@ const Create: React.FunctionComponent = () => {
   };
 
   const handleReset = () => {
-    // setActiveStep(0);
+    setActiveStep(0);
   };
 
   const methods = useForm<IFormData>();
@@ -62,7 +67,34 @@ const Create: React.FunctionComponent = () => {
     }
   };
 
-  const onSubmit = (data: IFormData) => console.log(data);
+  const onSubmit = (data: IFormData) => {
+    submitRecipeMutation.mutate();
+  };
+
+  const submitRecipeMutation = useMutation(
+    () =>
+      sendRequest(createRecipeUrl, 'POST', {
+        name: methods.getValues('name'),
+        description: methods.getValues('description'),
+        steps: methods.getValues('steps'),
+        tags: methods.getValues('tags'),
+        ingredients: {
+          numServings: +methods.getValues('numberOfServings'),
+          items: methods.getValues('ingredients')
+        }
+      } as CreationData),
+    {
+      onSuccess: () => {
+        methods.reset();
+        handleReset();
+        enqueueSnackbar('Recipe added.', { variant: 'success' });
+        return queryClient.invalidateQueries(['recipes']);
+      },
+      onError: (error, variables, context) => {
+        enqueueSnackbar('Failed to set favorite on recipe', { variant: 'warning' });
+      }
+    }
+  );
 
   return (
     <FlexColContainer>
@@ -108,13 +140,7 @@ const Create: React.FunctionComponent = () => {
                 </Button>
               )}
               {isLastStep() && (
-                <Button
-                  type="submit"
-                  onClick={handleReset}
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 2, mb: 2 }}
-                >
+                <Button type="submit" fullWidth variant="contained" sx={{ mt: 2, mb: 2 }}>
                   Submit
                 </Button>
               )}
