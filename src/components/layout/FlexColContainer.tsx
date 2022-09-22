@@ -4,7 +4,7 @@ type FlexBoxProps = {
   children?: React.ReactNode;
 };
 
-const FlexBox: React.FunctionComponent<FlexBoxProps> = ({ children }: FlexBoxProps) => {
+const FlexColContainer: React.FunctionComponent<FlexBoxProps> = ({ children }: FlexBoxProps) => {
   return (
     <Container sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       {children}
@@ -12,4 +12,4 @@ const FlexBox: React.FunctionComponent<FlexBoxProps> = ({ children }: FlexBoxPro
   );
 };
 
-export default FlexBox;
+export default FlexColContainer;

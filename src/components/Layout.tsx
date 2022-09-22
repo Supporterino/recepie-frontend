@@ -24,7 +24,7 @@ const Layout: React.FunctionComponent = () => {
         >
           <NavBar></NavBar>
         </Paper>
-        <Paper sx={{ flexGrow: 1, overflowY: 'auto', ...centerTopStyle }} elevation={3}>
+        <Paper sx={{ height: '100%', overflowY: 'auto', ...centerTopStyle }} elevation={3}>
           <Routes>
             <Route path="/login" element={<SignIn />} />
             <Route path="/register" element={<SignUp />} />

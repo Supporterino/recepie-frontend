@@ -1,6 +1,5 @@
 import {
   Chip,
-  Container,
   Divider,
   Grid,
   ToggleButton,
@@ -12,13 +11,14 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { useContext } from 'react';
 import ColorModeContext from '../services/ThemeContext';
+import FlexColContainer from '../components/layout/FlexColContainer';
 
 const Settings: React.FunctionComponent = () => {
   const theme = useTheme();
   const colorMode = useContext(ColorModeContext);
 
   return (
-    <Container>
+    <FlexColContainer>
       <Divider>
         <Chip label="Theming" />
       </Divider>
@@ -54,7 +54,7 @@ const Settings: React.FunctionComponent = () => {
           </ToggleButtonGroup>
         </Grid>
       </Grid>
-    </Container>
+    </FlexColContainer>
   );
 };
 

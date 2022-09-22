@@ -4,4 +4,6 @@ const alignCenterTop = { justifyContent: 'center', alignItems: 'flex-start' } as
 const centerStyle = { display: 'flex', ...alignCenter } as const;
 const centerTopStyle = { display: 'flex', ...alignCenterTop } as const;
 
-export { alignCenter, centerStyle, alignCenterTop, centerTopStyle };
+const flexCol = { height: '100%', display: 'flex', flexDirection: 'column' } as const;
+
+export { alignCenter, centerStyle, alignCenterTop, centerTopStyle, flexCol };

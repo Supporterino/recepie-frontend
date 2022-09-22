@@ -1,7 +1,6 @@
 import {
   Autocomplete,
   Chip,
-  Container,
   createFilterOptions,
   Grid,
   TextField,
@@ -9,19 +8,14 @@ import {
 } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { useFormContext, UseFormRegisterReturn } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { getAllTags } from '../../services/requests';
+import FlexColContainer from '../layout/FlexColContainer';
 import ErrorDisplay from '../queryUtils/ErrorText';
 import Loader from '../queryUtils/Loader';
 
-type BasicInfosProps = {
-  // nameRegister: UseFormRegisterReturn;
-  // descriptionRegister: UseFormRegisterReturn;
-  // numOfServings: UseFormRegisterReturn;
-};
-
-const BasicInfos: React.FunctionComponent<BasicInfosProps> = () => {
-  const { isLoading, isError, error, data } = useQuery(['receipes'], getAllTags);
+const BasicInfos: React.FunctionComponent = () => {
+  const { isLoading, isError, error, data } = useQuery(['tags'], getAllTags);
   const [tags, setTags] = useState<string[]>([]);
   const { register, setValue } = useFormContext();
 
@@ -46,7 +40,7 @@ const BasicInfos: React.FunctionComponent<BasicInfosProps> = () => {
   if (isError) return <ErrorDisplay text={`${error}`}></ErrorDisplay>;
 
   return (
-    <Container sx={{ flexGrow: 1 }}>
+    <FlexColContainer>
       <TextField
         {...register('name')}
         margin="normal"
@@ -135,7 +129,7 @@ const BasicInfos: React.FunctionComponent<BasicInfosProps> = () => {
         }}
         renderInput={(params) => <TextField label="Tags" {...params} variant="outlined" />}
       />
-    </Container>
+    </FlexColContainer>
   );
 };
 

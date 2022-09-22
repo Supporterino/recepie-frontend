@@ -1,8 +1,12 @@
-import { Button, Container, Grid, Step, StepButton, Stepper, Typography } from '@mui/material';
+import { Box, Button, Container, Grid, Step, StepButton, Stepper } from '@mui/material';
 import React from 'react';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import BasicInfos from '../components/createSteps/basicInfos';
+import Ingredients from '../components/createSteps/ingredients';
+import { flexCol } from '../components/layout/commonSx';
+import FlexColContainer from '../components/layout/FlexColContainer';
+import { Ingredient } from '../types';
 
 const steps = ['Basics', 'Ingredients', 'Steps'];
 
@@ -11,6 +15,7 @@ type IFormData = {
   description: string;
   numberOfServings: number;
   tags: string[];
+  ingredients: Ingredient[];
 };
 
 const Create: React.FunctionComponent = () => {
@@ -47,7 +52,7 @@ const Create: React.FunctionComponent = () => {
       case 0:
         return <BasicInfos />;
       case 1:
-        return <div>Steps</div>;
+        return <Ingredients />;
       case 2:
         return <div>Steps</div>;
       default:
@@ -58,15 +63,17 @@ const Create: React.FunctionComponent = () => {
   const onSubmit = (data: IFormData) => console.log(data);
 
   return (
-    <Container sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <FlexColContainer>
       <FormProvider {...methods}>
-        <form
+        <Box
+          component="form"
+          sx={flexCol}
           onSubmit={methods.handleSubmit(onSubmit)}
-          onKeyPress={(e) => {
+          onKeyPress={(e: React.KeyboardEvent<HTMLFormElement>) => {
             if (e.key === 'Enter') e.preventDefault();
           }}
         >
-          <Stepper activeStep={activeStep} sx={{ marginTop: 2 }}>
+          <Stepper activeStep={activeStep} sx={{ m: 2 }}>
             {steps.map((name: string, index: number) => (
               <Step key={index}>
                 <StepButton>{name}</StepButton>
@@ -78,7 +85,7 @@ const Create: React.FunctionComponent = () => {
             container
             justifyContent="space-evenly"
             alignItems="center"
-            spacing={2}
+            spacing={0}
             columns={12}
           >
             <Grid item xs={5}>
@@ -86,7 +93,7 @@ const Create: React.FunctionComponent = () => {
                 onClick={handleBack}
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 2, mb: 2 }}
                 disabled={isFirstStep()}
               >
                 Back
@@ -94,7 +101,7 @@ const Create: React.FunctionComponent = () => {
             </Grid>
             <Grid item xs={5}>
               {!isLastStep() && (
-                <Button onClick={handleNext} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                <Button onClick={handleNext} fullWidth variant="contained" sx={{ mt: 2, mb: 2 }}>
                   Next
                 </Button>
               )}
@@ -104,16 +111,16 @@ const Create: React.FunctionComponent = () => {
                   onClick={handleReset}
                   fullWidth
                   variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
+                  sx={{ mt: 2, mb: 2 }}
                 >
                   Submit
                 </Button>
               )}
             </Grid>
           </Grid>
-        </form>
+        </Box>
       </FormProvider>
-    </Container>
+    </FlexColContainer>
   );
 };
 

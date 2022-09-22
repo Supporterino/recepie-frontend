@@ -14,7 +14,7 @@ import sendRequest, {
   removeFavoriteUrl
 } from '../../services/requestService';
 import { useSnackbar } from 'notistack';
-import { alignCenter, centerStyle } from '../layout/commonSx';
+import { alignCenter, centerStyle, flexCol } from '../layout/commonSx';
 
 export type CardWideProps = {
   recipe: Recipe;
@@ -70,7 +70,7 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
   return (
     <Card sx={{ display: 'flex', m: 1 }}>
       <CardContent sx={{ p: 1, flexBasis: '75%' }}>
-        <Box sx={{ display: ' flex', flexDirection: 'column', width: '100%', height: '100%' }}>
+        <Box sx={{ width: '100%', ...flexCol }}>
           <Grid container sx={{ width: '100%' }}>
             <Grid xs={12}>
               <Typography sx={lineLimit(1)}>{recipe.name}</Typography>

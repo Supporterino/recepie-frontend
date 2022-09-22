@@ -2,26 +2,26 @@ import { useQuery } from '@tanstack/react-query';
 import { getAllReceipes } from '../services/requests';
 import ErrorDisplay from '../components/queryUtils/ErrorText';
 import Loader from '../components/queryUtils/Loader';
-import FlexBox from '../components/layout/FlexContainer';
 import CardWide from '../components/cards/CardWide';
 import Grid from '@mui/system/Unstable_Grid';
 import { Recipe } from '../types';
+import FlexColContainer from '../components/layout/FlexColContainer';
 
 const Home: React.FunctionComponent = () => {
   const { isLoading, isError, error, data } = useQuery(['recipes'], getAllReceipes);
 
   if (isLoading)
     return (
-      <FlexBox>
+      <FlexColContainer>
         <Loader />
-      </FlexBox>
+      </FlexColContainer>
     );
 
   if (isError)
     return (
-      <FlexBox>
+      <FlexColContainer>
         <ErrorDisplay text={`${error}`} />
-      </FlexBox>
+      </FlexColContainer>
     );
 
   return (
