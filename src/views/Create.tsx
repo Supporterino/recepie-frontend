@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import BasicInfos from '../components/createSteps/basicInfos';
 import Ingredients from '../components/createSteps/ingredients';
+import Steps from '../components/createSteps/steps';
 import { flexCol } from '../components/layout/commonSx';
 import FlexColContainer from '../components/layout/FlexColContainer';
 import { Ingredient } from '../types';
@@ -16,6 +17,7 @@ type IFormData = {
   numberOfServings: number;
   tags: string[];
   ingredients: Ingredient[];
+  steps: string[];
 };
 
 const Create: React.FunctionComponent = () => {
@@ -54,7 +56,7 @@ const Create: React.FunctionComponent = () => {
       case 1:
         return <Ingredients />;
       case 2:
-        return <div>Steps</div>;
+        return <Steps />;
       default:
         return <div>You broke it</div>;
     }

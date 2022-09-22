@@ -1,7 +1,6 @@
 import {
   Button,
   Checkbox,
-  Container,
   Dialog,
   DialogActions,
   DialogContent,
@@ -147,9 +146,20 @@ const Ingredients: React.FunctionComponent = () => {
       </Dialog>
 
       {/* Actual UI */}
-      <Button onClick={handleOpen}>Open dialog</Button>
+      <Button variant="outlined" onClick={handleOpen}>
+        Add Ingredient
+      </Button>
 
-      <Grid container>
+      <Grid container mt={1}>
+        <Grid xs={5} sx={centerStyle}>
+          <Typography>Ingredient</Typography>
+        </Grid>
+        <Grid xs={5} sx={centerStyle}>
+          <Typography>Amount</Typography>
+        </Grid>
+        <Grid xs={2} sx={centerStyle}>
+          <Typography>Actions</Typography>
+        </Grid>
         {ingredients.map((ing: Ingredient, index: number) => (
           <>
             <Grid xs={5} key={`${index}-name`} sx={centerStyle}>
