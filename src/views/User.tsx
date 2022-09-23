@@ -7,6 +7,7 @@ import { authenticationManager } from '../services/AuthenticationManager';
 import { getUser } from '../services/requests';
 import FlexCol from '../components/layout/FlexCol';
 import { centerTopStyleCol } from '../components/layout/commonSx';
+import Flex from '../components/layout/Flex';
 
 const User: React.FunctionComponent = () => {
   const userID = authenticationManager.getUserID();
@@ -53,6 +54,7 @@ const User: React.FunctionComponent = () => {
         />
         <Typography variant='h6'>{user.username}</Typography>
       </FlexCol>
+      <Flex><Typography>Dummy</Typography></Flex>
     </FlexColContainer>
   );
 };

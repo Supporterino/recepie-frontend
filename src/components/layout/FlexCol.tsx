@@ -6,7 +6,7 @@ type FlexBoxProps = {
 };
 
 const FlexCol: React.FunctionComponent<FlexBoxProps> = ({ children, sx }: FlexBoxProps) => {
-  return <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', ...sx }}>{children}</Box>;
+  return <Box sx={{ display: 'flex', flexDirection: 'column', ...sx }}>{children}</Box>;
 };
 
 export default FlexCol;
