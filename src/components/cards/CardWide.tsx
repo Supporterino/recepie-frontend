@@ -14,7 +14,7 @@ import sendRequest, {
   removeFavoriteUrl
 } from '../../services/requestService';
 import { useSnackbar } from 'notistack';
-import { alignCenter, centerStyle, flexCol } from '../layout/commonSx';
+import { alignCenterJustifyCenter, centerStyle, flexCol } from '../layout/commonSx';
 
 export type CardWideProps = {
   recipe: Recipe;
@@ -83,7 +83,7 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
               </Typography>
             </Grid>
           </Grid>
-          <Grid container sx={{ width: '100%', ...alignCenter }}>
+          <Grid container sx={{ width: '100%', ...alignCenterJustifyCenter }}>
             <Grid xs={6} sx={centerStyle}>
               <Rating value={recipe.rating.avgRating} readOnly precision={0.5} size="small" />
               <Typography sx={{ color: 'text.secondary' }} variant="body2" ml={0.5}>

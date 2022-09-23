@@ -70,7 +70,15 @@ const NavBar: React.FunctionComponent = () => {
           }}
         />
       )}
-      {loggedIn && <BottomNavigationAction label="Account" icon={<AccountCircleIcon />} />}
+      {loggedIn && (
+        <BottomNavigationAction
+          label="Account"
+          icon={<AccountCircleIcon />}
+          onClick={() => {
+            navigate('/me');
+          }}
+        />
+      )}
       <BottomNavigationAction
         label="Settings"
         icon={<SettingsIcon />}

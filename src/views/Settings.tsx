@@ -12,24 +12,24 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { useContext } from 'react';
 import ColorModeContext from '../services/ThemeContext';
 import FlexColContainer from '../components/layout/FlexColContainer';
-import { centerTopStyle } from '../components/layout/commonSx';
 import Grid from '@mui/system/Unstable_Grid';
 import { authenticationManager } from '../services/AuthenticationManager';
 import { useSnackbar } from 'notistack';
+import { centerTopStyleRow } from '../components/layout/commonSx';
 
 const Settings: React.FunctionComponent = () => {
   const theme = useTheme();
   const colorMode = useContext(ColorModeContext);
-  const { enqueueSnackbar } = useSnackbar()
+  const { enqueueSnackbar } = useSnackbar();
 
   const logout = () => {
-    authenticationManager.clear()
-    enqueueSnackbar('Successfully logged out.', { variant: 'info' })
-  }
+    authenticationManager.clear();
+    enqueueSnackbar('Successfully logged out.', { variant: 'info' });
+  };
 
   return (
     <FlexColContainer>
-      <Divider sx={{my: 1, ...centerTopStyle}}>
+      <Divider sx={{ my: 1, ...centerTopStyleRow }}>
         <Chip label="Theming" />
       </Divider>
       <Grid
@@ -64,10 +64,17 @@ const Settings: React.FunctionComponent = () => {
           </ToggleButtonGroup>
         </Grid>
       </Grid>
-      <Divider sx={{my: 1, ...centerTopStyle}}>
+      <Divider sx={{ my: 1, ...centerTopStyleRow }}>
         <Chip label="Account" />
       </Divider>
-      <Button disabled={!authenticationManager.hasUser()} sx={{ my: 1 }} onClick={logout} variant='contained'>Logout</Button>
+      <Button
+        disabled={!authenticationManager.hasUser()}
+        sx={{ my: 1 }}
+        onClick={logout}
+        variant="contained"
+      >
+        Logout
+      </Button>
     </FlexColContainer>
   );
 };

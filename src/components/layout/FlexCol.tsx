@@ -2,10 +2,11 @@ import { Box } from '@mui/material';
 
 type FlexBoxProps = {
   children?: React.ReactNode;
+  sx?: {}
 };
 
-const FlexCol: React.FunctionComponent<FlexBoxProps> = ({ children }: FlexBoxProps) => {
-  return <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>{children}</Box>;
+const FlexCol: React.FunctionComponent<FlexBoxProps> = ({ children, sx }: FlexBoxProps) => {
+  return <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', ...sx }}>{children}</Box>;
 };
 
 export default FlexCol;

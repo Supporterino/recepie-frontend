@@ -63,7 +63,11 @@ const Create: React.FunctionComponent = () => {
       case 2:
         return <Steps />;
       default:
-        return <FlexColContainer><Typography>You broke it</Typography></FlexColContainer>;
+        return (
+          <FlexColContainer>
+            <Typography>You broke it</Typography>
+          </FlexColContainer>
+        );
     }
   };
 
