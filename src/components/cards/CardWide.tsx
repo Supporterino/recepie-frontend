@@ -22,7 +22,7 @@ export type CardWideProps = {
 
 const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWideProps) => {
   const queryClient = useQueryClient();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   const imgURL = () => {
     return `url(${recipe.picture !== '' ? recipe.picture : 'images/no-pictures.png'})`;

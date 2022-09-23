@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Step, StepButton, Stepper } from '@mui/material';
+import { Box, Button, Grid, Step, StepButton, Stepper, Typography } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
 import React from 'react';
@@ -26,7 +26,7 @@ type IFormData = {
 const Create: React.FunctionComponent = () => {
   const [activeStep, setActiveStep] = useState(0);
   const queryClient = useQueryClient();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   const totalSteps = () => {
     return steps.length;
@@ -63,7 +63,7 @@ const Create: React.FunctionComponent = () => {
       case 2:
         return <Steps />;
       default:
-        return <div>You broke it</div>;
+        return <FlexColContainer><Typography>You broke it</Typography></FlexColContainer>;
     }
   };
 
