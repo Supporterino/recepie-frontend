@@ -16,15 +16,18 @@ import Grid from '@mui/system/Unstable_Grid';
 import { authenticationManager } from '../services/AuthenticationManager';
 import { useSnackbar } from 'notistack';
 import { centerTopStyleRow } from '../components/layout/commonSx';
+import { useNavigate } from 'react-router-dom';
 
 const Settings: React.FunctionComponent = () => {
   const theme = useTheme();
   const colorMode = useContext(ColorModeContext);
   const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
 
   const logout = () => {
     authenticationManager.clear();
     enqueueSnackbar('Successfully logged out.', { variant: 'info' });
+    navigate('/');
   };
 
   return (

@@ -52,9 +52,11 @@ const User: React.FunctionComponent = () => {
             border: 0
           }}
         />
-        <Typography variant='h6'>{user.username}</Typography>
+        <Typography variant="h6">{user.username}</Typography>
       </FlexCol>
-      <Flex><Typography>Dummy</Typography></Flex>
+      <Flex>
+        <Typography>Dummy</Typography>
+      </Flex>
     </FlexColContainer>
   );
 };

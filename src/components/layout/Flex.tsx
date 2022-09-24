@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 
 type FlexBoxProps = {
   children?: React.ReactNode;
-  sx?: {}
+  sx?: {};
 };
 
 const Flex: React.FunctionComponent<FlexBoxProps> = ({ children, sx }: FlexBoxProps) => {

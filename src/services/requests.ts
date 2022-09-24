@@ -1,4 +1,4 @@
-import sendRequest, { getUserUrl, receipesURL, tagsURL } from './requestService';
+import sendRequest, { getCookListUrl, getOwnFavoritesUrl, getUserUrl, receipesURL, tagsURL } from './requestService';
 
 export const getAllReceipes = () => {
   return sendRequest(receipesURL(), 'GET').then((res) => {
@@ -23,3 +23,19 @@ export const getUser = (userID: string) => {
     return res.json();
   });
 };
+
+export const getCookList = () => {
+  return sendRequest(getCookListUrl, 'GET').then((res) => {
+    if (!res) throw new Error('No Response');
+    if (res.status !== 200) throw new Error('Non OK response');
+    return res.json();
+  });
+}
+
+export const getOwnFavorites = () => {
+  return sendRequest(getOwnFavoritesUrl, 'GET').then((res) => {
+    if (!res) throw new Error('No Response');
+    if (res.status !== 200) throw new Error('Non OK response');
+    return res.json();
+  });
+}

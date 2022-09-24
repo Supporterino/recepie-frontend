@@ -8,4 +8,12 @@ const centerTopStyleCol = { display: 'flex', ...alignCenterJustifyStart } as con
 
 const flexCol = { height: '100%', display: 'flex', flexDirection: 'column' } as const;
 
-export { alignStartJudtifyCenter, centerStyle, alignCenterJustifyCenter, alignCenterJustifyStart, centerTopStyleRow, centerTopStyleCol, flexCol };
+export {
+  alignStartJudtifyCenter,
+  centerStyle,
+  alignCenterJustifyCenter,
+  alignCenterJustifyStart,
+  centerTopStyleRow,
+  centerTopStyleCol,
+  flexCol
+};

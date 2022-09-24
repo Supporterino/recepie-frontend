@@ -20,8 +20,17 @@ const NavBar: React.FunctionComponent = () => {
       case '/':
         setActiveTab(0);
         break;
+      case '/lists':
+        setActiveTab(1);
+        break;
+      case '/create':
+        setActiveTab(2);
+        break;
       case '/login':
         setActiveTab(3);
+        break;
+      case '/me':
+        setActiveTab(4);
         break;
       case '/settings':
         setActiveTab(5);
@@ -52,7 +61,13 @@ const NavBar: React.FunctionComponent = () => {
           navigate('/');
         }}
       />
-      <BottomNavigationAction label="Lists" icon={<ListIcon />} />
+      <BottomNavigationAction
+        label="Lists"
+        icon={<ListIcon />}
+        onClick={() => {
+          navigate('/lists');
+        }}
+      />
       <BottomNavigationAction
         label="New"
         disabled={!loggedIn}

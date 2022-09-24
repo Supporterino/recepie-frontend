@@ -9,6 +9,7 @@ import Create from '../views/Create';
 import { isIOS } from 'react-device-detect';
 import { centerTopStyleRow } from './layout/commonSx';
 import User from '../views/User';
+import Lists from '../views/Lists';
 
 const Layout: React.FunctionComponent = () => {
   const isStandalone = useMediaQuery('(display-mode: standalone)');
@@ -32,6 +33,7 @@ const Layout: React.FunctionComponent = () => {
             <Route path="/settings" element={<Settings />} />
             <Route path="/create" element={<Create />} />
             <Route path="/me" element={<User />} />
+            <Route path="/lists" element={<Lists />} />
             <Route path="/" element={<Home />} />
           </Routes>
         </Paper>
