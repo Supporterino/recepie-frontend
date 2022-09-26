@@ -10,6 +10,7 @@ import { isIOS } from 'react-device-detect';
 import { centerTopStyleRow } from './layout/commonSx';
 import User from '../views/User';
 import Lists from '../views/Lists';
+import ListView from './listViews/ListView';
 
 const Layout: React.FunctionComponent = () => {
   const isStandalone = useMediaQuery('(display-mode: standalone)');
@@ -22,11 +23,11 @@ const Layout: React.FunctionComponent = () => {
             paddingBottom: isIOS && isStandalone ? 3 : 0,
             flex: 1
           }}
-          elevation={3}
+          elevation={0}
         >
           <NavBar></NavBar>
         </Paper>
-        <Paper sx={{ height: '100%', overflowY: 'auto', ...centerTopStyleRow }} elevation={3}>
+        <Paper sx={{ height: '100%', overflowY: 'auto', ...centerTopStyleRow }} elevation={1}>
           <Routes>
             <Route path="/login" element={<SignIn />} />
             <Route path="/register" element={<SignUp />} />
@@ -34,6 +35,7 @@ const Layout: React.FunctionComponent = () => {
             <Route path="/create" element={<Create />} />
             <Route path="/me" element={<User />} />
             <Route path="/lists" element={<Lists />} />
+            <Route path="/lists/:name" element={<ListView />} />
             <Route path="/" element={<Home />} />
           </Routes>
         </Paper>

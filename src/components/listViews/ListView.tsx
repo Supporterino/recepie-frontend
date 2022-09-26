@@ -1,23 +1,57 @@
-import { Typography } from "@mui/material"
-import { Recipe } from "../../types"
-import FlexCol from "../layout/FlexCol"
-import ErrorDisplay from "../queryUtils/ErrorText"
-import Loader from "../queryUtils/Loader"
+import { IconButton, Typography } from '@mui/material';
+import { useQuery } from '@tanstack/react-query';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getCookList, getOwnFavorites } from '../../services/requests';
+import Flex from '../layout/Flex';
+import FlexColContainer from '../layout/FlexColContainer';
+import ErrorDisplay from '../queryUtils/ErrorText';
+import Loader from '../queryUtils/Loader';
+import RecipeList from './RecipeList';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { centerStyle } from '../layout/commonSx';
+const ListView: React.FunctionComponent = () => {
+  const { name } = useParams();
+  const navigate = useNavigate();
 
-type ListViewProps = {
-    name: string
-    recipes: Recipe[]
-    isLoading: boolean
-    isError: boolean
-    error: string
-}
+  if (!name) navigate('/lists');
+  const {
+    isLoading,
+    isError,
+    error,
+    data: recipes
+  } = useQuery(['lists', name], name === 'Favorites' ? getOwnFavorites : getCookList);
 
-const ListView: React.FunctionComponent<ListViewProps> = ({ name, recipes, isLoading, isError, error }: ListViewProps) => {
-    return <FlexCol>
-        <Typography>{name}</Typography>
-        {isLoading && <Loader />}
-        {isError && <ErrorDisplay text={error} />}
-    </FlexCol>
-}
+  if (isLoading)
+    return (
+      <FlexColContainer>
+        <Loader />
+      </FlexColContainer>
+    );
 
-export default ListView
+  if (isError)
+    return (
+      <FlexColContainer>
+        <ErrorDisplay text={`${error}`} />
+      </FlexColContainer>
+    );
+
+  return (
+    <FlexColContainer>
+      <Flex sx={{ backgroundColor: 'background.paper', p: 1, ...centerStyle }}>
+        <IconButton
+          onClick={() => {
+            navigate('/lists');
+          }}
+        >
+          <ArrowBackIosIcon />
+        </IconButton>
+        <Typography variant="h6" sx={{ flexGrow: 1, textAlign: 'center' }}>
+          {name}
+        </Typography>
+      </Flex>
+      <RecipeList recipes={recipes} />
+    </FlexColContainer>
+  );
+};
+
+export default ListView;

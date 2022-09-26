@@ -44,7 +44,11 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
         : sendRequest(addFavoriteUrl, 'POST', { recipeID: recipe.id }),
     {
       onSuccess: () => {
-        return queryClient.invalidateQueries(['recipes']);
+        return Promise.all([
+          queryClient.invalidateQueries(['recipes']),
+          queryClient.invalidateQueries(['ownFavorites']),
+          queryClient.invalidateQueries(['lists'])
+        ]);
       },
       onError: (error, variables, context) => {
         enqueueSnackbar('Failed to set favorite on recipe', { variant: 'warning' });
@@ -59,7 +63,11 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
         : sendRequest(addCookListUrl, 'POST', { recipeID: recipe.id }),
     {
       onSuccess: () => {
-        return queryClient.invalidateQueries(['recipes']);
+        return Promise.all([
+          queryClient.invalidateQueries(['recipes']),
+          queryClient.invalidateQueries(['cooklist']),
+          queryClient.invalidateQueries(['lists'])
+        ]);
       },
       onError: (error, variables, context) => {
         enqueueSnackbar('Failed to set cooklist on recipe', { variant: 'warning' });

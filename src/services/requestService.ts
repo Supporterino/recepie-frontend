@@ -12,8 +12,8 @@ export const removeCookListUrl = baseUrl + secured + 'v1/cooklist/removeCookList
 export const addCookListUrl = baseUrl + secured + 'v1/cooklist/addCookList';
 export const createRecipeUrl = baseUrl + secured + 'v1/recipe-creation/createRecipe';
 export const getUserUrl = baseUrl + secured + 'v1/user/getSanitizedUser';
-export const getOwnFavoritesUrl = baseUrl + secured + 'v1/favorite/getOwnFavorites'
-export const getCookListUrl = baseUrl + secured + 'v1/cooklist/getCookList'
+export const getOwnFavoritesUrl = baseUrl + secured + 'v1/favorite/getOwnFavorites';
+export const getCookListUrl = baseUrl + secured + 'v1/cooklist/getCookList';
 
 export const receipesURL = () =>
   baseUrl +
