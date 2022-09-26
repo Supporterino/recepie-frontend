@@ -8,6 +8,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ListPreview from './ListPreview';
 import { useNavigate } from 'react-router-dom';
 import { UseQueryResult } from '@tanstack/react-query';
+import { centerStyle } from '../layout/commonSx';
 
 type ListViewProps = {
   name: string;

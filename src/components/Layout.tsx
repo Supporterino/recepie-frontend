@@ -11,6 +11,7 @@ import { centerTopStyleRow } from './layout/commonSx';
 import User from '../views/User';
 import Lists from '../views/Lists';
 import ListView from './listViews/ListView';
+import RecipeView from './Recipe';
 
 const Layout: React.FunctionComponent = () => {
   const isStandalone = useMediaQuery('(display-mode: standalone)');
@@ -36,6 +37,7 @@ const Layout: React.FunctionComponent = () => {
             <Route path="/me" element={<User />} />
             <Route path="/lists" element={<Lists />} />
             <Route path="/lists/:name" element={<ListView />} />
+            <Route path="/recipe/:id" element={<RecipeView />} />
             <Route path="/" element={<Home />} />
           </Routes>
         </Paper>

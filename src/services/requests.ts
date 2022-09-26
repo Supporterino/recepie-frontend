@@ -1,4 +1,5 @@
 import sendRequest, {
+  getByIDUrl,
   getCookListUrl,
   getOwnFavoritesUrl,
   getUserUrl,
@@ -8,6 +9,14 @@ import sendRequest, {
 
 export const getAllReceipes = () => {
   return sendRequest(receipesURL(), 'GET').then((res) => {
+    if (!res) throw new Error('No Response');
+    if (res.status !== 200) throw new Error('Non OK response');
+    return res.json();
+  });
+};
+
+export const getRecipe = (id: string) => {
+  return sendRequest(getByIDUrl(), 'POST', { recipeID: id }).then((res) => {
     if (!res) throw new Error('No Response');
     if (res.status !== 200) throw new Error('Non OK response');
     return res.json();

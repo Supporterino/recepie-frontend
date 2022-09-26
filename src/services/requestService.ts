@@ -15,6 +15,8 @@ export const getUserUrl = baseUrl + secured + 'v1/user/getSanitizedUser';
 export const getOwnFavoritesUrl = baseUrl + secured + 'v1/favorite/getOwnFavorites';
 export const getCookListUrl = baseUrl + secured + 'v1/cooklist/getCookList';
 
+export const getByIDUrl = () =>
+  baseUrl + (authenticationManager.hasUser() ? secured : unSecured) + 'v1/recipe-provider/getById';
 export const receipesURL = () =>
   baseUrl +
   (authenticationManager.hasUser() ? secured : unSecured) +

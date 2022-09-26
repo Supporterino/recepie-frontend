@@ -7,7 +7,7 @@ import FlexColContainer from '../layout/FlexColContainer';
 import ErrorDisplay from '../queryUtils/ErrorText';
 import Loader from '../queryUtils/Loader';
 import RecipeList from './RecipeList';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { centerStyle } from '../layout/commonSx';
 const ListView: React.FunctionComponent = () => {
   const { name } = useParams();
@@ -43,7 +43,7 @@ const ListView: React.FunctionComponent = () => {
             navigate('/lists');
           }}
         >
-          <ArrowBackIosIcon />
+          <ArrowBackIosNewIcon />
         </IconButton>
         <Typography variant="h6" sx={{ flexGrow: 1, textAlign: 'center' }}>
           {name}

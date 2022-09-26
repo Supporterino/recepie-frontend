@@ -15,6 +15,7 @@ import sendRequest, {
 } from '../../services/requestService';
 import { useSnackbar } from 'notistack';
 import { alignCenterJustifyCenter, centerStyle, flexCol } from '../layout/commonSx';
+import { useNavigate } from 'react-router-dom';
 
 export type CardWideProps = {
   recipe: Recipe;
@@ -23,6 +24,7 @@ export type CardWideProps = {
 const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWideProps) => {
   const queryClient = useQueryClient();
   const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
 
   const imgURL = () => {
     return `url(${recipe.picture !== '' ? recipe.picture : 'images/no-pictures.png'})`;
@@ -81,7 +83,9 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
         <Box sx={{ width: '100%', ...flexCol }}>
           <Grid container sx={{ width: '100%' }}>
             <Grid xs={12}>
-              <Typography sx={lineLimit(1)}>{recipe.name}</Typography>
+              <Typography onClick={() => navigate(`/recipe/${recipe.id}`)} sx={lineLimit(1)}>
+                {recipe.name}
+              </Typography>
             </Grid>
           </Grid>
           <Grid container sx={{ width: '100%', flexGrow: 1 }}>
@@ -130,6 +134,7 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
         </Box>
       </CardContent>
       <Box
+        onClick={() => navigate(`/recipe/${recipe.id}`)}
         sx={{
           width: '150px',
           height: '150px',
