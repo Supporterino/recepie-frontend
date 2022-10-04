@@ -1,4 +1,5 @@
 import sendRequest, {
+  checkOwnerUrl,
   getByIDUrl,
   getCookListUrl,
   getOwnFavoritesUrl,
@@ -49,6 +50,14 @@ export const getCookList = () => {
 
 export const getOwnFavorites = () => {
   return sendRequest(getOwnFavoritesUrl, 'GET').then((res) => {
+    if (!res) throw new Error('No Response');
+    if (res.status !== 200) throw new Error('Non OK response');
+    return res.json();
+  });
+};
+
+export const checkOwner = (recipeID: string) => {
+  return sendRequest(checkOwnerUrl, 'POST', { recipeID }).then((res) => {
     if (!res) throw new Error('No Response');
     if (res.status !== 200) throw new Error('Non OK response');
     return res.json();

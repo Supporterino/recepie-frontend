@@ -1,7 +1,18 @@
-import { Box, Button, Divider, Rating, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Rating,
+  Typography
+} from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getRecipe } from '../services/requests';
+import { checkOwner, getRecipe } from '../services/requests';
 import { Ingredient, Recipe } from '../types';
 import Flex from './layout/Flex';
 import FlexCol from './layout/FlexCol';
@@ -12,21 +23,57 @@ import Grid from '@mui/system/Unstable_Grid';
 import {
   alignCenterJustifyStart,
   centerStyle,
-  centerTopStyleRow,
+  centerTopStyleCol,
   gridOutline
 } from './layout/commonSx';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { useState } from 'react';
+import { Share, Upload } from '@mui/icons-material';
+import { useSnackbar } from 'notistack';
+import ImageUpload, { Target } from './createSteps/imageUpload';
+import { authenticationManager } from '../services/AuthenticationManager';
 
 const RecipeView: React.FunctionComponent = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+  const [uploadOpen, setUploadOpen] = useState<boolean>(false);
+
   if (!id) navigate('/');
+
   const {
     isLoading,
     isError,
     error,
     data: recipe
   } = useQuery<Recipe>(['recipe', id], () => getRecipe(id!));
+
+  const { data: isOwner } = useQuery<boolean>(['isOwner', id], () => checkOwner(id!), {
+    enabled: authenticationManager.hasUser()
+  });
+  const owner = Boolean(isOwner);
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const share = async () => {
+    try {
+      await navigator.share({
+        url: `/recipe/${id}`,
+        title: 'Recipe Title',
+        text: 'Here is a recipe for you'
+      });
+    } catch (error) {
+      enqueueSnackbar('Failed to share recipe via navigator', { variant: 'warning' });
+    }
+  };
 
   if (isLoading)
     return (
@@ -54,6 +101,10 @@ const RecipeView: React.FunctionComponent = () => {
         >
           Back
         </Button>
+        <Box sx={{ flexGrow: 1 }} />
+        <IconButton onClick={handleClick}>
+          <MoreVertIcon />
+        </IconButton>
       </Flex>
 
       <Flex>
@@ -92,21 +143,25 @@ const RecipeView: React.FunctionComponent = () => {
 
       <Typography variant="h6">Ingredients</Typography>
       <Grid container my={1} sx={gridOutline}>
-        <Grid xs={6} sx={centerStyle}>
-          <Typography sx={{ fontWeight: 'bold' }}>Ingredient</Typography>
+        <Grid xs={4} sx={centerTopStyleCol}>
+          <Typography sx={{ fontWeight: 'bold' }} ml={1}>
+            Ingredient
+          </Typography>
         </Grid>
-        <Grid xs={6} sx={centerStyle}>
-          <Typography sx={{ fontWeight: 'bold' }}>Amount</Typography>
+        <Grid xs={8} sx={centerTopStyleCol}>
+          <Typography sx={{ fontWeight: 'bold' }} ml={1}>
+            Amount
+          </Typography>
         </Grid>
         {recipe.ingredients.items.map((ing: Ingredient, index: number) => (
           <>
-            <Grid xs={6} key={`${index}-name`} sx={centerStyle}>
-              <Typography>{ing.name}</Typography>
-            </Grid>
-            <Grid xs={6} key={`${index}-amount`} sx={centerStyle}>
-              <Typography>
+            <Grid xs={4} key={`${index}-amount`} sx={centerTopStyleCol}>
+              <Typography ml={1}>
                 {ing.amount} {ing.unit}
               </Typography>
+            </Grid>
+            <Grid xs={8} key={`${index}-name`} sx={centerTopStyleCol}>
+              <Typography ml={1}>{ing.name}</Typography>
             </Grid>
           </>
         ))}
@@ -118,14 +173,54 @@ const RecipeView: React.FunctionComponent = () => {
         {recipe.steps.map((step: string, index: number) => (
           <>
             <Grid xs={2} key={`${index}-key`} sx={centerStyle}>
-              <Typography>{index}.</Typography>
+              <Typography>{index + 1}.</Typography>
             </Grid>
-            <Grid xs={10} key={`${index}-name`} sx={centerStyle}>
-              <Typography>{step}</Typography>
+            <Grid xs={10} key={`${index}-name`} sx={centerTopStyleCol}>
+              <Typography ml={1}>{step}</Typography>
             </Grid>
           </>
         ))}
       </Grid>
+
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button'
+        }}
+      >
+        <MenuItem onClick={share}>
+          <ListItemIcon>
+            <Share fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Share</ListItemText>
+        </MenuItem>
+        {owner && (
+          <MenuItem
+            onClick={() => {
+              setUploadOpen(true);
+            }}
+          >
+            <ListItemIcon>
+              <Upload fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Upload Image</ListItemText>
+          </MenuItem>
+        )}
+      </Menu>
+
+      {owner && (
+        <ImageUpload
+          open={uploadOpen}
+          close={() => {
+            setUploadOpen(false);
+          }}
+          target={Target.RECIPE}
+          recipeID={id!}
+        />
+      )}
     </FlexColContainer>
   );
 };

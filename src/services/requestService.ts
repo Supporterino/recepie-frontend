@@ -14,6 +14,8 @@ export const createRecipeUrl = baseUrl + secured + 'v1/recipe-creation/createRec
 export const getUserUrl = baseUrl + secured + 'v1/user/getSanitizedUser';
 export const getOwnFavoritesUrl = baseUrl + secured + 'v1/favorite/getOwnFavorites';
 export const getCookListUrl = baseUrl + secured + 'v1/cooklist/getCookList';
+export const imageUploadUrl = baseUrl + 'photosUpload';
+export const checkOwnerUrl = baseUrl + secured + 'v1/user/ownsRecipe';
 
 export const getByIDUrl = () =>
   baseUrl + (authenticationManager.hasUser() ? secured : unSecured) + 'v1/recipe-provider/getById';
@@ -46,7 +48,7 @@ const sendRequest = async (url: string, method: string, data?: any, isJSON: bool
   console.log(url);
   const fetchOptions: RequestInit = {
     method: method,
-    headers: await buildHeaders(isJSON, url.includes(secured)),
+    headers: await buildHeaders(isJSON, url.includes(secured) || url === imageUploadUrl),
     ...(method !== 'GET' && { body: isJSON ? JSON.stringify(data) : data })
   };
   console.log('--- OPTIONS ---');
