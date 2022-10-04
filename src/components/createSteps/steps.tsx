@@ -17,7 +17,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import Grid from '@mui/system/Unstable_Grid';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { centerStyle } from '../layout/commonSx';
+import { centerStyle, gridOutline } from '../layout/commonSx';
 import FlexColContainer from '../layout/FlexColContainer';
 import { moveInArray } from '../../utils/arrayUtils';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -104,7 +104,7 @@ const Steps: React.FunctionComponent = () => {
       <Typography m={1} variant="h6">
         Steps
       </Typography>
-      <Grid container mt={1}>
+      <Grid container mt={1} sx={gridOutline}>
         {steps.map((step: string, index: number) => (
           <>
             <Grid xs={2} sm={1}>

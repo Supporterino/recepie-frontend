@@ -1,4 +1,4 @@
-import { Box, Rating, Typography } from '@mui/material';
+import { Box, Button, Divider, Rating, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getRecipe } from '../services/requests';
@@ -9,7 +9,13 @@ import FlexColContainer from './layout/FlexColContainer';
 import ErrorDisplay from './queryUtils/ErrorText';
 import Loader from './queryUtils/Loader';
 import Grid from '@mui/system/Unstable_Grid';
-import { centerStyle } from './layout/commonSx';
+import {
+  alignCenterJustifyStart,
+  centerStyle,
+  centerTopStyleRow,
+  gridOutline
+} from './layout/commonSx';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 const RecipeView: React.FunctionComponent = () => {
   const { id } = useParams();
@@ -38,6 +44,18 @@ const RecipeView: React.FunctionComponent = () => {
 
   return (
     <FlexColContainer>
+      <Flex sx={alignCenterJustifyStart}>
+        <Button
+          size="small"
+          onClick={() => {
+            navigate(-1);
+          }}
+          startIcon={<ArrowBackIosNewIcon />}
+        >
+          Back
+        </Button>
+      </Flex>
+
       <Flex>
         <Box
           sx={{
@@ -54,11 +72,11 @@ const RecipeView: React.FunctionComponent = () => {
             boxShadow: 3
           }}
         />
-        <FlexCol>
-          <Typography>{recipe.name}</Typography>
-          <Typography>by {recipe.owner.username}</Typography>
-          <Flex>
-            <Rating value={recipe.rating.avgRating} readOnly precision={0.5} size="small" />
+        <FlexCol sx={{ justifyContent: 'space-evenly' }}>
+          <Typography variant="h5">{recipe.name}</Typography>
+          <Typography variant="body2">by {recipe.owner.username}</Typography>
+          <Flex sx={alignCenterJustifyStart}>
+            <Rating value={recipe.rating.avgRating} readOnly precision={0.5} />
             <Typography sx={{ color: 'text.secondary' }} variant="body2" ml={0.5}>
               ({recipe.rating.numOfRatings})
             </Typography>
@@ -66,14 +84,19 @@ const RecipeView: React.FunctionComponent = () => {
         </FlexCol>
       </Flex>
 
-      <Typography>{recipe.description}</Typography>
+      <Typography variant="h6">Description</Typography>
+      <Typography variant="body2" mb={1}>
+        {recipe.description}
+      </Typography>
+      <Divider light />
 
-      <Grid container mt={1}>
+      <Typography variant="h6">Ingredients</Typography>
+      <Grid container my={1} sx={gridOutline}>
         <Grid xs={6} sx={centerStyle}>
-          <Typography>Ingredient</Typography>
+          <Typography sx={{ fontWeight: 'bold' }}>Ingredient</Typography>
         </Grid>
         <Grid xs={6} sx={centerStyle}>
-          <Typography>Amount</Typography>
+          <Typography sx={{ fontWeight: 'bold' }}>Amount</Typography>
         </Grid>
         {recipe.ingredients.items.map((ing: Ingredient, index: number) => (
           <>
@@ -88,13 +111,14 @@ const RecipeView: React.FunctionComponent = () => {
           </>
         ))}
       </Grid>
+      <Divider light />
 
       <Typography variant="h6">Steps</Typography>
-      <Grid container mt={1}>
+      <Grid container my={1} sx={gridOutline}>
         {recipe.steps.map((step: string, index: number) => (
           <>
             <Grid xs={2} key={`${index}-key`} sx={centerStyle}>
-              <Typography>{index}</Typography>
+              <Typography>{index}.</Typography>
             </Grid>
             <Grid xs={10} key={`${index}-name`} sx={centerStyle}>
               <Typography>{step}</Typography>

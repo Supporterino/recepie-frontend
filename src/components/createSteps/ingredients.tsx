@@ -19,7 +19,7 @@ import { useFormContext } from 'react-hook-form';
 import { allMeasures, AllMeasuresUnits, Ingredient, initConverter } from '../../types';
 import Grid from '@mui/system/Unstable_Grid';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { centerStyle } from '../layout/commonSx';
+import { centerStyle, gridOutline } from '../layout/commonSx';
 import FlexColContainer from '../layout/FlexColContainer';
 
 const Ingredients: React.FunctionComponent = () => {
@@ -150,7 +150,7 @@ const Ingredients: React.FunctionComponent = () => {
         Add Ingredient
       </Button>
 
-      <Grid container mt={1}>
+      <Grid container mt={1} sx={gridOutline}>
         <Grid xs={5} sx={centerStyle}>
           <Typography>Ingredient</Typography>
         </Grid>

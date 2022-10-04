@@ -8,6 +8,18 @@ const centerTopStyleCol = { display: 'flex', ...alignCenterJustifyStart } as con
 
 const flexCol = { height: '100%', display: 'flex', flexDirection: 'column' } as const;
 
+const gridOutline = {
+  '--Grid-borderWidth': '1px',
+  borderTop: 'var(--Grid-borderWidth) solid',
+  borderLeft: 'var(--Grid-borderWidth) solid',
+  borderColor: 'divider',
+  '& > div': {
+    borderRight: 'var(--Grid-borderWidth) solid',
+    borderBottom: 'var(--Grid-borderWidth) solid',
+    borderColor: 'divider'
+  }
+} as const;
+
 export {
   alignStartJudtifyCenter,
   centerStyle,
@@ -15,5 +27,6 @@ export {
   alignCenterJustifyStart,
   centerTopStyleRow,
   centerTopStyleCol,
-  flexCol
+  flexCol,
+  gridOutline
 };
