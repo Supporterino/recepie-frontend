@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Button,
   Checkbox,
   Dialog,
@@ -16,7 +17,7 @@ import {
 import { useSnackbar } from 'notistack';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { allMeasures, AllMeasuresUnits, Ingredient, initConverter } from '../../types';
+import { AllMeasures, allMeasures, AllMeasuresUnits, Ingredient, initConverter } from '../../types';
 import Grid from '@mui/system/Unstable_Grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { centerStyle, gridOutline } from '../layout/commonSx';
@@ -43,8 +44,14 @@ const Ingredients: React.FunctionComponent = () => {
   };
 
   const [unit, setUnit] = useState<AllMeasuresUnits>();
-  const handleUnitChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setUnit(event.target.value as AllMeasuresUnits);
+  const handleUnitChange = (
+    event: React.SyntheticEvent<Element, Event>,
+    value: {
+      category: string;
+      unit: AllMeasuresUnits;
+    } | null
+  ) => {
+    if (value) setUnit(value.unit as AllMeasuresUnits);
   };
 
   const allConverter = initConverter(allMeasures)();
@@ -68,6 +75,13 @@ const Ingredients: React.FunctionComponent = () => {
   useEffect(() => {
     formContext.setValue('ingredients', ingredients);
   }, [formContext, ingredients]);
+
+  const options: { category: string; unit: AllMeasuresUnits }[] = [];
+  ['mass', 'volume', 'each'].forEach((option: string) => {
+    allConverter
+      .possibilities(option as AllMeasures)
+      .forEach((unit) => options.push({ category: option, unit }));
+  });
 
   return (
     <FlexColContainer>
@@ -96,35 +110,16 @@ const Ingredients: React.FunctionComponent = () => {
             onChange={handleAmountChange}
             sx={{ mt: 1 }}
           />
-          <TextField
-            required
-            variant="outlined"
-            select
-            fullWidth
-            label="Unit"
-            value={unit}
-            onChange={handleUnitChange}
+          <Autocomplete
+          openOnFocus
             sx={{ mt: 1 }}
-          >
-            <ListSubheader>mass</ListSubheader>
-            {allConverter.possibilities('mass').map((value: string) => (
-              <MenuItem value={value} key={value}>
-                {value}
-              </MenuItem>
-            ))}
-            <ListSubheader>volume</ListSubheader>
-            {allConverter.possibilities('volume').map((value: string) => (
-              <MenuItem value={value} key={value}>
-                {value}
-              </MenuItem>
-            ))}
-            <ListSubheader>each</ListSubheader>
-            {allConverter.possibilities('each').map((value: AllMeasuresUnits) => (
-              <MenuItem value={value} key={value}>
-                {value}
-              </MenuItem>
-            ))}
-          </TextField>
+            id="unit"
+            options={options.sort((a, b) => -b.category.localeCompare(a.category))}
+            groupBy={(option) => option.category}
+            getOptionLabel={(option) => option.unit}
+            onChange={handleUnitChange}
+            renderInput={(params) => <TextField label="Unit" {...params} variant="outlined" />}
+          />
           <FormControlLabel
             control={
               <Checkbox
