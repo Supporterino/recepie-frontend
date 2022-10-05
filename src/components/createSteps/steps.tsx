@@ -40,7 +40,7 @@ const Steps: React.FunctionComponent = () => {
 
   const onSubmit = () => {
     if (step) {
-      setSteps([step, ...steps]);
+      setSteps([...steps, step]);
       if (!leaveOpen) setOpen(false);
     } else {
       enqueueSnackbar('Please enter a new step', { variant: 'warning' });

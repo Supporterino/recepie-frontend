@@ -51,7 +51,7 @@ const Ingredients: React.FunctionComponent = () => {
 
   const onSubmit = () => {
     if (name && amount && unit) {
-      setIngredients([{ name: name, amount: amount, unit: unit }, ...ingredients]);
+      setIngredients([...ingredients, { name: name, amount: amount, unit: unit }]);
       setName(undefined);
       setAmount(undefined);
       setUnit(undefined);
