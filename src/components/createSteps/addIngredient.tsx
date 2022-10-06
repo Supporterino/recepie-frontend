@@ -64,7 +64,7 @@ const AddIngredient: React.FunctionComponent<AddIngredientProps> = ({
       setAmount(undefined);
       setName(undefined);
       setUnit(undefined);
-      if (!leaveOpen) close()
+      if (!leaveOpen) close();
     } else {
       enqueueSnackbar('Please fillout all fields!', { variant: 'warning' });
     }

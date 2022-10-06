@@ -43,6 +43,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import PendingIcon from '@mui/icons-material/Pending';
+import useLoggedIn from '../utils/useLoggedIn';
 
 const RecipeView: React.FunctionComponent = () => {
   const { id } = useParams();
@@ -50,6 +51,7 @@ const RecipeView: React.FunctionComponent = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [uploadOpen, setUploadOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
+  const loggedIn = useLoggedIn();
 
   if (!id) navigate('/');
 
@@ -246,50 +248,54 @@ const RecipeView: React.FunctionComponent = () => {
           </ListItemIcon>
           <ListItemText>Share</ListItemText>
         </MenuItem>
-        <MenuItem
-          onClick={() => {
-            favMutation.mutate();
-          }}
-        >
-          <ListItemIcon>
-            {recipe.isFavorite && !favMutation.isLoading && (
-              <FavoriteIcon color="error" fontSize="small" />
-            )}
-            {!recipe.isFavorite && !favMutation.isLoading && (
-              <FavoriteBorderIcon color="secondary" fontSize="small" />
-            )}
-            {favMutation.isLoading && <PendingIcon color="secondary" fontSize="small" />}
-          </ListItemIcon>
-          <ListItemText>
-            {favMutation.isLoading
-              ? 'Pending...'
-              : recipe.isFavorite
-              ? 'Remove from Favorites'
-              : 'Add to Favorites'}
-          </ListItemText>
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            cooklistMutation.mutate();
-          }}
-        >
-          <ListItemIcon>
-            {recipe.isCookList && !cooklistMutation.isLoading && (
-              <BookmarkIcon color="primary" fontSize="small" />
-            )}
-            {!recipe.isCookList && !cooklistMutation.isLoading && (
-              <BookmarkBorderIcon color="secondary" fontSize="small" />
-            )}
-            {cooklistMutation.isLoading && <PendingIcon color="secondary" fontSize="small" />}
-          </ListItemIcon>
-          <ListItemText>
-            {cooklistMutation.isLoading
-              ? 'Pending...'
-              : recipe.isCookList
-              ? 'Remove from Cooklist'
-              : 'Add to Cooklist'}
-          </ListItemText>
-        </MenuItem>
+        {loggedIn && (
+          <MenuItem
+            onClick={() => {
+              favMutation.mutate();
+            }}
+          >
+            <ListItemIcon>
+              {recipe.isFavorite && !favMutation.isLoading && (
+                <FavoriteIcon color="error" fontSize="small" />
+              )}
+              {!recipe.isFavorite && !favMutation.isLoading && (
+                <FavoriteBorderIcon color="secondary" fontSize="small" />
+              )}
+              {favMutation.isLoading && <PendingIcon color="secondary" fontSize="small" />}
+            </ListItemIcon>
+            <ListItemText>
+              {favMutation.isLoading
+                ? 'Pending...'
+                : recipe.isFavorite
+                ? 'Remove from Favorites'
+                : 'Add to Favorites'}
+            </ListItemText>
+          </MenuItem>
+        )}
+        {loggedIn && (
+          <MenuItem
+            onClick={() => {
+              cooklistMutation.mutate();
+            }}
+          >
+            <ListItemIcon>
+              {recipe.isCookList && !cooklistMutation.isLoading && (
+                <BookmarkIcon color="primary" fontSize="small" />
+              )}
+              {!recipe.isCookList && !cooklistMutation.isLoading && (
+                <BookmarkBorderIcon color="secondary" fontSize="small" />
+              )}
+              {cooklistMutation.isLoading && <PendingIcon color="secondary" fontSize="small" />}
+            </ListItemIcon>
+            <ListItemText>
+              {cooklistMutation.isLoading
+                ? 'Pending...'
+                : recipe.isCookList
+                ? 'Remove from Cooklist'
+                : 'Add to Cooklist'}
+            </ListItemText>
+          </MenuItem>
+        )}
         {owner && (
           <MenuItem
             onClick={() => {

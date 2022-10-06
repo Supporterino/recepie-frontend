@@ -16,7 +16,7 @@ const ListPreview: React.FunctionComponent<ListPreviewProps> = ({ imgURL }: List
         m: 1,
         borderRadius: 2,
         border: 0,
-        boxShadow: 3
+        boxShadow: 10
       }}
     />
   );

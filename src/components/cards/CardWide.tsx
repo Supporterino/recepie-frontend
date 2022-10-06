@@ -16,6 +16,7 @@ import sendRequest, {
 import { useSnackbar } from 'notistack';
 import { alignCenterJustifyCenter, centerStyle, flexCol } from '../layout/commonSx';
 import { useNavigate } from 'react-router-dom';
+import useLoggedIn from '../../utils/useLoggedIn';
 
 export type CardWideProps = {
   recipe: Recipe;
@@ -25,6 +26,7 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
   const queryClient = useQueryClient();
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
+  const loggedIn = useLoggedIn();
 
   const imgURL = () => {
     return `url(${recipe.picture !== '' ? recipe.picture : 'images/no-pictures.png'})`;
@@ -78,7 +80,7 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
   );
 
   return (
-    <Card sx={{ display: 'flex', m: 1 }}>
+    <Card sx={{ display: 'flex', m: 1, boxShadow: 10 }}>
       <CardContent sx={{ p: 1, flexBasis: '75%' }}>
         <Box sx={{ width: '100%', ...flexCol }}>
           <Grid container sx={{ width: '100%' }}>
@@ -104,6 +106,7 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
             </Grid>
             <Grid xs={3} sx={centerStyle}>
               <IconButton
+                disabled={!loggedIn}
                 onClick={() => {
                   favMutation.mutate();
                 }}
@@ -117,6 +120,7 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
             </Grid>
             <Grid xs={3} sx={centerStyle}>
               <IconButton
+                disabled={!loggedIn}
                 onClick={() => {
                   cooklistMutation.mutate();
                 }}

@@ -6,14 +6,14 @@ import LoginIcon from '@mui/icons-material/Login';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ListIcon from '@mui/icons-material/List';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { authenticationManager } from '../services/AuthenticationManager';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import useLoggedIn from '../utils/useLoggedIn';
 
 const NavBar: React.FunctionComponent = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(0);
   const location = useLocation();
-  const [loggedIn, setLoggedIn] = useState(false);
+  const loggedIn = useLoggedIn();
   const minWidthIcon = '50px';
   const paddingIcons = 0.1;
 
@@ -42,11 +42,6 @@ const NavBar: React.FunctionComponent = () => {
         break;
     }
   }, [location]);
-
-  useEffect(() => {
-    if (authenticationManager.hasUser() && !loggedIn) setLoggedIn(true);
-    if (!authenticationManager.hasUser() && loggedIn) setLoggedIn(false);
-  });
 
   return (
     <BottomNavigation
