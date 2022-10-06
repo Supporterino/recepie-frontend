@@ -54,11 +54,7 @@ const BasicInfos: React.FunctionComponent = () => {
       />
       <Grid container justifyContent="center" alignItems="center" spacing={2}>
         <Grid item xs={6}>
-          <Typography
-            align="center"
-            margin="normal"
-            variant="body1"
-          >
+          <Typography align="center" margin="normal" variant="body1">
             Number of servings
           </Typography>
         </Grid>

@@ -4,11 +4,11 @@ import {
   Button,
   CircularProgress,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogTitle,
   IconButton,
   Input,
-  Stack,
   Typography
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -16,6 +16,7 @@ import { authenticationManager } from '../../services/AuthenticationManager';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import sendRequest, { imageUploadUrl } from '../../services/requestService';
 import { useSnackbar } from 'notistack';
+import FlexCol from '../layout/FlexCol';
 
 export enum Target {
   USER = 'user',
@@ -67,10 +68,8 @@ const ImageUpload: React.FunctionComponent<ImageUploadProps> = ({
       data.append('target', target);
       if (target === Target.USER) data.append('userID', authenticationManager.getUserID());
       if (target === Target.RECIPE) data.append('recipeID', recipeID);
-      // adding the file has to be last
       data.append('myfile', (inputFile.current!.children[0]! as HTMLInputElement).files![0]);
 
-      // TODO: Upload image
       uploadMutation.mutate(data);
     }
   };
@@ -92,15 +91,14 @@ const ImageUpload: React.FunctionComponent<ImageUploadProps> = ({
           sx={{
             position: 'absolute',
             right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500]
+            top: 8
           }}
         >
           <CloseIcon />
         </IconButton>
       </DialogTitle>
       <DialogContent>
-        <Stack spacing={1} alignItems="flex-end">
+        <FlexCol>
           <Typography color="text.secondary" alignSelf="flex-start">
             Please upload an image file below.
           </Typography>
@@ -114,21 +112,22 @@ const ImageUpload: React.FunctionComponent<ImageUploadProps> = ({
               setDisabled(!hasFile());
             }}
           />
-
-          <Button
-            disabled={disabled}
-            variant="contained"
-            sx={{ width: '50%', right: 0 }}
-            onClick={(event) => {
-              setWaiting(true);
-              setDisabled(true);
-              upload();
-            }}
-          >
-            Upload
-          </Button>
-        </Stack>
+        </FlexCol>
       </DialogContent>
+      <DialogActions>
+        <Button onClick={() => close()}>Cancel</Button>
+        <Button
+          disabled={disabled}
+          variant="contained"
+          onClick={(event) => {
+            setWaiting(true);
+            setDisabled(true);
+            upload();
+          }}
+        >
+          Upload
+        </Button>
+      </DialogActions>
       <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={waiting}>
         <CircularProgress color="inherit" />
       </Backdrop>
