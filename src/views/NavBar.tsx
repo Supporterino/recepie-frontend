@@ -14,6 +14,8 @@ const NavBar: React.FunctionComponent = () => {
   const [activeTab, setActiveTab] = useState(0);
   const location = useLocation();
   const [loggedIn, setLoggedIn] = useState(false);
+  const minWidthIcon = '50px'
+  const paddingIcons = 0.1
 
   useEffect(() => {
     switch (location.pathname) {
@@ -55,21 +57,24 @@ const NavBar: React.FunctionComponent = () => {
       }}
     >
       <BottomNavigationAction
-        label="Home"
+      sx={{px:paddingIcons, minWidth:minWidthIcon}}
+      label="Home"
         icon={<HomeIcon />}
         onClick={() => {
           navigate('/');
         }}
       />
       <BottomNavigationAction
-        label="Lists"
+      sx={{px:paddingIcons, minWidth:minWidthIcon}}
+      label="Lists"
         icon={<ListIcon />}
         onClick={() => {
           navigate('/lists');
         }}
       />
       <BottomNavigationAction
-        label="New"
+      sx={{px:paddingIcons, minWidth:minWidthIcon}}
+      label="New"
         disabled={!loggedIn}
         icon={<AddOutlinedIcon />}
         onClick={() => {
@@ -78,7 +83,8 @@ const NavBar: React.FunctionComponent = () => {
       />
       {!loggedIn && (
         <BottomNavigationAction
-          label="Login"
+        sx={{px:paddingIcons, minWidth:minWidthIcon}}
+        label="Login"
           icon={<LoginIcon />}
           onClick={() => {
             navigate('/login');
@@ -87,7 +93,8 @@ const NavBar: React.FunctionComponent = () => {
       )}
       {loggedIn && (
         <BottomNavigationAction
-          label="Account"
+        sx={{px:paddingIcons, minWidth:minWidthIcon}}
+        label="Account"
           icon={<AccountCircleIcon />}
           onClick={() => {
             navigate('/me');
@@ -95,6 +102,7 @@ const NavBar: React.FunctionComponent = () => {
         />
       )}
       <BottomNavigationAction
+      sx={{px:paddingIcons, minWidth:minWidthIcon}}
         label="Settings"
         icon={<SettingsIcon />}
         onClick={() => {
