@@ -9,8 +9,6 @@ import {
   DialogTitle,
   FormControlLabel,
   IconButton,
-  ListSubheader,
-  MenuItem,
   TextField,
   Typography
 } from '@mui/material';
@@ -26,7 +24,9 @@ import FlexColContainer from '../layout/FlexColContainer';
 const Ingredients: React.FunctionComponent = () => {
   const formContext = useFormContext();
   const { enqueueSnackbar } = useSnackbar();
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+  const [ingredients, setIngredients] = useState<Ingredient[]>(
+    formContext.getValues('ingredients') || []
+  );
 
   const [open, setOpen] = useState<boolean>(false);
   const [leaveOpen, setLeaveOpen] = useState<boolean>(false);

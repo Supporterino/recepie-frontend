@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Divider,
   IconButton,
   ListItemIcon,
@@ -144,15 +143,6 @@ const RecipeView: React.FunctionComponent = () => {
   return (
     <FlexColContainer>
       <Flex sx={alignCenterJustifyStart}>
-        {/* <Button
-          size="small"
-          onClick={() => {
-            navigate(-1);
-          }}
-          startIcon={<ArrowBackIosNewIcon />}
-        >
-          Back
-        </Button> */}
         <IconButton
           onClick={() => {
             navigate(-1);

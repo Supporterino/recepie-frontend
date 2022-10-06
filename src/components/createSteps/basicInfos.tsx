@@ -16,8 +16,8 @@ import Loader from '../queryUtils/Loader';
 
 const BasicInfos: React.FunctionComponent = () => {
   const { isLoading, isError, error, data } = useQuery(['tags'], getAllTags);
-  const [tags, setTags] = useState<string[]>([]);
-  const { register, setValue } = useFormContext();
+  const { register, setValue, getValues } = useFormContext();
+  const [tags, setTags] = useState<string[]>(getValues('tags') || []);
 
   useEffect(() => {
     setValue('tags', tags);
@@ -57,10 +57,7 @@ const BasicInfos: React.FunctionComponent = () => {
           <Typography
             align="center"
             margin="normal"
-            sx={{
-              fontSize: '1.25rem'
-            }}
-            variant="body2"
+            variant="body1"
           >
             Number of servings
           </Typography>

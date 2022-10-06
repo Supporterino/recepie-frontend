@@ -26,7 +26,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 const Steps: React.FunctionComponent = () => {
   const formContext = useFormContext();
   const { enqueueSnackbar } = useSnackbar();
-  const [steps, setSteps] = useState<string[]>([]);
+  const [steps, setSteps] = useState<string[]>(formContext.getValues('steps') || []);
 
   const [open, setOpen] = useState<boolean>(false);
   const [leaveOpen, setLeaveOpen] = useState<boolean>(false);
