@@ -111,7 +111,7 @@ const Ingredients: React.FunctionComponent = () => {
             sx={{ mt: 1 }}
           />
           <Autocomplete
-          openOnFocus
+            openOnFocus
             sx={{ mt: 1 }}
             id="unit"
             options={options.sort((a, b) => -b.category.localeCompare(a.category))}

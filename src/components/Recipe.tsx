@@ -10,7 +10,7 @@ import {
   Rating,
   Typography
 } from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { checkOwner, getRecipe } from '../services/requests';
 import { Ingredient, Recipe } from '../types';
@@ -33,12 +33,24 @@ import { Share, Upload } from '@mui/icons-material';
 import { useSnackbar } from 'notistack';
 import ImageUpload, { Target } from './createSteps/imageUpload';
 import { authenticationManager } from '../services/AuthenticationManager';
+import sendRequest, {
+  addCookListUrl,
+  addFavoriteUrl,
+  removeCookListUrl,
+  removeFavoriteUrl
+} from '../services/requestService';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import PendingIcon from '@mui/icons-material/Pending';
 
 const RecipeView: React.FunctionComponent = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [uploadOpen, setUploadOpen] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
   if (!id) navigate('/');
 
@@ -75,6 +87,46 @@ const RecipeView: React.FunctionComponent = () => {
     }
   };
 
+  const favMutation = useMutation(
+    () =>
+      recipe!.isFavorite
+        ? sendRequest(removeFavoriteUrl, 'DELETE', { recipeID: id })
+        : sendRequest(addFavoriteUrl, 'POST', { recipeID: id }),
+    {
+      onSuccess: () => {
+        return Promise.all([
+          queryClient.invalidateQueries(['recipes']),
+          queryClient.invalidateQueries(['ownFavorites']),
+          queryClient.invalidateQueries(['lists']),
+          queryClient.invalidateQueries(['recipe', id])
+        ]);
+      },
+      onError: (error, variables, context) => {
+        enqueueSnackbar('Failed to set favorite on recipe', { variant: 'warning' });
+      }
+    }
+  );
+
+  const cooklistMutation = useMutation(
+    () =>
+      recipe!.isCookList
+        ? sendRequest(removeCookListUrl, 'DELETE', { recipeID: id })
+        : sendRequest(addCookListUrl, 'POST', { recipeID: id }),
+    {
+      onSuccess: () => {
+        return Promise.all([
+          queryClient.invalidateQueries(['recipes']),
+          queryClient.invalidateQueries(['cooklist']),
+          queryClient.invalidateQueries(['lists']),
+          queryClient.invalidateQueries(['recipe', id])
+        ]);
+      },
+      onError: (error, variables, context) => {
+        enqueueSnackbar('Failed to set cooklist on recipe', { variant: 'warning' });
+      }
+    }
+  );
+
   if (isLoading)
     return (
       <FlexColContainer>
@@ -92,7 +144,7 @@ const RecipeView: React.FunctionComponent = () => {
   return (
     <FlexColContainer>
       <Flex sx={alignCenterJustifyStart}>
-        <Button
+        {/* <Button
           size="small"
           onClick={() => {
             navigate(-1);
@@ -100,7 +152,14 @@ const RecipeView: React.FunctionComponent = () => {
           startIcon={<ArrowBackIosNewIcon />}
         >
           Back
-        </Button>
+        </Button> */}
+        <IconButton
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          <ArrowBackIosNewIcon />
+        </IconButton>
         <Box sx={{ flexGrow: 1 }} />
         <IconButton onClick={handleClick}>
           <MoreVertIcon />
@@ -193,9 +252,53 @@ const RecipeView: React.FunctionComponent = () => {
       >
         <MenuItem onClick={share}>
           <ListItemIcon>
-            <Share fontSize="small" />
+            <Share fontSize="small" color="secondary" />
           </ListItemIcon>
           <ListItemText>Share</ListItemText>
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            favMutation.mutate();
+          }}
+        >
+          <ListItemIcon>
+            {recipe.isFavorite && !favMutation.isLoading && (
+              <FavoriteIcon color="error" fontSize="small" />
+            )}
+            {!recipe.isFavorite && !favMutation.isLoading && (
+              <FavoriteBorderIcon color="secondary" fontSize="small" />
+            )}
+            {favMutation.isLoading && <PendingIcon color="secondary" fontSize="small" />}
+          </ListItemIcon>
+          <ListItemText>
+            {favMutation.isLoading
+              ? 'Pending...'
+              : recipe.isFavorite
+              ? 'Remove from Favorites'
+              : 'Add to Favorites'}
+          </ListItemText>
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            cooklistMutation.mutate();
+          }}
+        >
+          <ListItemIcon>
+            {recipe.isCookList && !cooklistMutation.isLoading && (
+              <BookmarkIcon color="primary" fontSize="small" />
+            )}
+            {!recipe.isCookList && !cooklistMutation.isLoading && (
+              <BookmarkBorderIcon color="secondary" fontSize="small" />
+            )}
+            {cooklistMutation.isLoading && <PendingIcon color="secondary" fontSize="small" />}
+          </ListItemIcon>
+          <ListItemText>
+            {cooklistMutation.isLoading
+              ? 'Pending...'
+              : recipe.isCookList
+              ? 'Remove from Cooklist'
+              : 'Add to Cooklist'}
+          </ListItemText>
         </MenuItem>
         {owner && (
           <MenuItem
@@ -204,7 +307,7 @@ const RecipeView: React.FunctionComponent = () => {
             }}
           >
             <ListItemIcon>
-              <Upload fontSize="small" />
+              <Upload fontSize="small" color="secondary" />
             </ListItemIcon>
             <ListItemText>Upload Image</ListItemText>
           </MenuItem>
