@@ -1,8 +1,6 @@
 import { useRef, useState } from 'react';
 import {
-  Backdrop,
   Button,
-  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -37,7 +35,6 @@ const ImageUpload: React.FunctionComponent<ImageUploadProps> = ({
   recipeID
 }: ImageUploadProps) => {
   const inputFile = useRef<HTMLInputElement>(null);
-  const [waiting, setWaiting] = useState<boolean>(false);
   const [disabled, setDisabled] = useState<boolean>(true);
   const queryClient = useQueryClient();
   const { enqueueSnackbar } = useSnackbar();
@@ -51,7 +48,6 @@ const ImageUpload: React.FunctionComponent<ImageUploadProps> = ({
           queryClient.invalidateQueries(['ownFavorites']),
           queryClient.invalidateQueries(['lists']),
           queryClient.invalidateQueries(['recipe', recipeID]),
-          setWaiting(false),
           close()
         ]);
       },
@@ -87,6 +83,7 @@ const ImageUpload: React.FunctionComponent<ImageUploadProps> = ({
       <DialogTitle color="text.primary">
         Image Upload
         <IconButton
+          disabled={uploadMutation.isLoading}
           onClick={() => close()}
           sx={{
             position: 'absolute',
@@ -115,22 +112,20 @@ const ImageUpload: React.FunctionComponent<ImageUploadProps> = ({
         </FlexCol>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => close()}>Cancel</Button>
+        <Button disabled={uploadMutation.isLoading} onClick={() => close()}>
+          Cancel
+        </Button>
         <Button
           disabled={disabled}
           variant="contained"
           onClick={(event) => {
-            setWaiting(true);
             setDisabled(true);
             upload();
           }}
         >
-          Upload
+          {uploadMutation.isLoading ? 'Uploading...' : 'Upload'}
         </Button>
       </DialogActions>
-      <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={waiting}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
     </Dialog>
   );
 };
