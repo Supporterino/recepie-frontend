@@ -74,7 +74,7 @@ const EditRecipeView: React.FunctionComponent = () => {
           queryClient.invalidateQueries(['lists']),
           queryClient.invalidateQueries(['recipe', id])
         ]);
-        return navigate(`/recipe/${id}`);
+        return navigate(`/recipe/${id}`, { replace: true });
       },
       onError: (error, variables, context) => {
         enqueueSnackbar('Failed to edit recipe', { variant: 'error' });
