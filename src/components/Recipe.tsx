@@ -1,12 +1,12 @@
 import {
   Box,
-  Divider,
   IconButton,
   ListItemIcon,
   ListItemText,
   Menu,
   MenuItem,
   Rating,
+  TextField,
   Typography
 } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -20,6 +20,7 @@ import ErrorDisplay from './queryUtils/ErrorText';
 import Loader from './queryUtils/Loader';
 import Grid from '@mui/system/Unstable_Grid';
 import {
+  alignCenterJustifyCenter,
   alignCenterJustifyStart,
   centerStyle,
   centerTopStyleCol,
@@ -27,7 +28,7 @@ import {
 } from './layout/commonSx';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Share, Upload } from '@mui/icons-material';
 import { useSnackbar } from 'notistack';
 import ImageUpload, { Target } from './createSteps/imageUpload';
@@ -44,6 +45,8 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import PendingIcon from '@mui/icons-material/Pending';
 import useLoggedIn from '../utils/useLoggedIn';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 const RecipeView: React.FunctionComponent = () => {
   const { id } = useParams();
@@ -61,6 +64,10 @@ const RecipeView: React.FunctionComponent = () => {
     error,
     data: recipe
   } = useQuery<Recipe>(['recipe', id], () => getRecipe(id!));
+  const [servings, setServings] = useState<number>(1);
+  useEffect(() => {
+    if (recipe) setServings(recipe.ingredients.numServings);
+  }, [recipe]);
 
   const { data: isOwner } = useQuery<boolean>(['isOwner', id], () => checkOwner(id!), {
     enabled: authenticationManager.hasUser()
@@ -196,19 +203,19 @@ const RecipeView: React.FunctionComponent = () => {
       <Grid container my={1} sx={gridOutline}>
         <Grid xs={4} sx={centerTopStyleCol}>
           <Typography sx={{ fontWeight: 'bold' }} ml={1}>
-            Ingredient
+            Amount
           </Typography>
         </Grid>
         <Grid xs={8} sx={centerTopStyleCol}>
           <Typography sx={{ fontWeight: 'bold' }} ml={1}>
-            Amount
+            Ingredient
           </Typography>
         </Grid>
         {recipe.ingredients.items.map((ing: Ingredient, index: number) => (
           <>
             <Grid xs={4} key={`${index}-amount`} sx={centerTopStyleCol}>
               <Typography ml={1}>
-                {ing.amount} {ing.unit}
+                {ing.amount * (servings / recipe.ingredients.numServings)} {ing.unit}
               </Typography>
             </Grid>
             <Grid xs={8} key={`${index}-name`} sx={centerTopStyleCol}>
@@ -217,6 +224,24 @@ const RecipeView: React.FunctionComponent = () => {
           </>
         ))}
       </Grid>
+      <Flex sx={alignCenterJustifyCenter}>
+        <IconButton size="small" onClick={() => setServings((prev) => prev + 1)}>
+          <AddIcon />
+        </IconButton>
+        <TextField
+        size='small'
+          label="Servings"
+          onChange={(event) => setServings(+event.target.value)}
+          value={servings}
+        ></TextField>
+        <IconButton
+          size="small"
+          disabled={servings === 1}
+          onClick={() => setServings((prev) => prev - 1)}
+        >
+          <RemoveIcon />
+        </IconButton>
+      </Flex>
       {/* <Divider light /> */}
 
       <Typography variant="h6">Steps</Typography>

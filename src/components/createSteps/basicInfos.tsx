@@ -69,7 +69,6 @@ const BasicInfos: React.FunctionComponent = () => {
             name="numOfServings"
             autoComplete="numOfServings"
             type="number"
-            autoFocus
           />
         </Grid>
       </Grid>
@@ -82,7 +81,6 @@ const BasicInfos: React.FunctionComponent = () => {
         label="Description"
         name="description"
         autoComplete="description"
-        autoFocus
         multiline
       />
       <Autocomplete
