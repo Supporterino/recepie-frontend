@@ -190,7 +190,7 @@ const RecipeView: React.FunctionComponent = () => {
       <Typography variant="body2" mb={1}>
         {recipe.description}
       </Typography>
-      <Divider light />
+      {/* <Divider light /> */}
 
       <Typography variant="h6">Ingredients</Typography>
       <Grid container my={1} sx={gridOutline}>
@@ -217,7 +217,7 @@ const RecipeView: React.FunctionComponent = () => {
           </>
         ))}
       </Grid>
-      <Divider light />
+      {/* <Divider light /> */}
 
       <Typography variant="h6">Steps</Typography>
       <Grid container my={1} sx={gridOutline}>

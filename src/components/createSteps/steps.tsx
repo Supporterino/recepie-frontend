@@ -1,19 +1,5 @@
-import {
-  Button,
-  Checkbox,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  FormControlLabel,
-  IconButton,
-  Stack,
-  TextField,
-  Typography
-} from '@mui/material';
-import { useSnackbar } from 'notistack';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { Button, IconButton, Stack, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import Grid from '@mui/system/Unstable_Grid';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -22,30 +8,15 @@ import FlexColContainer from '../layout/FlexColContainer';
 import { moveInArray } from '../../utils/arrayUtils';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import AddStep from './addStep';
 
 const Steps: React.FunctionComponent = () => {
   const formContext = useFormContext();
-  const { enqueueSnackbar } = useSnackbar();
   const [steps, setSteps] = useState<string[]>(formContext.getValues('steps') || []);
 
   const [open, setOpen] = useState<boolean>(false);
-  const [leaveOpen, setLeaveOpen] = useState<boolean>(false);
   const handleClose = () => setOpen(false);
   const handleOpen = () => setOpen(true);
-
-  const [step, setStep] = useState<string>();
-  const handleStepChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setStep(event.target.value);
-  };
-
-  const onSubmit = () => {
-    if (step) {
-      setSteps([...steps, step]);
-      if (!leaveOpen) setOpen(false);
-    } else {
-      enqueueSnackbar('Please enter a new step', { variant: 'warning' });
-    }
-  };
 
   const handleStepDelete = (toDelete: string) => {
     setSteps(steps.filter((step) => step !== toDelete));
@@ -61,41 +32,7 @@ const Steps: React.FunctionComponent = () => {
 
   return (
     <FlexColContainer>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add Step</DialogTitle>
-        <DialogContent>
-          <DialogContentText>You are about to add a new step to your recipe.</DialogContentText>
-          <TextField
-            required
-            variant="outlined"
-            fullWidth
-            label="Step"
-            multiline
-            maxRows={4}
-            value={step}
-            onChange={handleStepChange}
-            sx={{ mt: 1 }}
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={leaveOpen}
-                onChange={() => {
-                  setLeaveOpen(!leaveOpen);
-                }}
-              />
-            }
-            label="Add another"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button variant="contained" onClick={onSubmit}>
-            Add Step
-          </Button>
-        </DialogActions>
-      </Dialog>
-
+      <AddStep open={open} close={handleClose} updateData={setSteps} />
       {/* Actual UI */}
       <Button variant="outlined" onClick={handleOpen}>
         Add Step

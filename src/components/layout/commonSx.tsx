@@ -10,11 +10,11 @@ const flexCol = { height: '100%', display: 'flex', flexDirection: 'column' } as 
 
 const gridOutline = {
   '--Grid-borderWidth': '1px',
-  borderTop: 'var(--Grid-borderWidth) solid',
-  borderLeft: 'var(--Grid-borderWidth) solid',
+  // borderTop: 'var(--Grid-borderWidth) solid',
+  // borderLeft: 'var(--Grid-borderWidth) solid',
   borderColor: 'divider',
   '& > div': {
-    borderRight: 'var(--Grid-borderWidth) solid',
+    // borderRight: 'var(--Grid-borderWidth) solid',
     borderBottom: 'var(--Grid-borderWidth) solid',
     borderColor: 'divider'
   }
