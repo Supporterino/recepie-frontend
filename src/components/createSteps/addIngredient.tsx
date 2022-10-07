@@ -11,7 +11,7 @@ import {
   Button
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
-import { useState, ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { useState, ChangeEvent, Dispatch, SetStateAction, useRef } from 'react';
 import { AllMeasuresUnits, initConverter, allMeasures, AllMeasures, Ingredient } from '../../types';
 
 type AddIngredientProps = {
@@ -38,7 +38,7 @@ const AddIngredient: React.FunctionComponent<AddIngredientProps> = ({
     setAmount(+event.target.value);
   };
 
-  const [unit, setUnit] = useState<AllMeasuresUnits>();
+  const [unit, setUnit] = useState<{ category: string; unit: AllMeasuresUnits }>();
   const handleUnitChange = (
     event: React.SyntheticEvent<Element, Event>,
     value: {
@@ -46,7 +46,7 @@ const AddIngredient: React.FunctionComponent<AddIngredientProps> = ({
       unit: AllMeasuresUnits;
     } | null
   ) => {
-    if (value) setUnit(value.unit as AllMeasuresUnits);
+    if (value) setUnit(value);
   };
 
   const allConverter = initConverter(allMeasures)();
@@ -58,12 +58,19 @@ const AddIngredient: React.FunctionComponent<AddIngredientProps> = ({
       .forEach((unit) => options.push({ category: option, unit }));
   });
 
+  const inputRefUnit = useRef<HTMLInputElement>(null);
+  const inputRefName = useRef<HTMLInputElement>(null);
+  const inputRefAmount = useRef<HTMLInputElement>(null);
+
   const onSubmit = () => {
     if (name && amount && unit) {
-      updateData((prevIngredients) => [...prevIngredients, { name, amount, unit }]);
+      updateData((prevIngredients) => [...prevIngredients, { name, amount, unit: unit.unit }]);
       setAmount(undefined);
       setName(undefined);
       setUnit(undefined);
+      if (inputRefUnit.current) inputRefUnit.current.value = '';
+      if (inputRefAmount.current) inputRefAmount.current.value = '';
+      if (inputRefName.current) inputRefName.current.value = '';
       if (!leaveOpen) close();
     } else {
       enqueueSnackbar('Please fillout all fields!', { variant: 'warning' });
@@ -80,6 +87,7 @@ const AddIngredient: React.FunctionComponent<AddIngredientProps> = ({
           variant="outlined"
           fullWidth
           label="Name"
+          inputRef={inputRefName}
           value={name}
           onChange={handleNameChange}
           sx={{ mt: 1 }}
@@ -89,6 +97,7 @@ const AddIngredient: React.FunctionComponent<AddIngredientProps> = ({
           variant="outlined"
           type="number"
           fullWidth
+          inputRef={inputRefAmount}
           label="Amount"
           value={amount}
           onChange={handleAmountChange}
@@ -98,11 +107,15 @@ const AddIngredient: React.FunctionComponent<AddIngredientProps> = ({
           openOnFocus
           sx={{ mt: 1 }}
           id="unit"
+          value={unit}
+          ref={inputRefUnit} 
           options={options.sort((a, b) => -b.category.localeCompare(a.category))}
           groupBy={(option) => option.category}
           getOptionLabel={(option) => option.unit}
           onChange={handleUnitChange}
-          renderInput={(params) => <TextField label="Unit" {...params} variant="outlined" />}
+          renderInput={(params) => (
+            <TextField label="Unit" {...params} variant="outlined" />
+          )}
         />
         <FormControlLabel
           control={

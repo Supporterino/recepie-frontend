@@ -10,7 +10,7 @@ import {
   Button
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
-import { useState, ChangeEvent, SetStateAction, Dispatch } from 'react';
+import { useState, ChangeEvent, SetStateAction, Dispatch, useRef } from 'react';
 
 type AddStepProps = {
   open: boolean;
@@ -31,10 +31,13 @@ const AddStep: React.FunctionComponent<AddStepProps> = ({
     setStep(event.target.value);
   };
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const onSubmit = () => {
     if (step) {
       updateData((prevSteps) => [...prevSteps, step]);
       setStep(undefined);
+      if (inputRef.current) inputRef.current.value = ''
       if (!leaveOpen) close();
     } else {
       enqueueSnackbar('Please enter a new step', { variant: 'warning' });
@@ -48,6 +51,7 @@ const AddStep: React.FunctionComponent<AddStepProps> = ({
         <DialogContentText>You are about to add a new step to your recipe.</DialogContentText>
         <TextField
           required
+          inputRef={inputRef}
           variant="outlined"
           fullWidth
           label="Step"
