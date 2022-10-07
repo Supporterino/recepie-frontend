@@ -47,6 +47,7 @@ import PendingIcon from '@mui/icons-material/Pending';
 import useLoggedIn from '../hooks/useLoggedIn';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import EditIcon from '@mui/icons-material/Edit';
 
 const RecipeView: React.FunctionComponent = () => {
   const { id } = useParams();
@@ -201,13 +202,13 @@ const RecipeView: React.FunctionComponent = () => {
 
       <Typography variant="h6">Ingredients</Typography>
 
-      <Flex sx={{mt: 1, ...alignCenterJustifyCenter}}>
+      <Flex sx={{ mt: 1, ...alignCenterJustifyCenter }}>
         <IconButton size="small" onClick={() => setServings((prev) => prev + 1)}>
           <AddIcon />
         </IconButton>
         <TextField
-        size='small'
-        inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+          size="small"
+          inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
           label="Servings"
           onChange={(event) => setServings(+event.target.value)}
           value={servings}
@@ -334,6 +335,18 @@ const RecipeView: React.FunctionComponent = () => {
               <Upload fontSize="small" color="secondary" />
             </ListItemIcon>
             <ListItemText>Upload Image</ListItemText>
+          </MenuItem>
+        )}
+        {owner && (
+          <MenuItem
+            onClick={() => {
+              navigate(`/edit/${id}`, { state: recipe });
+            }}
+          >
+            <ListItemIcon>
+              <EditIcon fontSize="small" color="secondary" />
+            </ListItemIcon>
+            <ListItemText>Edit</ListItemText>
           </MenuItem>
         )}
       </Menu>
