@@ -7,7 +7,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ListIcon from '@mui/icons-material/List';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import useLoggedIn from '../utils/useLoggedIn';
+import useLoggedIn from '../hooks/useLoggedIn';
 
 const NavBar: React.FunctionComponent = () => {
   const navigate = useNavigate();

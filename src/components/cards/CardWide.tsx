@@ -16,7 +16,7 @@ import sendRequest, {
 import { useSnackbar } from 'notistack';
 import { alignCenterJustifyCenter, centerStyle, flexCol } from '../layout/commonSx';
 import { useNavigate } from 'react-router-dom';
-import useLoggedIn from '../../utils/useLoggedIn';
+import useLoggedIn from '../../hooks/useLoggedIn';
 
 export type CardWideProps = {
   recipe: Recipe;
