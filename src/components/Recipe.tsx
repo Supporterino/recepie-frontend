@@ -200,6 +200,27 @@ const RecipeView: React.FunctionComponent = () => {
       {/* <Divider light /> */}
 
       <Typography variant="h6">Ingredients</Typography>
+
+      <Flex sx={{mt: 1, ...alignCenterJustifyCenter}}>
+        <IconButton size="small" onClick={() => setServings((prev) => prev + 1)}>
+          <AddIcon />
+        </IconButton>
+        <TextField
+        size='small'
+        inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+          label="Servings"
+          onChange={(event) => setServings(+event.target.value)}
+          value={servings}
+        ></TextField>
+        <IconButton
+          size="small"
+          disabled={servings === 1}
+          onClick={() => setServings((prev) => prev - 1)}
+        >
+          <RemoveIcon />
+        </IconButton>
+      </Flex>
+
       <Grid container my={1} sx={gridOutline}>
         <Grid xs={4} sx={centerTopStyleCol}>
           <Typography sx={{ fontWeight: 'bold' }} ml={1}>
@@ -224,24 +245,6 @@ const RecipeView: React.FunctionComponent = () => {
           </>
         ))}
       </Grid>
-      <Flex sx={alignCenterJustifyCenter}>
-        <IconButton size="small" onClick={() => setServings((prev) => prev + 1)}>
-          <AddIcon />
-        </IconButton>
-        <TextField
-        size='small'
-          label="Servings"
-          onChange={(event) => setServings(+event.target.value)}
-          value={servings}
-        ></TextField>
-        <IconButton
-          size="small"
-          disabled={servings === 1}
-          onClick={() => setServings((prev) => prev - 1)}
-        >
-          <RemoveIcon />
-        </IconButton>
-      </Flex>
       {/* <Divider light /> */}
 
       <Typography variant="h6">Steps</Typography>
