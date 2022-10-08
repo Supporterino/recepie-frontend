@@ -18,6 +18,7 @@ import { useSnackbar } from 'notistack';
 import { centerTopStyleRow } from '../components/layout/commonSx';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
+import Version from '../components/meta/version';
 
 const Settings: React.FunctionComponent = () => {
   const theme = useTheme();
@@ -81,6 +82,10 @@ const Settings: React.FunctionComponent = () => {
       >
         Logout
       </Button>
+      <Divider sx={{ my: 1, ...centerTopStyleRow }}>
+        <Chip label="Version" />
+      </Divider>
+      <Version />
     </FlexColContainer>
   );
 };

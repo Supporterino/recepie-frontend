@@ -1,4 +1,5 @@
 import sendRequest, {
+  backendVersionUrl,
   checkOwnerUrl,
   getByIDUrl,
   getCookListUrl,
@@ -67,6 +68,14 @@ export const checkOwner = (recipeID: string) => {
 
 export const getRating = (recipeID: string) => {
   return sendRequest(ownRatingUrl, 'POST', { recipeID }).then((res) => {
+    if (!res) throw new Error('No Response');
+    if (res.status !== 200) throw new Error('Non OK response');
+    return res.json();
+  });
+};
+
+export const getBackendVersion = () => {
+  return sendRequest(backendVersionUrl(), 'GET').then((res) => {
     if (!res) throw new Error('No Response');
     if (res.status !== 200) throw new Error('Non OK response');
     return res.json();

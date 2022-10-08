@@ -30,6 +30,8 @@ export const receipesURL = () =>
   'v1/recipe-provider/featuredRecipes';
 export const tagsURL = () =>
   baseUrl + (authenticationManager.hasUser() ? secured : unSecured) + 'v1/tags/getAsStrings';
+export const backendVersionUrl = () =>
+  baseUrl + (authenticationManager.hasUser() ? secured : unSecured) + 'v1/meta/version';
 
 const getToken = async (): Promise<string> => {
   const validAuth = await authenticationManager.refreshJWT();
