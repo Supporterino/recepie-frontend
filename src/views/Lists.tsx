@@ -15,6 +15,4 @@ const Lists: React.FunctionComponent = () => {
   );
 };
 
-// TODO: Add path paramter to navigate to detailed list view
-
 export default Lists;

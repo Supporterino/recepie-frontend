@@ -191,7 +191,6 @@ const RecipeView: React.FunctionComponent = () => {
         <FlexCol sx={{ justifyContent: 'space-evenly' }}>
           <Typography variant="h5">{recipe.name}</Typography>
           <Typography variant="body2">by {recipe.owner.username}</Typography>
-          {/* TODO: Add way to rate a recipe */}
           <Flex
             sx={alignCenterJustifyStart}
             onClick={() => {
