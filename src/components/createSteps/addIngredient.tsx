@@ -108,14 +108,12 @@ const AddIngredient: React.FunctionComponent<AddIngredientProps> = ({
           sx={{ mt: 1 }}
           id="unit"
           value={unit}
-          ref={inputRefUnit} 
+          ref={inputRefUnit}
           options={options.sort((a, b) => -b.category.localeCompare(a.category))}
           groupBy={(option) => option.category}
           getOptionLabel={(option) => option.unit}
           onChange={handleUnitChange}
-          renderInput={(params) => (
-            <TextField label="Unit" {...params} variant="outlined" />
-          )}
+          renderInput={(params) => <TextField label="Unit" {...params} variant="outlined" />}
         />
         <FormControlLabel
           control={

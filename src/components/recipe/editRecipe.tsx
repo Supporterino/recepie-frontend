@@ -1,9 +1,9 @@
 import { Box, Button, Fab, IconButton, Rating, Stack, TextField, Typography } from '@mui/material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Ingredient, Recipe } from '../types';
-import Flex from './layout/Flex';
-import FlexCol from './layout/FlexCol';
-import FlexColContainer from './layout/FlexColContainer';
+import { Ingredient, Recipe } from '../../types';
+import Flex from '../layout/Flex';
+import FlexCol from '../layout/FlexCol';
+import FlexColContainer from '../layout/FlexColContainer';
 import Grid from '@mui/system/Unstable_Grid';
 import {
   alignCenterJustifyCenter,
@@ -11,18 +11,18 @@ import {
   centerStyle,
   centerTopStyleCol,
   gridOutline
-} from './layout/commonSx';
+} from '../layout/commonSx';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { moveInArray } from '../utils/arrayUtils';
+import { moveInArray } from '../../utils/arrayUtils';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import AddStep from './createSteps/addStep';
-import AddIngredient from './createSteps/addIngredient';
+import AddStep from '../createSteps/addStep';
+import AddIngredient from '../createSteps/addIngredient';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import sendRequest, { editRecipeUrl } from '../services/requestService';
+import sendRequest, { editRecipeUrl } from '../../services/requestService';
 import SaveIcon from '@mui/icons-material/Save';
 
 const EditRecipeView: React.FunctionComponent = () => {

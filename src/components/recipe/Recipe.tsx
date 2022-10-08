@@ -11,49 +11,53 @@ import {
 } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
-import { checkOwner, getRecipe } from '../services/requests';
-import { Ingredient, Recipe } from '../types';
-import Flex from './layout/Flex';
-import FlexCol from './layout/FlexCol';
-import FlexColContainer from './layout/FlexColContainer';
-import ErrorDisplay from './queryUtils/ErrorText';
-import Loader from './queryUtils/Loader';
 import Grid from '@mui/system/Unstable_Grid';
-import {
-  alignCenterJustifyCenter,
-  alignCenterJustifyStart,
-  centerStyle,
-  centerTopStyleCol,
-  gridOutline
-} from './layout/commonSx';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useEffect, useState } from 'react';
 import { Share, Upload } from '@mui/icons-material';
 import { useSnackbar } from 'notistack';
-import ImageUpload, { Target } from './createSteps/imageUpload';
-import { authenticationManager } from '../services/AuthenticationManager';
-import sendRequest, {
-  addCookListUrl,
-  addFavoriteUrl,
-  removeCookListUrl,
-  removeFavoriteUrl
-} from '../services/requestService';
+
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import PendingIcon from '@mui/icons-material/Pending';
-import useLoggedIn from '../hooks/useLoggedIn';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import EditIcon from '@mui/icons-material/Edit';
+import useLoggedIn from '../../hooks/useLoggedIn';
+import { authenticationManager } from '../../services/AuthenticationManager';
+import { getRecipe, checkOwner } from '../../services/requests';
+import sendRequest, {
+  removeFavoriteUrl,
+  addFavoriteUrl,
+  removeCookListUrl,
+  addCookListUrl
+} from '../../services/requestService';
+import { Recipe, Ingredient } from '../../types';
+import ImageUpload, { Target } from '../createSteps/imageUpload';
+import {
+  alignCenterJustifyStart,
+  alignCenterJustifyCenter,
+  gridOutline,
+  centerTopStyleCol,
+  centerStyle
+} from '../layout/commonSx';
+import Flex from '../layout/Flex';
+import FlexCol from '../layout/FlexCol';
+import FlexColContainer from '../layout/FlexColContainer';
+import ErrorDisplay from '../queryUtils/ErrorText';
+import Loader from '../queryUtils/Loader';
+import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteRecipe from './DeleteRecipe';
 
 const RecipeView: React.FunctionComponent = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [uploadOpen, setUploadOpen] = useState<boolean>(false);
+  const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const loggedIn = useLoggedIn();
 
@@ -185,6 +189,7 @@ const RecipeView: React.FunctionComponent = () => {
         <FlexCol sx={{ justifyContent: 'space-evenly' }}>
           <Typography variant="h5">{recipe.name}</Typography>
           <Typography variant="body2">by {recipe.owner.username}</Typography>
+          {/* TODO: Add way to rate a recipe */}
           <Flex sx={alignCenterJustifyStart}>
             <Rating value={recipe.rating.avgRating} readOnly precision={0.5} />
             <Typography sx={{ color: 'text.secondary' }} variant="body2" ml={0.5}>
@@ -198,10 +203,8 @@ const RecipeView: React.FunctionComponent = () => {
       <Typography variant="body2" mb={1}>
         {recipe.description}
       </Typography>
-      {/* <Divider light /> */}
 
       <Typography variant="h6">Ingredients</Typography>
-
       <Flex sx={{ mt: 1, ...alignCenterJustifyCenter }}>
         <IconButton size="small" onClick={() => setServings((prev) => prev + 1)}>
           <AddIcon />
@@ -246,7 +249,6 @@ const RecipeView: React.FunctionComponent = () => {
           </>
         ))}
       </Grid>
-      {/* <Divider light /> */}
 
       <Typography variant="h6">Steps</Typography>
       <Grid container my={1} sx={gridOutline}>
@@ -349,8 +351,19 @@ const RecipeView: React.FunctionComponent = () => {
             <ListItemText>Edit</ListItemText>
           </MenuItem>
         )}
+        {owner && (
+          <MenuItem
+            onClick={() => {
+              setDeleteOpen(true);
+            }}
+          >
+            <ListItemIcon>
+              <DeleteIcon fontSize="small" color="error" />
+            </ListItemIcon>
+            <ListItemText>Delete</ListItemText>
+          </MenuItem>
+        )}
       </Menu>
-
       {owner && (
         <ImageUpload
           open={uploadOpen}
@@ -358,6 +371,15 @@ const RecipeView: React.FunctionComponent = () => {
             setUploadOpen(false);
           }}
           target={Target.RECIPE}
+          recipeID={id!}
+        />
+      )}
+      {owner && (
+        <DeleteRecipe
+          open={deleteOpen}
+          close={() => {
+            setDeleteOpen(false);
+          }}
           recipeID={id!}
         />
       )}

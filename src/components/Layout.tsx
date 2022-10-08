@@ -11,8 +11,8 @@ import { centerTopStyleRow } from './layout/commonSx';
 import User from '../views/User';
 import Lists from '../views/Lists';
 import ListView from './listViews/ListView';
-import RecipeView from './Recipe';
-import EditRecipeView from './editRecipe';
+import EditRecipeView from './recipe/editRecipe';
+import RecipeView from './recipe/Recipe';
 
 const Layout: React.FunctionComponent = () => {
   const isStandalone = useMediaQuery('(display-mode: standalone)');

@@ -37,7 +37,7 @@ const AddStep: React.FunctionComponent<AddStepProps> = ({
     if (step) {
       updateData((prevSteps) => [...prevSteps, step]);
       setStep(undefined);
-      if (inputRef.current) inputRef.current.value = ''
+      if (inputRef.current) inputRef.current.value = '';
       if (!leaveOpen) close();
     } else {
       enqueueSnackbar('Please enter a new step', { variant: 'warning' });
