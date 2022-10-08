@@ -1,7 +1,7 @@
 import { IconButton, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getCookList, getOwnFavorites } from '../../services/requests';
+import { getCookList, getListsRequest, getOwnFavorites } from '../../services/requests';
 import Flex from '../layout/Flex';
 import FlexColContainer from '../layout/FlexColContainer';
 import ErrorDisplay from '../queryUtils/ErrorText';
@@ -19,7 +19,7 @@ const ListView: React.FunctionComponent = () => {
     isError,
     error,
     data: recipes
-  } = useQuery(['lists', name], name === 'Favorites' ? getOwnFavorites : getCookList);
+  } = useQuery(['lists', name], () => getListsRequest(name!));
 
   if (isLoading)
     return (
@@ -40,7 +40,7 @@ const ListView: React.FunctionComponent = () => {
       <Flex sx={{ backgroundColor: 'background.paper', p: 1, ...centerStyle }}>
         <IconButton
           onClick={() => {
-            navigate('/lists');
+            navigate(-1);
           }}
         >
           <ArrowBackIosNewIcon />

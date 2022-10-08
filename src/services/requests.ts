@@ -4,14 +4,23 @@ import sendRequest, {
   getByIDUrl,
   getCookListUrl,
   getOwnFavoritesUrl,
+  getOwnRecipesUrl,
   getUserUrl,
   ownRatingUrl,
   receipesURL,
   tagsURL
 } from './requestService';
 
-export const getAllReceipes = () => {
+export const getAllRecipes = () => {
   return sendRequest(receipesURL(), 'GET').then((res) => {
+    if (!res) throw new Error('No Response');
+    if (res.status !== 200) throw new Error('Non OK response');
+    return res.json();
+  });
+};
+
+export const getOwnRecipes = () => {
+  return sendRequest(getOwnRecipesUrl, 'GET').then((res) => {
     if (!res) throw new Error('No Response');
     if (res.status !== 200) throw new Error('Non OK response');
     return res.json();
@@ -81,3 +90,16 @@ export const getBackendVersion = () => {
     return res.json();
   });
 };
+
+export const getListsRequest = (name: string) => {
+  switch (name) {
+    case 'Favorites':
+      return getOwnFavorites()
+    case 'Own recipes':
+      return getOwnRecipes()
+    case 'Cooklist':
+      return getCookList()
+    default:
+      break;
+  }
+}

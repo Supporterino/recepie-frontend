@@ -1,12 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
-import { getAllReceipes } from '../services/requests';
+import { getAllRecipes } from '../services/requests';
 import ErrorDisplay from '../components/queryUtils/ErrorText';
 import Loader from '../components/queryUtils/Loader';
 import FlexColContainer from '../components/layout/FlexColContainer';
 import RecipeList from '../components/listViews/RecipeList';
+import { Recipe } from '../types';
 
 const Home: React.FunctionComponent = () => {
-  const { isLoading, isError, error, data: recipes } = useQuery(['recipes'], getAllReceipes);
+  const { isLoading, isError, error, data: recipes } = useQuery<Recipe[]>(['recipes'], getAllRecipes);
 
   if (isLoading)
     return (

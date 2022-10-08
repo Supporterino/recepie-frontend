@@ -4,10 +4,11 @@ import FlexColContainer from '../components/layout/FlexColContainer';
 import ErrorDisplay from '../components/queryUtils/ErrorText';
 import Loader from '../components/queryUtils/Loader';
 import { authenticationManager } from '../services/AuthenticationManager';
-import { getUser } from '../services/requests';
+import { getOwnRecipes, getUser } from '../services/requests';
 import FlexCol from '../components/layout/FlexCol';
 import { centerTopStyleCol } from '../components/layout/commonSx';
-import Flex from '../components/layout/Flex';
+import { Recipe } from '../types';
+import ListOverview from '../components/listViews/ListOverview';
 
 const User: React.FunctionComponent = () => {
   const userID = authenticationManager.getUserID();
@@ -17,6 +18,8 @@ const User: React.FunctionComponent = () => {
     error,
     data: user
   } = useQuery(['users', userID], () => getUser(userID));
+
+  const ownRecipesQuery = useQuery<Recipe[]>(['ownRecipes'], getOwnRecipes)
 
   const imgURL = () => {
     return `url(${user.avatar})`;
@@ -54,9 +57,7 @@ const User: React.FunctionComponent = () => {
         />
         <Typography variant="h6">{user.username}</Typography>
       </FlexCol>
-      <Flex>
-        <Typography>Dummy</Typography>
-      </Flex>
+      <ListOverview name="Own recipes" queryObject={ownRecipesQuery} />
     </FlexColContainer>
   );
 };
