@@ -18,7 +18,7 @@ import sendRequest, { registerUrl } from '../services/requestService';
 const SignUp: React.FunctionComponent = () => {
   type IFormData = { username: string; email: string; password: string };
   const navigate = useNavigate();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const {
     register,
     handleSubmit,

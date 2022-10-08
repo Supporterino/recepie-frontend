@@ -20,7 +20,7 @@ import PasswordInput from '../components/auth/PasswordInput';
 const SignIn: React.FunctionComponent = () => {
   type IFormData = { email: string; password: string };
   const navigate = useNavigate();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const {
     register,
     handleSubmit,

@@ -1,7 +1,5 @@
 import {
   Box,
-  Card,
-  CardContent,
   CircularProgress,
   Container,
   Grid,
