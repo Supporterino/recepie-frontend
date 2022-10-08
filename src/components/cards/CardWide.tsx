@@ -51,7 +51,8 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
         return Promise.all([
           queryClient.invalidateQueries(['recipes']),
           queryClient.invalidateQueries(['ownFavorites']),
-          queryClient.invalidateQueries(['lists'])
+          queryClient.invalidateQueries(['lists']),
+          queryClient.invalidateQueries(['ownRecipes'])
         ]);
       },
       onError: (error, variables, context) => {

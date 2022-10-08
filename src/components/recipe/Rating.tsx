@@ -48,7 +48,8 @@ const Review: React.FunctionComponent<ReviewProps> = ({ open, close, recipeID }:
           queryClient.invalidateQueries(['recipes']),
           queryClient.invalidateQueries(['ownFavorites']),
           queryClient.invalidateQueries(['lists']),
-          queryClient.invalidateQueries(['recipe', recipeID])
+          queryClient.invalidateQueries(['recipe', recipeID]),
+          queryClient.invalidateQueries(['ownRecipes'])
         ]);
         return close();
       },

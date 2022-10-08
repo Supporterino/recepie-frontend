@@ -113,7 +113,8 @@ const RecipeView: React.FunctionComponent = () => {
           queryClient.invalidateQueries(['recipes']),
           queryClient.invalidateQueries(['ownFavorites']),
           queryClient.invalidateQueries(['lists']),
-          queryClient.invalidateQueries(['recipe', id])
+          queryClient.invalidateQueries(['recipe', id]),
+          queryClient.invalidateQueries(['ownRecipes'])
         ]);
       },
       onError: (error, variables, context) => {
@@ -133,7 +134,8 @@ const RecipeView: React.FunctionComponent = () => {
           queryClient.invalidateQueries(['recipes']),
           queryClient.invalidateQueries(['cooklist']),
           queryClient.invalidateQueries(['lists']),
-          queryClient.invalidateQueries(['recipe', id])
+          queryClient.invalidateQueries(['recipe', id]),
+          queryClient.invalidateQueries(['ownRecipes'])
         ]);
       },
       onError: (error, variables, context) => {

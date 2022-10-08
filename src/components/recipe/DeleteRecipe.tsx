@@ -32,7 +32,8 @@ const DeleteRecipe: React.FunctionComponent<DeleteRecipeProps> = ({
         queryClient.invalidateQueries(['recipes']),
         queryClient.invalidateQueries(['ownFavorites']),
         queryClient.invalidateQueries(['lists']),
-        queryClient.invalidateQueries(['recipe', recipeID])
+        queryClient.invalidateQueries(['recipe', recipeID]),
+        queryClient.invalidateQueries(['ownRecipes'])
       ]);
       return navigate(-1);
     },
