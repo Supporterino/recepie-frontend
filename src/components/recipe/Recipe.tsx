@@ -51,6 +51,7 @@ import ErrorDisplay from '../queryUtils/ErrorText';
 import Loader from '../queryUtils/Loader';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteRecipe from './DeleteRecipe';
+import Review from './Rating';
 
 const RecipeView: React.FunctionComponent = () => {
   const { id } = useParams();
@@ -58,6 +59,7 @@ const RecipeView: React.FunctionComponent = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [uploadOpen, setUploadOpen] = useState<boolean>(false);
   const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
+  const [reviewOpen, setReviewOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const loggedIn = useLoggedIn();
 
@@ -190,7 +192,12 @@ const RecipeView: React.FunctionComponent = () => {
           <Typography variant="h5">{recipe.name}</Typography>
           <Typography variant="body2">by {recipe.owner.username}</Typography>
           {/* TODO: Add way to rate a recipe */}
-          <Flex sx={alignCenterJustifyStart}>
+          <Flex
+            sx={alignCenterJustifyStart}
+            onClick={() => {
+              setReviewOpen(true);
+            }}
+          >
             <Rating value={recipe.rating.avgRating} readOnly precision={0.5} />
             <Typography sx={{ color: 'text.secondary' }} variant="body2" ml={0.5}>
               ({recipe.rating.numOfRatings})
@@ -198,6 +205,14 @@ const RecipeView: React.FunctionComponent = () => {
           </Flex>
         </FlexCol>
       </Flex>
+
+      <Review
+        open={reviewOpen}
+        close={() => {
+          setReviewOpen(false);
+        }}
+        recipeID={id!}
+      />
 
       <Typography variant="h6">Description</Typography>
       <Typography variant="body2" mb={1}>
