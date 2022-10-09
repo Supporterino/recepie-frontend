@@ -1,6 +1,7 @@
 const alignCenterJustifyCenter = { justifyContent: 'center', alignItems: 'center' } as const;
 const alignStartJudtifyCenter = { justifyContent: 'center', alignItems: 'flex-start' } as const;
 const alignCenterJustifyStart = { justifyContent: 'flex-start', alignItems: 'center' } as const;
+const alignCenterJustifyEvenly = { justifyContent: 'space-evenly', alignItems: 'center' } as const;
 
 const centerStyle = { display: 'flex', ...alignCenterJustifyCenter } as const;
 const centerTopStyleRow = { display: 'flex', ...alignStartJudtifyCenter } as const;
@@ -28,5 +29,6 @@ export {
   centerTopStyleRow,
   centerTopStyleCol,
   flexCol,
-  gridOutline
+  gridOutline,
+  alignCenterJustifyEvenly
 };

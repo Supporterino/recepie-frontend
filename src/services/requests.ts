@@ -8,6 +8,7 @@ import sendRequest, {
   getUserUrl,
   ownRatingUrl,
   receipesURL,
+  recipesFilteredUrl,
   tagsURL
 } from './requestService';
 
@@ -83,6 +84,18 @@ export const getRating = (recipeID: string) => {
   });
 };
 
+export const getFilteredRecipes = (filterData: {
+  text: string;
+  ratingMin: number;
+  tags: string[];
+}) => {
+  return sendRequest(recipesFilteredUrl(), 'POST', filterData).then((res) => {
+    if (!res) throw new Error('No Response');
+    if (res.status !== 200) throw new Error('Non OK response');
+    return res.json();
+  });
+};
+
 export const getBackendVersion = () => {
   return sendRequest(backendVersionUrl(), 'GET').then((res) => {
     if (!res) throw new Error('No Response');
@@ -94,12 +107,12 @@ export const getBackendVersion = () => {
 export const getListsRequest = (name: string) => {
   switch (name) {
     case 'Favorites':
-      return getOwnFavorites()
+      return getOwnFavorites();
     case 'Own recipes':
-      return getOwnRecipes()
+      return getOwnRecipes();
     case 'Cooklist':
-      return getCookList()
+      return getCookList();
     default:
       break;
   }
-}
+};

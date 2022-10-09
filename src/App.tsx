@@ -10,7 +10,13 @@ import theme from './theme';
 
 const App: React.FunctionComponent = () => {
   const THEME_KEY = 'themeMode';
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false
+      }
+    }
+  });
   const [mode, setMode] = useState<themeMode>(
     (localStorage.getItem(THEME_KEY) as themeMode) || 'light'
   );

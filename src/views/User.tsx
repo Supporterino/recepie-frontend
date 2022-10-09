@@ -19,7 +19,7 @@ const User: React.FunctionComponent = () => {
     data: user
   } = useQuery(['users', userID], () => getUser(userID));
 
-  const ownRecipesQuery = useQuery<Recipe[]>(['ownRecipes'], getOwnRecipes)
+  const ownRecipesQuery = useQuery<Recipe[]>(['ownRecipes'], getOwnRecipes);
 
   const imgURL = () => {
     return `url(${user.avatar})`;

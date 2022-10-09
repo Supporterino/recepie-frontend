@@ -21,7 +21,7 @@ export const deleteRecipeUrl = baseUrl + secured + 'v1/recipe-deletion/deleteRec
 export const addRatingUrl = baseUrl + secured + 'v1/rating/addRating';
 export const updateRatingUrl = baseUrl + secured + 'v1/rating/updateRating';
 export const ownRatingUrl = baseUrl + secured + 'v1/rating/getRatingForUser';
-export const getOwnRecipesUrl = baseUrl + secured + 'v1/recipe-provider/getMyRecipes'
+export const getOwnRecipesUrl = baseUrl + secured + 'v1/recipe-provider/getMyRecipes';
 
 export const getByIDUrl = () =>
   baseUrl + (authenticationManager.hasUser() ? secured : unSecured) + 'v1/recipe-provider/getById';
@@ -33,6 +33,8 @@ export const tagsURL = () =>
   baseUrl + (authenticationManager.hasUser() ? secured : unSecured) + 'v1/tags/getAsStrings';
 export const backendVersionUrl = () =>
   baseUrl + (authenticationManager.hasUser() ? secured : unSecured) + 'v1/meta/version';
+export const recipesFilteredUrl = () =>
+  baseUrl + (authenticationManager.hasUser() ? secured : unSecured) + 'v1/recipe-provider/filter';
 
 const getToken = async (): Promise<string> => {
   const validAuth = await authenticationManager.refreshJWT();

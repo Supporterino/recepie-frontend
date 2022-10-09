@@ -1,10 +1,4 @@
-import {
-  Box,
-  CircularProgress,
-  Container,
-  Grid,
-  Typography
-} from '@mui/material';
+import { Box, CircularProgress, Container, Grid, Typography } from '@mui/material';
 
 const Loader: React.FunctionComponent = () => {
   return (
