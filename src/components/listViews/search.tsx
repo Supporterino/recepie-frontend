@@ -78,7 +78,7 @@ const Search: React.FunctionComponent<SearchProps> = ({
   }, [isLoading, isError, error, recipes, setError, setIsError, setIsLoading, setRecipes]);
 
   return (
-    <FlexCol sx={{ boxShadow: 10 }}>
+    <FlexCol sx={{ boxShadow: 10, borderRadius: '16px' }}>
       <Flex sx={{ p: 1, ...alignCenterJustifyCenter }}>
         <AcUnitIcon />
         <InputBase
