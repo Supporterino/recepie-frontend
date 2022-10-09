@@ -108,43 +108,47 @@ const Search: React.FunctionComponent<SearchProps> = ({
               onChange={(event, value) => setMinRating(value!)}
             />
           </Flex>
-          <Autocomplete
-            multiple
-            id="tags-filled"
-            options={data.sort().map((option: string) => option)}
-            renderTags={(value: readonly string[]) =>
-              value.map((tag: string) => (
-                <Chip
-                  label={tag}
-                  key={tag}
-                  id={tag}
-                  sx={{ mx: 0.2 }}
-                  color="secondary"
-                  onDelete={() => deleteTag(tag)}
-                />
-              ))
-            }
-            value={tags}
-            onChange={(event, value) => updateTags(value)}
-            freeSolo
-            getOptionDisabled={(option) => option.includes('invalid input')}
-            filterOptions={(options, params) => {
-              const filtered = filter(options, params);
-
-              const inputValue = params.inputValue.trim();
-              // Suggest the creation of a new value
-              const isExisting = options.some((option) => inputValue === option);
-
-              if (inputValue.includes(' ')) {
-                filtered.push(`invalid input: ${inputValue}`);
-              } else if (inputValue !== '' && !isExisting) {
-                filtered.push(`create new tag: ${inputValue}`);
+          <Flex sx={{ p: 1 }}>
+            {' '}
+            <Autocomplete
+              multiple
+              fullWidth
+              id="tags-filled"
+              options={data.sort().map((option: string) => option)}
+              renderTags={(value: readonly string[]) =>
+                value.map((tag: string) => (
+                  <Chip
+                    label={tag}
+                    key={tag}
+                    id={tag}
+                    sx={{ mx: 0.2 }}
+                    color="secondary"
+                    onDelete={() => deleteTag(tag)}
+                  />
+                ))
               }
+              value={tags}
+              onChange={(event, value) => updateTags(value)}
+              freeSolo
+              getOptionDisabled={(option) => option.includes('invalid input')}
+              filterOptions={(options, params) => {
+                const filtered = filter(options, params);
 
-              return filtered;
-            }}
-            renderInput={(params) => <TextField label="Tags" {...params} variant="outlined" />}
-          />
+                const inputValue = params.inputValue.trim();
+                // Suggest the creation of a new value
+                const isExisting = options.some((option) => inputValue === option);
+
+                if (inputValue.includes(' ')) {
+                  filtered.push(`invalid input: ${inputValue}`);
+                } else if (inputValue !== '' && !isExisting) {
+                  filtered.push(`create new tag: ${inputValue}`);
+                }
+
+                return filtered;
+              }}
+              renderInput={(params) => <TextField label="Tags" {...params} variant="outlined" />}
+            />
+          </Flex>
         </>
       )}
     </FlexCol>
