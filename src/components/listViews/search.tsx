@@ -11,10 +11,10 @@ import {
 } from '@mui/material';
 import Flex from '../layout/Flex';
 import FlexCol from '../layout/FlexCol';
-import AcUnitIcon from '@mui/icons-material/AcUnit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { alignCenterJustifyCenter, alignCenterJustifyEvenly } from '../layout/commonSx';
 import { Recipe } from '../../types';
 import { useQuery } from '@tanstack/react-query';
@@ -44,6 +44,7 @@ const Search: React.FunctionComponent<SearchProps> = ({
   const [minRating, setMinRating] = useState<number>(0);
   const [tags, setTags] = useState<string[]>([]);
   const [moreOptions, setMoreOptions] = useState<boolean>(false);
+  const [rerender, setRerender] = useState<boolean>(false);
 
   const deleteTag = (toDelete: string) => {
     setTags(tags.filter((tag) => tag !== toDelete));
@@ -77,10 +78,25 @@ const Search: React.FunctionComponent<SearchProps> = ({
     if (recipes) setRecipes(recipes);
   }, [isLoading, isError, error, recipes, setError, setIsError, setIsLoading, setRecipes]);
 
+  useEffect(() => {
+    refetch();
+    setRerender(false);
+  }, [refetch, rerender]);
+
+  const reset = () => {
+    setName('');
+    setMinRating(0);
+    setTags([]);
+    setRerender(true);
+  };
+
   return (
     <FlexCol sx={{ boxShadow: 10, borderRadius: '16px' }}>
       <Flex sx={{ p: 1, ...alignCenterJustifyCenter }}>
-        <AcUnitIcon />
+        <IconButton onClick={() => setMoreOptions((prev) => !prev)}>
+          {!moreOptions && <KeyboardArrowRightIcon />}
+          {moreOptions && <KeyboardArrowDownIcon />}
+        </IconButton>
         <InputBase
           fullWidth
           placeholder="Search for recipe"
@@ -92,15 +108,18 @@ const Search: React.FunctionComponent<SearchProps> = ({
           <SearchIcon />
         </IconButton>
         <Divider orientation="vertical" />
-        <IconButton onClick={() => setMoreOptions((prev) => !prev)}>
-          {!moreOptions && <KeyboardArrowLeftIcon />}
-          {moreOptions && <KeyboardArrowDownIcon />}
+        <IconButton
+          sx={{ ml: 0.25, mr: -0.25 }}
+          disabled={!(name !== '' || minRating > 0 || tags.length > 0)}
+          onClick={reset}
+        >
+          <DeleteIcon />
         </IconButton>
       </Flex>
       {moreOptions && (
         <>
           <Divider />
-          <Flex sx={{ p: 1, ...alignCenterJustifyEvenly }}>
+          <Flex sx={{ mt: 0.5, p: 1, ...alignCenterJustifyEvenly }}>
             <Typography variant="body2">Minimum rating</Typography>
             <Rating
               disabled={isLoading}
@@ -109,8 +128,8 @@ const Search: React.FunctionComponent<SearchProps> = ({
             />
           </Flex>
           <Flex sx={{ p: 1 }}>
-            {' '}
             <Autocomplete
+              size="small"
               multiple
               fullWidth
               id="tags-filled"
@@ -133,17 +152,6 @@ const Search: React.FunctionComponent<SearchProps> = ({
               getOptionDisabled={(option) => option.includes('invalid input')}
               filterOptions={(options, params) => {
                 const filtered = filter(options, params);
-
-                const inputValue = params.inputValue.trim();
-                // Suggest the creation of a new value
-                const isExisting = options.some((option) => inputValue === option);
-
-                if (inputValue.includes(' ')) {
-                  filtered.push(`invalid input: ${inputValue}`);
-                } else if (inputValue !== '' && !isExisting) {
-                  filtered.push(`create new tag: ${inputValue}`);
-                }
-
                 return filtered;
               }}
               renderInput={(params) => <TextField label="Tags" {...params} variant="outlined" />}
@@ -154,5 +162,7 @@ const Search: React.FunctionComponent<SearchProps> = ({
     </FlexCol>
   );
 };
+
+// TODO: disallow tag creation
 
 export default Search;
