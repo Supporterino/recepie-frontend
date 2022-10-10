@@ -52,7 +52,7 @@ const Search: React.FunctionComponent<SearchProps> = ({
 
   const updateTags = (tags: string[]) => {
     const cleanedTags: string[] = [];
-    tags.forEach((tag) => cleanedTags.push(tag.replace('create new tag:', '').trim()));
+    tags.forEach((tag) => cleanedTags.push(tag.trim()));
     setTags(cleanedTags);
   };
 
