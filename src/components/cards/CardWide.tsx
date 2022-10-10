@@ -81,7 +81,7 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
   );
 
   return (
-    <Card sx={{ display: 'flex', my: 1, boxShadow: 10, borderRadius: '16px' }}>
+    <Card sx={{ display: 'flex', my: 1, boxShadow: 10, borderRadius: '4px' }} raised>
       <CardContent sx={{ p: 1, flexBasis: '75%' }}>
         <Box sx={{ width: '100%', ...flexCol }}>
           <Grid container sx={{ width: '100%' }}>

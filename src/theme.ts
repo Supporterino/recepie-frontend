@@ -1,10 +1,11 @@
 import { createTheme, Theme } from '@mui/material/styles';
-import { blueGrey, indigo, red } from '@mui/material/colors';
+import { blueGrey, grey, indigo, red } from '@mui/material/colors';
 
 export const colorDefinition = {
   primary: indigo[500],
   secondary: blueGrey[500],
-  error: red.A400
+  error: red.A400,
+  background: grey[900]
 };
 
 export const theme = (mode: 'light' | 'dark'): Theme => {

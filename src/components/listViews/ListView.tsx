@@ -36,19 +36,22 @@ const ListView: React.FunctionComponent = () => {
     );
 
   return (
-    <FlexColContainer>
-      <Flex sx={{ backgroundColor: 'background.paper', p: 1, ...centerStyle }}>
-        <IconButton
-          onClick={() => {
-            navigate(-1);
-          }}
-        >
-          <ArrowBackIosNewIcon />
-        </IconButton>
-        <Typography variant="h6" sx={{ flexGrow: 1, textAlign: 'center' }}>
-          {name}
-        </Typography>
-      </Flex>
+    <FlexColContainer
+      header={
+        <Flex sx={{ backgroundColor: 'background.paper', p: 1, ...centerStyle }}>
+          <IconButton
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            <ArrowBackIosNewIcon />
+          </IconButton>
+          <Typography variant="h6" sx={{ flexGrow: 1, textAlign: 'center' }}>
+            {name}
+          </Typography>
+        </Flex>
+      }
+    >
       <RecipeList recipes={recipes} />
     </FlexColContainer>
   );

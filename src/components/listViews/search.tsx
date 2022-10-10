@@ -7,7 +7,8 @@ import {
   InputBase,
   Rating,
   TextField,
-  Typography
+  Typography,
+  useTheme
 } from '@mui/material';
 import Flex from '../layout/Flex';
 import FlexCol from '../layout/FlexCol';
@@ -20,6 +21,7 @@ import { Recipe } from '../../types';
 import { useQuery } from '@tanstack/react-query';
 import { getAllRecipes, getAllTags, getFilteredRecipes } from '../../services/requests';
 import { useEffect, useState } from 'react';
+import { Coronavirus } from '@mui/icons-material';
 
 type SearchProps = {
   setRecipes: React.Dispatch<React.SetStateAction<Recipe[]>>;
@@ -45,6 +47,7 @@ const Search: React.FunctionComponent<SearchProps> = ({
   const [tags, setTags] = useState<string[]>([]);
   const [moreOptions, setMoreOptions] = useState<boolean>(false);
   const [rerender, setRerender] = useState<boolean>(false);
+  const theme = useTheme();
 
   const deleteTag = (toDelete: string) => {
     setTags(tags.filter((tag) => tag !== toDelete));
@@ -91,10 +94,17 @@ const Search: React.FunctionComponent<SearchProps> = ({
   };
 
   return (
-    <FlexCol sx={{ boxShadow: 10, borderRadius: '16px' }}>
+    <FlexCol
+      sx={{
+        boxShadow: 10,
+        borderBottomLeftRadius: 15,
+        borderBottomRightRadius: 15,
+        backgroundColor: theme.palette.mode === 'dark' ? '#121212' : '#f9f9f9'
+      }}
+    >
       <Flex sx={{ p: 1, ...alignCenterJustifyCenter }}>
         <IconButton onClick={() => setMoreOptions((prev) => !prev)}>
-          {!moreOptions && <KeyboardArrowRightIcon />}
+          {!moreOptions && <Coronavirus />}
           {moreOptions && <KeyboardArrowDownIcon />}
         </IconButton>
         <InputBase

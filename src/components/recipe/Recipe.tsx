@@ -256,7 +256,10 @@ const RecipeView: React.FunctionComponent = () => {
           <>
             <Grid xs={4} key={`${index}-amount`} sx={centerTopStyleCol}>
               <Typography ml={1}>
-                {ing.amount * (servings / recipe.ingredients.numServings)} {ing.unit}
+                {Math.round(
+                  (ing.amount * (servings / recipe.ingredients.numServings) + Number.EPSILON) * 100
+                ) / 100}{' '}
+                {ing.unit}
               </Typography>
             </Grid>
             <Grid xs={8} key={`${index}-name`} sx={centerTopStyleCol}>

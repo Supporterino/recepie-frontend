@@ -13,13 +13,16 @@ const Home: React.FunctionComponent = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
 
   return (
-    <FlexColContainer>
-      <Search
-        setError={setError}
-        setIsError={setIsError}
-        setIsLoading={setIsLoading}
-        setRecipes={setRecipes}
-      />
+    <FlexColContainer
+      header={
+        <Search
+          setError={setError}
+          setIsError={setIsError}
+          setIsLoading={setIsLoading}
+          setRecipes={setRecipes}
+        />
+      }
+    >
       {isLoading && <Loader />}
       {isError && <ErrorDisplay text={`${error}`} />}
       <RecipeList recipes={recipes} />
