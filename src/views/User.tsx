@@ -39,7 +39,6 @@ const User: React.FunctionComponent = () => {
       </FlexColContainer>
     );
 
-  console.log(user);
   return (
     <FlexColContainer>
       <FlexCol sx={centerTopStyleCol}>
