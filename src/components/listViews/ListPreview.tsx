@@ -2,11 +2,13 @@ import { Box } from '@mui/material';
 
 type ListPreviewProps = {
   imgURL: string;
+  onClick?: React.MouseEventHandler<HTMLDivElement> | undefined;
 };
 
-const ListPreview: React.FunctionComponent<ListPreviewProps> = ({ imgURL }: ListPreviewProps) => {
+const ListPreview: React.FunctionComponent<ListPreviewProps> = ({ imgURL, onClick }: ListPreviewProps) => {
   return (
     <Box
+      onClick={onClick}
       sx={{
         width: '100px',
         height: '100px',

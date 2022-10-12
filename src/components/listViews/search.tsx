@@ -99,7 +99,9 @@ const Search: React.FunctionComponent<SearchProps> = ({
         boxShadow: 10,
         borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15,
-        backgroundColor: theme.palette.mode === 'dark' ? '#121212' : '#f9f9f9'
+        backgroundColor: theme.palette.mode === 'dark' ? '#121212' : '#f9f9f9',
+        maxWidth: theme.breakpoints.values.lg,
+        width: '100%'
       }}
     >
       <Flex sx={{ p: 1, ...alignCenterJustifyCenter }}>

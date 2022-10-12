@@ -149,7 +149,7 @@ const EditRecipeView: React.FunctionComponent = () => {
           label="Servings"
           onChange={(event) => setServings(+event.target.value)}
           value={servings}
-        ></TextField>
+        />
       </Flex>
       <AddIngredient
         open={addIngredientOpen}

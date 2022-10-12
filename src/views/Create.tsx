@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
 import React from 'react';
 import { useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import BasicInfos from '../components/createSteps/basicInfos';
 import Ingredients from '../components/createSteps/ingredients';
 import Steps from '../components/createSteps/steps';
@@ -71,20 +71,29 @@ const Create: React.FunctionComponent = () => {
     }
   };
 
-  const onSubmit = (data: IFormData) => {
-    submitRecipeMutation.mutate();
+  const onSubmit: SubmitHandler<IFormData> = (data: IFormData) => {
+    if (
+      data.name !== '' &&
+      data.description !== '' &&
+      data.steps.length > 0 &&
+      data.tags.length > 0 &&
+      data.numberOfServings > 0 &&
+      data.ingredients.length > 0
+    )
+      submitRecipeMutation.mutate(data);
+    else enqueueSnackbar('Please fillout all required fields.', { variant: 'error' });
   };
 
   const submitRecipeMutation = useMutation(
-    () =>
+    (data: IFormData) =>
       sendRequest(createRecipeUrl, 'POST', {
-        name: methods.getValues('name'),
-        description: methods.getValues('description'),
-        steps: methods.getValues('steps'),
-        tags: methods.getValues('tags'),
+        name: data.name,
+        description: data.description,
+        steps: data.steps,
+        tags: data.tags,
         ingredients: {
-          numServings: +methods.getValues('numberOfServings'),
-          items: methods.getValues('ingredients')
+          numServings: +data.numberOfServings,
+          items: data.ingredients
         }
       } as CreationData),
     {

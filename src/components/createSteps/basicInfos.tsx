@@ -1,11 +1,4 @@
-import {
-  Autocomplete,
-  Chip,
-  createFilterOptions,
-  Grid,
-  TextField,
-  Typography
-} from '@mui/material';
+import { Autocomplete, Chip, createFilterOptions, TextField } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -18,10 +11,15 @@ const BasicInfos: React.FunctionComponent = () => {
   const { isLoading, isError, error, data } = useQuery(['tags'], getAllTags);
   const { register, setValue, getValues } = useFormContext();
   const [tags, setTags] = useState<string[]>(getValues('tags') || []);
+  const [servings, setServings] = useState<number>(getValues('numberOfServings' || 1));
 
   useEffect(() => {
     setValue('tags', tags);
   }, [tags, setValue]);
+
+  useEffect(() => {
+    setValue('numberOfServings', servings);
+  }, [servings, setValue]);
 
   const deleteTag = (toDelete: string) => {
     setTags(tags.filter((tag) => tag !== toDelete));
@@ -52,26 +50,16 @@ const BasicInfos: React.FunctionComponent = () => {
         autoComplete="name"
         autoFocus
       />
-      <Grid container justifyContent="center" alignItems="center" spacing={2}>
-        <Grid item xs={6}>
-          <Typography align="center" margin="normal" variant="body1">
-            Number of servings
-          </Typography>
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            {...register('numberOfServings')}
-            margin="normal"
-            required
-            fullWidth
-            id="numOfServings"
-            // label="numOfServings"
-            name="numOfServings"
-            autoComplete="numOfServings"
-            type="number"
-          />
-        </Grid>
-      </Grid>
+      <TextField
+        type="number"
+        inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+        label="Servings"
+        onChange={(event) => setServings(+event.target.value)}
+        value={servings}
+        fullWidth
+        margin="normal"
+        required
+      />
       <TextField
         {...register('description')}
         margin="normal"
@@ -118,7 +106,9 @@ const BasicInfos: React.FunctionComponent = () => {
 
           return filtered;
         }}
-        renderInput={(params) => <TextField label="Tags" {...params} variant="outlined" />}
+        renderInput={(params) => (
+          <TextField label="Tags" margin="normal" required {...params} variant="outlined" />
+        )}
       />
     </FlexColContainer>
   );

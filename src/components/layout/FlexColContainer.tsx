@@ -1,4 +1,5 @@
 import { Box, Container } from '@mui/material';
+import { alignCenterJustifyCenter } from './commonSx';
 
 type FlexBoxProps = {
   header?: React.ReactNode;
@@ -18,7 +19,8 @@ const FlexColContainer: React.FunctionComponent<FlexBoxProps> = ({
         width: '100%',
         overflow: ' hidden',
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        ...alignCenterJustifyCenter
       }}
     >
       {header}

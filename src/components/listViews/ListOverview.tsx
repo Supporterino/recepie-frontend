@@ -35,12 +35,13 @@ const ListOverview: React.FunctionComponent<ListViewProps> = ({
   if (isXL) numOfRecipes = 7;
 
   return (
+    // TODO: Better design
     <FlexCol sx={{ mt: 1 }}>
       <Typography variant="h5">{name}</Typography>
       {isLoading && <Loader />}
       {isError && <ErrorDisplay text={`${error}`} />}
       <Flex>
-        <Flex sx={{ flexGrow: 1, overflowX: 'hidden', flexWrap: 'no-wrap' }}>
+        <Flex sx={{ flexGrow: 1, overflowX: 'hidden', flexWrap: 'no-wrap' }} >
           {recipes &&
             recipes
               .slice(0, numOfRecipes)
@@ -49,6 +50,9 @@ const ListOverview: React.FunctionComponent<ListViewProps> = ({
                   imgURL={`url(${
                     recipe.picture !== '' ? recipe.picture : 'images/no-pictures.png'
                   })`}
+                  onClick={() => {
+                    navigate(`/recipe/${recipe.id}`);
+                  }}
                 />
               ))}
         </Flex>

@@ -99,6 +99,7 @@ const AddIngredient: React.FunctionComponent<AddIngredientProps> = ({
           fullWidth
           inputRef={inputRefAmount}
           label="Amount"
+          inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
           value={amount}
           onChange={handleAmountChange}
           sx={{ mt: 1 }}

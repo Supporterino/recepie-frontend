@@ -1,14 +1,14 @@
 import { IconButton, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getCookList, getListsRequest, getOwnFavorites } from '../../services/requests';
+import { getListsRequest } from '../../services/requests';
 import Flex from '../layout/Flex';
 import FlexColContainer from '../layout/FlexColContainer';
 import ErrorDisplay from '../queryUtils/ErrorText';
 import Loader from '../queryUtils/Loader';
 import RecipeList from './RecipeList';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import { centerStyle } from '../layout/commonSx';
+import { alignCenterJustifyCenter } from '../layout/commonSx';
 const ListView: React.FunctionComponent = () => {
   const { name } = useParams();
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ const ListView: React.FunctionComponent = () => {
   return (
     <FlexColContainer
       header={
-        <Flex sx={{ backgroundColor: 'background.paper', p: 1, ...centerStyle }}>
+        <Flex sx={{ backgroundColor: 'background.paper', p: 1, width: '100%', ...alignCenterJustifyCenter }}>
           <IconButton
             onClick={() => {
               navigate(-1);
