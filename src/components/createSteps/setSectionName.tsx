@@ -7,7 +7,7 @@ import {
   DialogTitle,
   TextField
 } from '@mui/material';
-import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 type SetSectionNameProps = {
   open: boolean;

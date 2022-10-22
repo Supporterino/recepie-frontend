@@ -9,6 +9,8 @@ import FlexColContainer from '../layout/FlexColContainer';
 import AddIngredient from './addIngredient';
 import SetSectionName from './setSectionName';
 import Flex from '../layout/Flex';
+import EditIcon from '@mui/icons-material/Edit';
+import EditSection from './EditSection';
 
 const Ingredients: React.FunctionComponent = () => {
   const formContext = useFormContext();
@@ -25,6 +27,10 @@ const Ingredients: React.FunctionComponent = () => {
   const [nameOpen, setNameOpen] = useState<boolean>(false);
   const handleNameClose = () => setNameOpen(false);
   const handleNameOpen = () => setNameOpen(true);
+
+  const [editSectionOpen, setEditSectionOpen] = useState<boolean[]>(
+    Array(sections.length).fill(false)
+  );
 
   const handleIngredientDelete = (toDelete: Ingredient) => {
     setIngredients(ingredients.filter((ingredient) => ingredient !== toDelete));
@@ -45,6 +51,13 @@ const Ingredients: React.FunctionComponent = () => {
       } as IngredientSection
     ]);
     setIngredients([]);
+  };
+
+  const handleSectionUpdate = (value: IngredientSection, index: number) => {
+    setSections(sections.map((item, arr_index) => (arr_index === index ? value : item)));
+    setEditSectionOpen(
+      editSectionOpen.map((item, arr_index) => (arr_index === index ? false : item))
+    );
   };
 
   useEffect(() => {
@@ -107,10 +120,32 @@ const Ingredients: React.FunctionComponent = () => {
       {sections &&
         sections.map((section: IngredientSection, index: number) => (
           <>
+            <EditSection
+              open={editSectionOpen[index]}
+              close={() =>
+                setEditSectionOpen(
+                  editSectionOpen.map((item, arr_index) => (arr_index === index ? false : item))
+                )
+              }
+              submit={handleSectionUpdate}
+              initialName={section.name}
+              items={section.items}
+              index={index}
+              mode={'EDIT'}
+            />
             <Flex sx={{ mt: 1, ...alignCenterJustifyCenter }}>
               <Typography sx={{ flexGrow: 1 }} variant="h6">
                 {section.name}
               </Typography>
+              <IconButton
+                onClick={() =>
+                  setEditSectionOpen(
+                    editSectionOpen.map((item, arr_index) => (arr_index === index ? true : item))
+                  )
+                }
+              >
+                <EditIcon />
+              </IconButton>
               <IconButton
                 onClick={() => {
                   handleSectionDelete(index);
