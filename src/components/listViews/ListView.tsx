@@ -38,7 +38,14 @@ const ListView: React.FunctionComponent = () => {
   return (
     <FlexColContainer
       header={
-        <Flex sx={{ backgroundColor: 'background.paper', p: 1, width: '100%', ...alignCenterJustifyCenter }}>
+        <Flex
+          sx={{
+            backgroundColor: 'background.paper',
+            p: 1,
+            width: '100%',
+            ...alignCenterJustifyCenter
+          }}
+        >
           <IconButton
             onClick={() => {
               navigate(-1);

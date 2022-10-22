@@ -10,7 +10,7 @@ import Steps from '../components/createSteps/steps';
 import { flexCol } from '../components/layout/commonSx';
 import FlexColContainer from '../components/layout/FlexColContainer';
 import sendRequest, { createRecipeUrl } from '../services/requestService';
-import { CreationData, Ingredient } from '../types';
+import { CreationData, Ingredient, IngredientSection } from '../types';
 
 const steps = ['Basics', 'Ingredients', 'Steps'];
 
@@ -20,6 +20,7 @@ type IFormData = {
   numberOfServings: number;
   tags: string[];
   ingredients: Ingredient[];
+  sections: IngredientSection[];
   steps: string[];
 };
 
@@ -78,7 +79,7 @@ const Create: React.FunctionComponent = () => {
       data.steps.length > 0 &&
       data.tags.length > 0 &&
       data.numberOfServings > 0 &&
-      data.ingredients.length > 0
+      (data.ingredients.length > 0 || data.sections.length > 0)
     )
       submitRecipeMutation.mutate(data);
     else enqueueSnackbar('Please fillout all required fields.', { variant: 'error' });
@@ -93,7 +94,11 @@ const Create: React.FunctionComponent = () => {
         tags: data.tags,
         ingredients: {
           numServings: +data.numberOfServings,
-          items: data.ingredients
+          ...(data.sections.length > 0
+            ? {
+                sections: data.sections
+              }
+            : { items: data.ingredients })
         }
       } as CreationData),
     {

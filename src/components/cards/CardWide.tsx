@@ -86,12 +86,14 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
         <Box sx={{ width: '100%', ...flexCol }}>
           <Grid container sx={{ width: '100%' }} onClick={() => navigate(`/recipe/${recipe.id}`)}>
             <Grid xs={12}>
-              <Typography sx={lineLimit(1)}>
-                {recipe.name}
-              </Typography>
+              <Typography sx={lineLimit(1)}>{recipe.name}</Typography>
             </Grid>
           </Grid>
-          <Grid container sx={{ width: '100%', flexGrow: 1 }} onClick={() => navigate(`/recipe/${recipe.id}`)}>
+          <Grid
+            container
+            sx={{ width: '100%', flexGrow: 1 }}
+            onClick={() => navigate(`/recipe/${recipe.id}`)}
+          >
             <Grid xs={12}>
               <Typography sx={lineLimit(4)} variant="body2" color="text.secondary">
                 {recipe.description}

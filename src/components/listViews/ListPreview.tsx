@@ -5,7 +5,10 @@ type ListPreviewProps = {
   onClick?: React.MouseEventHandler<HTMLDivElement> | undefined;
 };
 
-const ListPreview: React.FunctionComponent<ListPreviewProps> = ({ imgURL, onClick }: ListPreviewProps) => {
+const ListPreview: React.FunctionComponent<ListPreviewProps> = ({
+  imgURL,
+  onClick
+}: ListPreviewProps) => {
   return (
     <Box
       onClick={onClick}

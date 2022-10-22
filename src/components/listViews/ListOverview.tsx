@@ -41,20 +41,16 @@ const ListOverview: React.FunctionComponent<ListViewProps> = ({
       {isLoading && <Loader />}
       {isError && <ErrorDisplay text={`${error}`} />}
       <Flex>
-        <Flex sx={{ flexGrow: 1, overflowX: 'hidden', flexWrap: 'no-wrap' }} >
+        <Flex sx={{ flexGrow: 1, overflowX: 'hidden', flexWrap: 'no-wrap' }}>
           {recipes &&
-            recipes
-              .slice(0, numOfRecipes)
-              .map((recipe, index) => (
-                <ListPreview
-                  imgURL={`url(${
-                    recipe.picture !== '' ? recipe.picture : 'images/no-pictures.png'
-                  })`}
-                  onClick={() => {
-                    navigate(`/recipe/${recipe.id}`);
-                  }}
-                />
-              ))}
+            recipes.slice(0, numOfRecipes).map((recipe, index) => (
+              <ListPreview
+                imgURL={`url(${recipe.picture !== '' ? recipe.picture : 'images/no-pictures.png'})`}
+                onClick={() => {
+                  navigate(`/recipe/${recipe.id}`);
+                }}
+              />
+            ))}
         </Flex>
         <Flex>
           <IconButton

@@ -1,6 +1,6 @@
 import { Box, Button, Fab, IconButton, Rating, Stack, TextField, Typography } from '@mui/material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Ingredient, Recipe } from '../../types';
+import { Ingredient, IngredientSection, Recipe } from '../../types';
 import Flex from '../layout/Flex';
 import FlexCol from '../layout/FlexCol';
 import FlexColContainer from '../layout/FlexColContainer';
@@ -24,6 +24,8 @@ import AddIngredient from '../createSteps/addIngredient';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import sendRequest, { editRecipeUrl } from '../../services/requestService';
 import SaveIcon from '@mui/icons-material/Save';
+import EditIcon from '@mui/icons-material/Edit';
+import EditSection from '../createSteps/EditSection';
 
 const EditRecipeView: React.FunctionComponent = () => {
   const navigate = useNavigate();
@@ -36,7 +38,8 @@ const EditRecipeView: React.FunctionComponent = () => {
   if (!id) navigate('/');
 
   const [servings, setServings] = useState<number>(recipe.ingredients.numServings);
-  const [ingredients, setIngredients] = useState<Ingredient[]>(recipe.ingredients.items);
+  const [ingredients, setIngredients] = useState<Ingredient[]>(recipe.ingredients.items || []);
+  const [sections, setSections] = useState<IngredientSection[]>(recipe.ingredients.sections || []);
   const [steps, setSteps] = useState<string[]>(recipe.steps);
   const [description, setDescription] = useState<string>(recipe.description);
   const [name, setName] = useState<string>(recipe.name);
@@ -55,6 +58,27 @@ const EditRecipeView: React.FunctionComponent = () => {
 
   const [addStepOpen, setAddStepOpen] = useState<boolean>(false);
   const [addIngredientOpen, setAddIngredientOpen] = useState<boolean>(false);
+  const [editSectionOpen, setEditSectionOpen] = useState<boolean[]>(
+    Array(sections.length).fill(false)
+  );
+  const [addSectionOpen, setAddSectionOpen] = useState<boolean>(false);
+
+  const handleSectionDelete = (toDelete: number) => {
+    setSections(sections.filter((section, index) => index !== toDelete));
+  };
+
+  const handleSectionUpdate = (value: IngredientSection, index: number) => {
+    setSections(sections.map((item, arr_index) => (arr_index === index ? value : item)));
+    setEditSectionOpen(
+      editSectionOpen.map((item, arr_index) => (arr_index === index ? false : item))
+    );
+  };
+
+  const handleSectionAdd = (value: IngredientSection, index: number) => {
+    setEditSectionOpen([...editSectionOpen, false]);
+    setSections([...sections, value]);
+    setAddSectionOpen(false);
+  };
 
   // TODO: Add tag editing
   const editMutation = useMutation(
@@ -63,7 +87,14 @@ const EditRecipeView: React.FunctionComponent = () => {
         id,
         name,
         description,
-        ingredients: { numServings: servings, items: ingredients },
+        ingredients: {
+          numServings: servings,
+          ...(sections.length > 0
+            ? {
+                sections: sections
+              }
+            : { items: ingredients })
+        },
         steps
       }),
     {
@@ -156,42 +187,127 @@ const EditRecipeView: React.FunctionComponent = () => {
         close={() => setAddIngredientOpen(false)}
         updateData={setIngredients}
       />
-      <Button variant="outlined" sx={{ my: 1 }} onClick={() => setAddIngredientOpen(true)}>
-        Add new ingredient
-      </Button>
-      <Grid container my={1} sx={gridOutline}>
-        <Grid xs={4} sx={centerTopStyleCol}>
-          <Typography sx={{ fontWeight: 'bold' }} ml={1}>
-            Amount
-          </Typography>
-        </Grid>
-        <Grid xs={8} sx={centerTopStyleCol}>
-          <Typography sx={{ fontWeight: 'bold' }} ml={1}>
-            Ingredient
-          </Typography>
-        </Grid>
-        {ingredients.map((ing: Ingredient, index: number) => (
+      {ingredients.length > 0 &&
+        ingredients.map((ing: Ingredient, index: number) => (
           <>
-            <Grid xs={4} key={`${index}-amount`} sx={centerTopStyleCol}>
-              <Typography ml={1}>
-                {ing.amount} {ing.unit}
+            <Button variant="outlined" sx={{ my: 1 }} onClick={() => setAddIngredientOpen(true)}>
+              Add new ingredient
+            </Button>
+            <Grid container my={1} sx={gridOutline}>
+              <Grid xs={4} sx={centerTopStyleCol}>
+                <Typography sx={{ fontWeight: 'bold' }} ml={1}>
+                  Amount
+                </Typography>
+              </Grid>
+              <Grid xs={8} sx={centerTopStyleCol}>
+                <Typography sx={{ fontWeight: 'bold' }} ml={1}>
+                  Ingredient
+                </Typography>
+              </Grid>
+              <Grid xs={4} key={`${index}-amount`} sx={centerTopStyleCol}>
+                <Typography ml={1}>
+                  {ing.amount} {ing.unit}
+                </Typography>
+              </Grid>
+              <Grid xs={6} key={`${index}-name`} sx={centerTopStyleCol}>
+                <Typography ml={1}>{ing.name}</Typography>
+              </Grid>
+              <Grid xs={2} key={`${index}-function`} sx={centerStyle}>
+                <IconButton
+                  onClick={() => {
+                    handleIngredientDelete(ing);
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Grid>
+            </Grid>
+          </>
+        ))}
+      {sections.length > 0 && (
+        <>
+          <Button variant="outlined" sx={{ my: 1 }} onClick={() => setAddSectionOpen(true)}>
+            Add new section
+          </Button>
+          <EditSection
+            open={addSectionOpen}
+            close={() => setAddSectionOpen(false)}
+            submit={handleSectionAdd}
+            initialName={''}
+            items={[]}
+            index={-1}
+            mode={'ADD'}
+          />
+        </>
+      )}
+      {sections.length > 0 &&
+        sections.map((section: IngredientSection, index: number) => (
+          <>
+            <EditSection
+              open={editSectionOpen[index]}
+              close={() =>
+                setEditSectionOpen(
+                  editSectionOpen.map((item, arr_index) => (arr_index === index ? false : item))
+                )
+              }
+              submit={handleSectionUpdate}
+              initialName={section.name}
+              items={section.items}
+              index={index}
+              mode={'EDIT'}
+            />
+            <Flex sx={{ mt: 1, ...alignCenterJustifyCenter }}>
+              <Typography sx={{ flexGrow: 1 }} variant="h6">
+                {section.name}
               </Typography>
-            </Grid>
-            <Grid xs={6} key={`${index}-name`} sx={centerTopStyleCol}>
-              <Typography ml={1}>{ing.name}</Typography>
-            </Grid>
-            <Grid xs={2} key={`${index}-function`} sx={centerStyle}>
+              <IconButton
+                onClick={() =>
+                  setEditSectionOpen(
+                    editSectionOpen.map((item, arr_index) => (arr_index === index ? true : item))
+                  )
+                }
+              >
+                <EditIcon />
+              </IconButton>
               <IconButton
                 onClick={() => {
-                  handleIngredientDelete(ing);
+                  handleSectionDelete(index);
                 }}
               >
                 <DeleteIcon />
               </IconButton>
+            </Flex>
+            <Grid container my={1} sx={gridOutline}>
+              <Grid xs={4} sx={centerTopStyleCol}>
+                <Typography sx={{ fontWeight: 'bold' }} ml={1}>
+                  Amount
+                </Typography>
+              </Grid>
+              <Grid xs={8} sx={centerTopStyleCol}>
+                <Typography sx={{ fontWeight: 'bold' }} ml={1}>
+                  Ingredient
+                </Typography>
+              </Grid>
+              {section.items.map((ing: Ingredient, index: number) => (
+                <>
+                  <Grid xs={4} key={`${index}-amount`} sx={centerTopStyleCol}>
+                    <Typography ml={1}>
+                      {Math.round(
+                        (ing.amount * (servings / recipe.ingredients.numServings) +
+                          Number.EPSILON) *
+                          100
+                      ) / 100}
+                      {ing.unit}
+                    </Typography>
+                  </Grid>
+                  <Grid xs={8} key={`${index}-name`} sx={centerTopStyleCol}>
+                    <Typography ml={1}>{ing.name}</Typography>
+                  </Grid>
+                </>
+              ))}
             </Grid>
           </>
         ))}
-      </Grid>
 
       <Typography variant="h6">Steps</Typography>
       <AddStep open={addStepOpen} close={() => setAddStepOpen(false)} updateData={setSteps} />

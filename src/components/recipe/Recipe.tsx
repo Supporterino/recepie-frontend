@@ -35,7 +35,7 @@ import sendRequest, {
   removeCookListUrl,
   addCookListUrl
 } from '../../services/requestService';
-import { Recipe, Ingredient } from '../../types';
+import { Recipe, Ingredient, IngredientSection } from '../../types';
 import ImageUpload, { Target } from '../createSteps/imageUpload';
 import {
   alignCenterJustifyStart,
@@ -252,21 +252,50 @@ const RecipeView: React.FunctionComponent = () => {
             Ingredient
           </Typography>
         </Grid>
-        {recipe.ingredients.items.map((ing: Ingredient, index: number) => (
-          <>
-            <Grid xs={4} key={`${index}-amount`} sx={centerTopStyleCol}>
-              <Typography ml={1}>
-                {Math.round(
-                  (ing.amount * (servings / recipe.ingredients.numServings) + Number.EPSILON) * 100
-                ) / 100}{' '}
-                {ing.unit}
-              </Typography>
-            </Grid>
-            <Grid xs={8} key={`${index}-name`} sx={centerTopStyleCol}>
-              <Typography ml={1}>{ing.name}</Typography>
-            </Grid>
-          </>
-        ))}
+        {recipe.ingredients.items &&
+          recipe.ingredients.items.map((ing: Ingredient, index: number) => (
+            <>
+              <Grid xs={4} key={`${index}-amount`} sx={centerTopStyleCol}>
+                <Typography ml={1}>
+                  {Math.round(
+                    (ing.amount * (servings / recipe.ingredients.numServings) + Number.EPSILON) *
+                      100
+                  ) / 100}
+                  {ing.unit}
+                </Typography>
+              </Grid>
+              <Grid xs={8} key={`${index}-name`} sx={centerTopStyleCol}>
+                <Typography ml={1}>{ing.name}</Typography>
+              </Grid>
+            </>
+          ))}
+        {recipe.ingredients.sections &&
+          recipe.ingredients.sections.map((section: IngredientSection, index: number) => (
+            <>
+              <Grid xs={12} sx={centerStyle}>
+                <Typography sx={{ fontWeight: 'bold', color: 'text.secondary' }} my={0.2}>
+                  {section.name}
+                </Typography>
+              </Grid>
+              {section.items.map((ing: Ingredient, index: number) => (
+                <>
+                  <Grid xs={4} key={`${index}-amount`} sx={centerTopStyleCol}>
+                    <Typography ml={1}>
+                      {Math.round(
+                        (ing.amount * (servings / recipe.ingredients.numServings) +
+                          Number.EPSILON) *
+                          100
+                      ) / 100}
+                      {ing.unit}
+                    </Typography>
+                  </Grid>
+                  <Grid xs={8} key={`${index}-name`} sx={centerTopStyleCol}>
+                    <Typography ml={1}>{ing.name}</Typography>
+                  </Grid>
+                </>
+              ))}
+            </>
+          ))}
       </Grid>
 
       <Typography variant="h6">Steps</Typography>
