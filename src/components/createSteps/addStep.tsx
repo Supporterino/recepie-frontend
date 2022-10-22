@@ -56,7 +56,8 @@ const AddStep: React.FunctionComponent<AddStepProps> = ({
           fullWidth
           label="Step"
           multiline
-          maxRows={4}
+          minRows={3}
+          maxRows={10}
           value={step}
           onChange={handleStepChange}
           sx={{ mt: 1 }}
