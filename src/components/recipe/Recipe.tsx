@@ -52,6 +52,7 @@ import Loader from '../queryUtils/Loader';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteRecipe from './DeleteRecipe';
 import Review from './Rating';
+import RecipeImage from './RecipeImage';
 
 const RecipeView: React.FunctionComponent = () => {
   const { id } = useParams();
@@ -175,20 +176,12 @@ const RecipeView: React.FunctionComponent = () => {
       </Flex>
 
       <Flex>
-        <Box
-          sx={{
-            width: '100px',
-            height: '100px',
-            backgroundImage: `url(${
-              recipe.picture !== '' ? recipe.picture : 'images/no-pictures.png'
-            })`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            m: 1,
-            borderRadius: 2,
-            border: 0,
-            boxShadow: 3
-          }}
+        <RecipeImage
+          width="100px"
+          height="100px"
+          url={`${recipe.picture !== '' ? recipe.picture : 'images/no-pictures.png'}`}
+          sx={{ mr: 1, my: 1, boxShadow: 3 }}
+          rounded
         />
         <FlexCol sx={{ justifyContent: 'space-evenly' }}>
           <Typography variant="h5">{recipe.name}</Typography>

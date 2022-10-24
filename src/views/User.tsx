@@ -9,6 +9,7 @@ import FlexCol from '../components/layout/FlexCol';
 import { centerTopStyleCol } from '../components/layout/commonSx';
 import { Recipe } from '../types';
 import ListOverview from '../components/listViews/ListOverview';
+import UserImage from '../components/user/UserImage';
 
 const User: React.FunctionComponent = () => {
   const userID = authenticationManager.getUserID();
@@ -43,17 +44,11 @@ const User: React.FunctionComponent = () => {
     // TODO: Build site
     <FlexColContainer>
       <FlexCol sx={centerTopStyleCol}>
-        <Box
-          sx={{
-            width: '150px',
-            height: '150px',
-            backgroundImage: imgURL(),
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            m: 1,
-            borderRadius: 50,
-            border: 0
-          }}
+        <UserImage
+          width="150px"
+          height="150px"
+          url={`${user.avatar !== '' ? user.avatar : 'images/no-pictures.png'}`}
+          round
         />
         <Typography variant="h6">{user.username}</Typography>
       </FlexCol>

@@ -17,6 +17,7 @@ import { useSnackbar } from 'notistack';
 import { alignCenterJustifyCenter, centerStyle, flexCol } from '../layout/commonSx';
 import { useNavigate } from 'react-router-dom';
 import useLoggedIn from '../../hooks/useLoggedIn';
+import RecipeImage from '../recipe/RecipeImage';
 
 export type CardWideProps = {
   recipe: Recipe;
@@ -29,7 +30,7 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
   const loggedIn = useLoggedIn();
 
   const imgURL = () => {
-    return `url(${recipe.picture !== '' ? recipe.picture : 'images/no-pictures.png'})`;
+    return `${recipe.picture !== '' ? recipe.picture : 'images/no-pictures.png'}`;
   };
 
   const lineLimit = (num: number) => {
@@ -140,18 +141,11 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
           </Grid>
         </Box>
       </CardContent>
-      <Box
+      <RecipeImage
+        url={imgURL()}
+        width="120px"
+        height="150px"
         onClick={() => navigate(`/recipe/${recipe.id}`)}
-        sx={{
-          width: '150px',
-          height: '150px',
-          backgroundImage: imgURL(),
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          m: 1,
-          borderRadius: 1,
-          border: 0
-        }}
       />
     </Card>
   );

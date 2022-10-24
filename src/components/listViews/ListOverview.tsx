@@ -5,9 +5,9 @@ import FlexCol from '../layout/FlexCol';
 import ErrorDisplay from '../queryUtils/ErrorText';
 import Loader from '../queryUtils/Loader';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import ListPreview from './ListPreview';
 import { useNavigate } from 'react-router-dom';
 import { UseQueryResult } from '@tanstack/react-query';
+import RecipeImage from '../recipe/RecipeImage';
 
 type ListViewProps = {
   name: string;
@@ -44,11 +44,15 @@ const ListOverview: React.FunctionComponent<ListViewProps> = ({
         <Flex sx={{ flexGrow: 1, overflowX: 'hidden', flexWrap: 'no-wrap' }}>
           {recipes &&
             recipes.slice(0, numOfRecipes).map((recipe, index) => (
-              <ListPreview
-                imgURL={`url(${recipe.picture !== '' ? recipe.picture : 'images/no-pictures.png'})`}
+              <RecipeImage
+                url={`${recipe.picture !== '' ? recipe.picture : 'images/no-pictures.png'}`}
                 onClick={() => {
                   navigate(`/recipe/${recipe.id}`);
                 }}
+                height="100px"
+                width="100px"
+                rounded
+                sx={{ m: 1, boxShadow: 10 }}
               />
             ))}
         </Flex>

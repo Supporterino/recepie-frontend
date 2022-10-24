@@ -16,6 +16,7 @@
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "moment": "^2.29.4",
+    "mui-image": "^1.0.7",
     "notistack": "^2.0.5",
     "react": "^18.2.0",
     "react-device-detect": "^2.2.2",
@@ -51,6 +52,7 @@
     ]
   },
   "devDependencies": {
+    "@types/mui-image": "^1.0.1",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "eslint": "^8.22.0",
     "eslint-config-prettier": "^8.5.0",
