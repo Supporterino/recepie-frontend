@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Skeleton } from '@mui/material';
 import { Image } from 'mui-image';
 
 type UserImageProps = {
@@ -28,7 +28,7 @@ const UserImage: React.FunctionComponent<UserImageProps> = ({
         width={width}
         height={'100%'}
         fit={'cover'}
-        showLoading
+        showLoading={<Skeleton height={height} width={width} variant="circular" animation="wave" />}
       />
     </Box>
   );

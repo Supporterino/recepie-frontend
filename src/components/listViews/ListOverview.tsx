@@ -1,4 +1,4 @@
-import { IconButton, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, IconButton, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { Recipe } from '../../types';
 import Flex from '../layout/Flex';
 import FlexCol from '../layout/FlexCol';
@@ -8,6 +8,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useNavigate } from 'react-router-dom';
 import { UseQueryResult } from '@tanstack/react-query';
 import RecipeImage from '../recipe/RecipeImage';
+import { alignCenterJustifyCenter } from '../layout/commonSx';
 
 type ListViewProps = {
   name: string;
@@ -36,12 +37,20 @@ const ListOverview: React.FunctionComponent<ListViewProps> = ({
 
   return (
     // TODO: Better design
-    <FlexCol sx={{ mt: 1 }}>
-      <Typography variant="h5">{name}</Typography>
-      {isLoading && <Loader />}
-      {isError && <ErrorDisplay text={`${error}`} />}
+    <FlexCol sx={{ mt: 2, boxShadow: 10 }}>
+      <Flex sx={alignCenterJustifyCenter}>
+        <Typography sx={{ ml: 1 }} variant="h5">
+          {name}
+        </Typography>
+        <Box sx={{ flexGrow: 1 }} />
+        <Typography variant="body2" sx={{ m: 1, color: 'text.secondary' }}>
+          {recipes && `( ${recipes.length} )`}
+        </Typography>
+      </Flex>
       <Flex>
         <Flex sx={{ flexGrow: 1, overflowX: 'hidden', flexWrap: 'no-wrap' }}>
+          {isLoading && <Loader />}
+          {isError && <ErrorDisplay text={`${error}`} />}
           {recipes &&
             recipes.slice(0, numOfRecipes).map((recipe, index) => (
               <RecipeImage

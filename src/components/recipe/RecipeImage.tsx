@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Skeleton } from '@mui/material';
 import { Image } from 'mui-image';
 
 type RecipeImageProps = {
@@ -26,7 +26,7 @@ const RecipeImage: React.FunctionComponent<RecipeImageProps> = ({
         width={width}
         height={'100%'}
         fit={'cover'}
-        showLoading
+        showLoading={<Skeleton height={height} width={width} variant="rounded" animation="wave" />}
       />
     </Box>
   );

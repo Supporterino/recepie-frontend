@@ -8,7 +8,7 @@ import Settings from '../views/Settings';
 import Create from '../views/Create';
 import { isIOS } from 'react-device-detect';
 import { centerTopStyleRow } from './layout/commonSx';
-import User from '../views/User';
+import UserSite from '../views/User';
 import Lists from '../views/Lists';
 import ListView from './listViews/ListView';
 import EditRecipeView from './recipe/editRecipe';
@@ -35,7 +35,7 @@ const Layout: React.FunctionComponent = () => {
             <Route path="/register" element={<SignUp />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/create" element={<Create />} />
-            <Route path="/me" element={<User />} />
+            <Route path="/me" element={<UserSite />} />
             <Route path="/lists" element={<Lists />} />
             <Route path="/lists/:name" element={<ListView />} />
             <Route path="/recipe/:id" element={<RecipeView />} />
