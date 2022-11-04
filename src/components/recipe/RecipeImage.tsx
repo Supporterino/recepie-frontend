@@ -26,6 +26,7 @@ const RecipeImage: React.FunctionComponent<RecipeImageProps> = ({
         width={width}
         height={'100%'}
         fit={'cover'}
+        duration={100}
         showLoading={<Skeleton height={height} width={width} variant="rounded" animation="wave" />}
       />
     </Box>

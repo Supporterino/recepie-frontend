@@ -25,7 +25,7 @@ type ImageUploadProps = {
   open: boolean;
   close: Function;
   target: Target;
-  recipeID: string;
+  recipeID?: string;
 };
 
 const ImageUpload: React.FunctionComponent<ImageUploadProps> = ({
@@ -48,6 +48,7 @@ const ImageUpload: React.FunctionComponent<ImageUploadProps> = ({
           queryClient.invalidateQueries(['ownFavorites']),
           queryClient.invalidateQueries(['lists']),
           queryClient.invalidateQueries(['recipe', recipeID]),
+          queryClient.invalidateQueries(['users']),
           close()
         ]);
       },
@@ -63,7 +64,7 @@ const ImageUpload: React.FunctionComponent<ImageUploadProps> = ({
       const data: FormData = new FormData();
       data.append('target', target);
       if (target === Target.USER) data.append('userID', authenticationManager.getUserID());
-      if (target === Target.RECIPE) data.append('recipeID', recipeID);
+      if (target === Target.RECIPE) data.append('recipeID', recipeID!);
       data.append('myfile', (inputFile.current!.children[0]! as HTMLInputElement).files![0]);
 
       uploadMutation.mutate(data);

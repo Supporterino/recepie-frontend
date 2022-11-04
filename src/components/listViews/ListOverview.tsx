@@ -1,4 +1,4 @@
-import { Box, IconButton, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Divider, IconButton, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { Recipe } from '../../types';
 import Flex from '../layout/Flex';
 import FlexCol from '../layout/FlexCol';
@@ -47,6 +47,7 @@ const ListOverview: React.FunctionComponent<ListViewProps> = ({
           {recipes && `( ${recipes.length} )`}
         </Typography>
       </Flex>
+      <Divider light variant="middle" />
       <Flex>
         <Flex sx={{ flexGrow: 1, overflowX: 'hidden', flexWrap: 'no-wrap' }}>
           {isLoading && <Loader />}
