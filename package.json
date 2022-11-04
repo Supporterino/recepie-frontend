@@ -1,6 +1,6 @@
 {
   "name": "recepie-frontend-v2",
-  "version": "0.2.58",
+  "version": "0.2.59",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.0",
