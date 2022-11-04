@@ -7,7 +7,7 @@ const useLoggedIn = () => {
   useEffect(() => {
     if (authenticationManager.hasUser() && !loggedIn) setLoggedIn(true);
     if (!authenticationManager.hasUser() && loggedIn) setLoggedIn(false);
-  });
+  }, [loggedIn]);
 
   return loggedIn;
 };

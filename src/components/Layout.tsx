@@ -13,6 +13,7 @@ import Lists from '../views/Lists';
 import ListView from './listViews/ListView';
 import EditRecipeView from './recipe/editRecipe';
 import RecipeView from './recipe/Recipe';
+import Verification from './auth/Verification';
 
 const Layout: React.FunctionComponent = () => {
   const isStandalone = useMediaQuery('(display-mode: standalone)');
@@ -40,6 +41,7 @@ const Layout: React.FunctionComponent = () => {
             <Route path="/lists/:name" element={<ListView />} />
             <Route path="/recipe/:id" element={<RecipeView />} />
             <Route path="/edit/:id" element={<EditRecipeView />} />
+            <Route path="/completeVerification" element={<Verification />} />
             <Route path="/" element={<Home />} />
           </Routes>
         </Paper>

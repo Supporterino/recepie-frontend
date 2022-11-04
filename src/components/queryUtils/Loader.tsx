@@ -1,27 +1,28 @@
-import { Box, CircularProgress, Container, Grid, Typography } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
+import { alignCenterJustifyCenter } from '../layout/commonSx';
+import FlexCol from '../layout/FlexCol';
 
-const Loader: React.FunctionComponent = () => {
+type LoaderProps = {
+  text?: string;
+};
+
+const Loader: React.FunctionComponent<LoaderProps> = ({ text }: LoaderProps) => {
   return (
-    <Container sx={{ flexGrow: 1 }}>
-      <Grid
-        container
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-        height={'100%'}
+    <FlexCol sx={{ flexGrow: 1, ...alignCenterJustifyCenter }}>
+      <Box
+        sx={{
+          backgroundColor: (theme) => theme.palette.background.default,
+          borderRadius: 4,
+          p: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          ...alignCenterJustifyCenter
+        }}
       >
-        <Box
-          sx={{
-            backgroundColor: (theme) => theme.palette.background.default,
-            borderRadius: 4,
-            p: 2
-          }}
-        >
-          <CircularProgress sx={{ mx: 3, my: 1 }} />
-          <Typography sx={{ mx: 1 }}>Loading...</Typography>
-        </Box>
-      </Grid>
-    </Container>
+        <CircularProgress sx={{ mx: 3, my: 1 }} />
+        <Typography sx={{ mx: 1 }}>{text ? text : 'Loading...'}</Typography>
+      </Box>
+    </FlexCol>
   );
 };
 
