@@ -1,17 +1,17 @@
-import { Box, Container } from '@mui/material';
+import { Box, Container, SxProps, Theme } from '@mui/material';
 import { alignCenterJustifyCenter } from './commonSx';
 
-type FlexBoxProps = {
+type FlexColContainerProps = {
   header?: React.ReactNode;
   children?: React.ReactNode;
-  sx?: {};
+  sx?: SxProps<Theme>;
 };
 
-const FlexColContainer: React.FunctionComponent<FlexBoxProps> = ({
+const FlexColContainer: React.FunctionComponent<FlexColContainerProps> = ({
   children,
   sx,
   header
-}: FlexBoxProps) => {
+}: FlexColContainerProps) => {
   return (
     <Box
       sx={{

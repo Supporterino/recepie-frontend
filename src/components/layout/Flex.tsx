@@ -1,12 +1,12 @@
-import { Box } from '@mui/material';
+import { Box, SxProps, Theme } from '@mui/material';
 
-type FlexBoxProps = {
+type FlexProps = {
   children?: React.ReactNode;
-  sx?: {};
+  sx?: SxProps<Theme>;
   onClick?: React.MouseEventHandler<HTMLDivElement> | undefined;
 };
 
-const Flex: React.FunctionComponent<FlexBoxProps> = ({ children, sx, onClick }: FlexBoxProps) => {
+const Flex: React.FunctionComponent<FlexProps> = ({ children, sx, onClick }: FlexProps) => {
   return (
     <Box onClick={onClick} sx={{ display: 'flex', flexDirection: 'row', ...sx }}>
       {children}

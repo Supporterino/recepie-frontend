@@ -1,11 +1,11 @@
-import { Box } from '@mui/material';
+import { Box, SxProps, Theme } from '@mui/material';
 
-type FlexBoxProps = {
+type FlexColProps = {
   children?: React.ReactNode;
-  sx?: {};
+  sx?: SxProps<Theme>;
 };
 
-const FlexCol: React.FunctionComponent<FlexBoxProps> = ({ children, sx }: FlexBoxProps) => {
+const FlexCol: React.FunctionComponent<FlexColProps> = ({ children, sx }: FlexColProps) => {
   return <Box sx={{ display: 'flex', flexDirection: 'column', ...sx }}>{children}</Box>;
 };
 
