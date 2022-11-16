@@ -23,6 +23,7 @@ export const updateRatingUrl = baseUrl + secured + 'v1/rating/updateRating';
 export const ownRatingUrl = baseUrl + secured + 'v1/rating/getRatingForUser';
 export const getOwnRecipesUrl = baseUrl + secured + 'v1/recipe-provider/getMyRecipes';
 export const completeVerifyUrl = baseUrl + unSecured + 'v1/verification/completeVerification';
+export const startVerifyUrl = baseUrl + secured + 'v1/verification/verifyEmail';
 
 export const getByIDUrl = () =>
   baseUrl + (authenticationManager.hasUser() ? secured : unSecured) + 'v1/recipe-provider/getById';
