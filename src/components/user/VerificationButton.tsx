@@ -15,9 +15,9 @@ const VerificationButton: React.FunctionComponent = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [enabled, setEnabled] = useState<boolean>(loggedIn);
   const {
-    isLoading,
     isError,
     error,
+    isFetching,
     data: user
   } = useQuery<User>(['users', userID], () => getUser(userID.current!), {
     enabled: !!userID.current
@@ -48,11 +48,11 @@ const VerificationButton: React.FunctionComponent = () => {
       onClick={() => verificationStartMutation.mutate()}
       variant="contained"
     >
-      {isLoading && 'Prefetching your user...'}
+      {isFetching && 'Prefetching your user...'}
       {user && user.verified && 'Already verified'}
       {user && !user.verified && 'Start verification'}
       {verificationStartMutation.isLoading && 'Sending request...'}
-      {!user && !isLoading && !verificationStartMutation.isLoading && '-'}
+      {!user && !isFetching && !verificationStartMutation.isLoading && '-'}
     </Button>
   );
 };

@@ -3,11 +3,9 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
 import { LoginResponse } from '../types';
@@ -16,16 +14,16 @@ import { authenticationManager } from '../services/AuthenticationManager';
 import moment from 'moment';
 import { useSnackbar } from 'notistack';
 import PasswordInput from '../components/auth/PasswordInput';
+import FlexColContainer from '../components/layout/FlexColContainer';
+import FlexCol from '../components/layout/FlexCol';
+import { alignCenterJustifyCenter } from '../components/layout/commonSx';
+import Flex from '../components/layout/Flex';
 
 const SignIn: React.FunctionComponent = () => {
   type IFormData = { email: string; password: string };
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors }
-  } = useForm<IFormData>();
+  const { register, handleSubmit } = useForm<IFormData>();
 
   const login: SubmitHandler<IFormData> = async (data: IFormData) => {
     console.log(`Entered user credentials`, data);
@@ -60,15 +58,8 @@ const SignIn: React.FunctionComponent = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Box
-        sx={{
-          paddingTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center'
-        }}
-      >
+    <FlexColContainer>
+      <FlexCol sx={{ pt: 8, ...alignCenterJustifyCenter }}>
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
@@ -97,26 +88,22 @@ const SignIn: React.FunctionComponent = () => {
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Sign In
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link
-                onClick={() => {
-                  navigate('/register');
-                }}
-                variant="body2"
-              >
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
+          <Flex sx={{ width: '100%' }}>
+            <Link href="#" variant="body2" sx={{ flexGrow: 1 }}>
+              Forgot password?
+            </Link>
+            <Link
+              onClick={() => {
+                navigate('/register');
+              }}
+              variant="body2"
+            >
+              {"Don't have an account? Sign Up"}
+            </Link>
+          </Flex>
         </Box>
-      </Box>
-    </Container>
+      </FlexCol>
+    </FlexColContainer>
   );
 };
 

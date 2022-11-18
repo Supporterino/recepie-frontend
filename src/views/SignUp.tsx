@@ -1,29 +1,26 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import { useForm, SubmitHandler, SubmitErrorHandler } from 'react-hook-form';
 import PasswordInput from '../components/auth/PasswordInput';
 import sendRequest, { registerUrl } from '../services/requestService';
+import { alignCenterJustifyCenter } from '../components/layout/commonSx';
+import Flex from '../components/layout/Flex';
+import FlexCol from '../components/layout/FlexCol';
+import FlexColContainer from '../components/layout/FlexColContainer';
 
 const SignUp: React.FunctionComponent = () => {
   type IFormData = { username: string; email: string; password: string };
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors }
-  } = useForm<IFormData>();
+  const { register, handleSubmit } = useForm<IFormData>();
 
   const reg: SubmitHandler<IFormData> = async (data: IFormData) => {
     console.log(`Entered user credentials`, data);
@@ -61,83 +58,59 @@ const SignUp: React.FunctionComponent = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Box
-        sx={{
-          paddingTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center'
-        }}
-      >
+    <FlexColContainer>
+      <FlexCol sx={{ pt: 8, ...alignCenterJustifyCenter }}>
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Sign in
         </Typography>
         <Box component="form" onSubmit={handleSubmit(reg, invalidSubmitHandler)} sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                {...register('username')}
-                autoComplete="username"
-                name="username"
-                margin="normal"
-                required
-                fullWidth
-                id="username"
-                label="Username"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                {...register('email')}
-                required
-                fullWidth
-                margin="normal"
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <PasswordInput
-                formRegister={register('password')}
-                name="password"
-                label="Password"
-                id="password"
-                autoComplete="new-password"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              {/* <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              /> */}
-            </Grid>
-          </Grid>
+          <TextField
+            {...register('username')}
+            autoComplete="username"
+            name="username"
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            label="Username"
+            autoFocus
+          />
+          <TextField
+            {...register('email')}
+            required
+            fullWidth
+            margin="normal"
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+          />
+          <PasswordInput
+            formRegister={register('password')}
+            name="password"
+            label="Password"
+            id="password"
+            autoComplete="new-password"
+          />
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Sign Up
           </Button>
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link
-                onClick={() => {
-                  navigate('/login');
-                }}
-                variant="body2"
-              >
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
+          <Flex sx={{ width: '100%' }}>
+            <Link
+              onClick={() => {
+                navigate('/login');
+              }}
+              variant="body2"
+            >
+              Already have an account? Sign in
+            </Link>
+          </Flex>
         </Box>
-      </Box>
-    </Container>
+      </FlexCol>
+    </FlexColContainer>
   );
 };
 

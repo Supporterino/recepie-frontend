@@ -215,8 +215,12 @@ const RecipeView: React.FunctionComponent = () => {
 
       <Typography variant="h6">Ingredients</Typography>
       <Flex sx={{ mt: 1, ...alignCenterJustifyCenter }}>
-        <IconButton size="small" onClick={() => setServings((prev) => prev + 1)}>
-          <AddIcon />
+        <IconButton
+          size="small"
+          disabled={servings === 1}
+          onClick={() => setServings((prev) => prev - 1)}
+        >
+          <RemoveIcon />
         </IconButton>
         <TextField
           size="small"
@@ -224,13 +228,9 @@ const RecipeView: React.FunctionComponent = () => {
           label="Servings"
           onChange={(event) => setServings(+event.target.value)}
           value={servings}
-        ></TextField>
-        <IconButton
-          size="small"
-          disabled={servings === 1}
-          onClick={() => setServings((prev) => prev - 1)}
-        >
-          <RemoveIcon />
+        />
+        <IconButton size="small" onClick={() => setServings((prev) => prev + 1)}>
+          <AddIcon />
         </IconButton>
       </Flex>
 
