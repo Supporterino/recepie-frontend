@@ -18,12 +18,15 @@ import FlexColContainer from '../components/layout/FlexColContainer';
 import FlexCol from '../components/layout/FlexCol';
 import { alignCenterJustifyCenter } from '../components/layout/commonSx';
 import Flex from '../components/layout/Flex';
+import ResetPasswordStart from '../components/auth/ResetPasswordStart';
+import { useState } from 'react';
 
 const SignIn: React.FunctionComponent = () => {
   type IFormData = { email: string; password: string };
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const { register, handleSubmit } = useForm<IFormData>();
+  const [resetOpen, setResetOpen] = useState<boolean>(false);
 
   const login: SubmitHandler<IFormData> = async (data: IFormData) => {
     console.log(`Entered user credentials`, data);
@@ -59,6 +62,7 @@ const SignIn: React.FunctionComponent = () => {
 
   return (
     <FlexColContainer>
+      <ResetPasswordStart open={resetOpen} close={() => setResetOpen(false)} />
       <FlexCol sx={{ pt: 8, ...alignCenterJustifyCenter }}>
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
@@ -89,7 +93,7 @@ const SignIn: React.FunctionComponent = () => {
             Sign In
           </Button>
           <Flex sx={{ width: '100%' }}>
-            <Link href="#" variant="body2" sx={{ flexGrow: 1 }}>
+            <Link onClick={() => setResetOpen(true)} variant="body2" sx={{ flexGrow: 1 }}>
               Forgot password?
             </Link>
             <Link

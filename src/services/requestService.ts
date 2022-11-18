@@ -24,6 +24,7 @@ export const ownRatingUrl = baseUrl + secured + 'v1/rating/getRatingForUser';
 export const getOwnRecipesUrl = baseUrl + secured + 'v1/recipe-provider/getMyRecipes';
 export const completeVerifyUrl = baseUrl + unSecured + 'v1/verification/completeVerification';
 export const startVerifyUrl = baseUrl + secured + 'v1/verification/verifyEmail';
+export const resetPasswordUrl = baseUrl + unSecured + 'v1/verification/passwordReset';
 
 export const getByIDUrl = () =>
   baseUrl + (authenticationManager.hasUser() ? secured : unSecured) + 'v1/recipe-provider/getById';
@@ -66,17 +67,30 @@ const sendRequest = async (url: string, method: string, data?: any, isJSON: bool
   console.log('--- OPTIONS ---');
   console.log(fetchOptions.headers?.toString());
 
-  try {
-    const res: Response | null = await fetch(url, fetchOptions);
-    if (!res) throw new Error('No response received');
-    console.log('--- RESPONSE ---');
-    console.log(res);
-    console.log('--- -------- ---');
-    if (!res.ok) throw new Error(`Non OK Status code. $${res.status} - ${res.statusText}`);
-    return res;
-  } catch (error) {
-    throw error;
-  }
+  const res: Response | null = await fetch(url, fetchOptions);
+  if (!res) throw new Error('No response received');
+  console.log('--- RESPONSE ---');
+  console.log(res);
+  console.log('--- -------- ---');
+  if (!res.ok)
+    throw new NonOKStatusCode(`Non OK Status code. ${res.status} - ${res.statusText}`, res.status);
+  return res;
 };
 
 export default sendRequest;
+class NonOKStatusCode extends Error {
+  private _statusCode: number;
+  public get statusCode(): number {
+    return this._statusCode;
+  }
+  public set statusCode(value: number) {
+    this._statusCode = value;
+  }
+  constructor(msg: string, sC: number) {
+    super(msg);
+    Object.setPrototypeOf(this, NonOKStatusCode.prototype);
+    this._statusCode = sC;
+  }
+}
+
+export { NonOKStatusCode };
