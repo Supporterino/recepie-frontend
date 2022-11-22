@@ -9,6 +9,8 @@ type PasswordInputProps = {
   autoComplete: string;
   id: string;
   formRegister: UseFormRegisterReturn;
+  error?: boolean;
+  errorText?: string;
 };
 
 const PasswordInput: React.FunctionComponent<PasswordInputProps> = ({
@@ -16,7 +18,9 @@ const PasswordInput: React.FunctionComponent<PasswordInputProps> = ({
   name,
   autoComplete,
   id,
-  formRegister
+  formRegister,
+  error,
+  errorText
 }: PasswordInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -27,6 +31,8 @@ const PasswordInput: React.FunctionComponent<PasswordInputProps> = ({
       name={name}
       autoComplete={autoComplete}
       id={id}
+      error={error}
+      helperText={error ? errorText : undefined}
       type={showPassword ? 'text' : 'password'}
       margin="normal"
       required

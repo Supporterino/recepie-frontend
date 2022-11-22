@@ -8,13 +8,14 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
-import { useForm, SubmitHandler, SubmitErrorHandler } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import PasswordInput from '../components/auth/PasswordInput';
-import sendRequest, { registerUrl } from '../services/requestService';
+import sendRequest, { NonOKStatusCode, registerUrl } from '../services/requestService';
 import { alignCenterJustifyCenter } from '../components/layout/commonSx';
 import Flex from '../components/layout/Flex';
 import FlexCol from '../components/layout/FlexCol';
 import FlexColContainer from '../components/layout/FlexColContainer';
+import { useMutation } from '@tanstack/react-query';
 
 const SignUp: React.FunctionComponent = () => {
   type IFormData = { username: string; email: string; password: string };
@@ -22,32 +23,29 @@ const SignUp: React.FunctionComponent = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { register, handleSubmit } = useForm<IFormData>();
 
-  const reg: SubmitHandler<IFormData> = async (data: IFormData) => {
-    console.log(`Entered user credentials`, data);
-    const res = await sendRequest(registerUrl, 'POST', data, true);
-    if (res) {
-      if (res.status === 409) {
-        alreadyRegistered();
-        return;
-      }
-      if (res.status !== 200) {
-        retryRegister();
-        return;
-      }
-      enqueueSnackbar('Registration successfull.', { variant: 'success' });
-      navigate('/login');
-    } else {
-      retryRegister();
+  const registerMutation = useMutation(
+    (data: IFormData) => sendRequest(registerUrl, 'POST', data),
+    {
+      onError: (error, variables, context) => {
+        switch ((error as NonOKStatusCode).statusCode) {
+          case 409:
+            alreadyRegistered();
+            break;
+          default:
+            enqueueSnackbar('Registration failed. Please try again', { variant: 'warning' });
+            break;
+        }
+      },
+      onSuccess: (data, variables, context) => {
+        enqueueSnackbar('Registration successfull.', { variant: 'success' });
+        navigate('/login');
+      },
+      retry: false
     }
-  };
+  );
 
-  const invalidSubmitHandler: SubmitErrorHandler<IFormData> = () => {
-    enqueueSnackbar('Missing data in fields.', { variant: 'warning' });
-  };
-
-  const retryRegister = () => {
-    enqueueSnackbar('Registration failed. Please try again', { variant: 'warning' });
-    navigate('/register');
+  const reg: SubmitHandler<IFormData> = async (data: IFormData) => {
+    registerMutation.mutate(data);
   };
 
   const alreadyRegistered = () => {
@@ -66,7 +64,7 @@ const SignUp: React.FunctionComponent = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <Box component="form" onSubmit={handleSubmit(reg, invalidSubmitHandler)} sx={{ mt: 3 }}>
+        <Box component="form" onSubmit={handleSubmit(reg)} sx={{ mt: 3 }}>
           <TextField
             {...register('username')}
             autoComplete="username"
@@ -95,7 +93,13 @@ const SignUp: React.FunctionComponent = () => {
             id="password"
             autoComplete="new-password"
           />
-          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+          <Button
+            disabled={registerMutation.isLoading}
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
             Sign Up
           </Button>
           <Flex sx={{ width: '100%' }}>

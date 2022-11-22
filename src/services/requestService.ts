@@ -25,6 +25,8 @@ export const getOwnRecipesUrl = baseUrl + secured + 'v1/recipe-provider/getMyRec
 export const completeVerifyUrl = baseUrl + unSecured + 'v1/verification/completeVerification';
 export const startVerifyUrl = baseUrl + secured + 'v1/verification/verifyEmail';
 export const resetPasswordUrl = baseUrl + unSecured + 'v1/verification/passwordReset';
+export const completePasswordResetUrl =
+  baseUrl + unSecured + 'v1/verification/completePasswordReset';
 
 export const getByIDUrl = () =>
   baseUrl + (authenticationManager.hasUser() ? secured : unSecured) + 'v1/recipe-provider/getById';
