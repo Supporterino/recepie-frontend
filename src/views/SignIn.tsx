@@ -30,8 +30,8 @@ const SignIn: React.FunctionComponent = () => {
   const [resetOpen, setResetOpen] = useState<boolean>(false);
 
   const loginMutation = useMutation((data: IFormData) => sendRequest(loginUrl, 'POST', data), {
-    onSuccess: (data, variables, context) => {
-      const loginData = data as unknown as LoginResponse;
+    onSuccess: async (data, variables, context) => {
+      const loginData = (await data.json()) as LoginResponse;
       authenticationManager.updateAuthData({
         jwt: loginData.jwtToken,
         refreshToken: loginData.refreshToken,
