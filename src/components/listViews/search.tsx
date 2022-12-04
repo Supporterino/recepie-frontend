@@ -15,13 +15,13 @@ import FlexCol from '../layout/FlexCol';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { alignCenterJustifyCenter, alignCenterJustifyEvenly } from '../layout/commonSx';
 import { Recipe } from '../../types';
 import { useQuery } from '@tanstack/react-query';
 import { getAllRecipes, getAllTags, getFilteredRecipes } from '../../services/requests';
 import { useEffect, useState } from 'react';
 import { Coronavirus } from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
 
 type SearchProps = {
   setRecipes: React.Dispatch<React.SetStateAction<Recipe[]>>;
@@ -36,18 +36,14 @@ const Search: React.FunctionComponent<SearchProps> = ({
   setIsLoading,
   setError
 }: SearchProps) => {
-  const {
-    isLoading: tagsLoading,
-    isError: tagsEroor,
-    error: tagsErrorText,
-    data
-  } = useQuery(['tags'], getAllTags);
+  const { data } = useQuery(['tags'], getAllTags);
   const [name, setName] = useState<string>('');
   const [minRating, setMinRating] = useState<number>(0);
   const [tags, setTags] = useState<string[]>([]);
   const [moreOptions, setMoreOptions] = useState<boolean>(false);
   const [rerender, setRerender] = useState<boolean>(false);
   const theme = useTheme();
+  const { t } = useTranslation('search');
 
   const deleteTag = (toDelete: string) => {
     setTags(tags.filter((tag) => tag !== toDelete));
@@ -111,7 +107,7 @@ const Search: React.FunctionComponent<SearchProps> = ({
         </IconButton>
         <InputBase
           fullWidth
-          placeholder="Search for recipe"
+          placeholder={t('placeholder')}
           sx={{ ml: 1 }}
           value={name}
           onChange={(event) => setName(event.target.value)}
@@ -132,7 +128,7 @@ const Search: React.FunctionComponent<SearchProps> = ({
         <>
           <Divider />
           <Flex sx={{ mt: 0.5, p: 1, ...alignCenterJustifyEvenly }}>
-            <Typography variant="body2">Minimum rating</Typography>
+            <Typography variant="body2">{t('minRating')}</Typography>
             <Rating
               disabled={isLoading}
               value={minRating}
@@ -166,7 +162,9 @@ const Search: React.FunctionComponent<SearchProps> = ({
                 const filtered = filter(options, params);
                 return filtered;
               }}
-              renderInput={(params) => <TextField label="Tags" {...params} variant="outlined" />}
+              renderInput={(params) => (
+                <TextField label={t('tags')} {...params} variant="outlined" />
+              )}
             />
           </Flex>
         </>

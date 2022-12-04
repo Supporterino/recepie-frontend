@@ -7,7 +7,7 @@ import './App.css';
 import Layout from './components/Layout';
 import ColorModeContext, { themeMode } from './services/ThemeContext';
 import theme from './theme';
-
+import './utils/i18n';
 const App: React.FunctionComponent = () => {
   const THEME_KEY = 'themeMode';
   const queryClient = new QueryClient({

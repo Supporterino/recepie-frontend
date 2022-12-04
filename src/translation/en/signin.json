@@ -1,0 +1,24 @@
+{
+  "title": "Sign in",
+  "snackbar": {
+    "success": "Successfully logged in.",
+    "failed": "Failed to log in. Please try again.",
+    "wrongMail": "No account with provided mail address.",
+    "unverified": "Your mail address isn't verified. Contact support.",
+    "error": "General server error. Please try again",
+    "successReset": "Sent password reset mail. Check your inbox."
+  },
+  "formFields": {
+    "email": "Mail address",
+    "password": "Password"
+  },
+  "buttons": {
+    "signin": "Sign In",
+    "forgot": "Forgot password?",
+    "signup": "Don't have an account? Sign Up"
+  },
+  "resetDialog": {
+    "title": "Reset password?",
+    "text": "You are about to request a password reset url to your registered e-mail address. Your\ne-mail needs to be verified for the request to be sent. If you haven't verified your\ne-mail please contact the support if you can't login."
+  }
+}

@@ -9,6 +9,7 @@ import { moveInArray } from '../../utils/arrayUtils';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import AddStep from './addStep';
+import { useTranslation } from 'react-i18next';
 
 const Steps: React.FunctionComponent = () => {
   const formContext = useFormContext();
@@ -17,6 +18,7 @@ const Steps: React.FunctionComponent = () => {
   const [open, setOpen] = useState<boolean>(false);
   const handleClose = () => setOpen(false);
   const handleOpen = () => setOpen(true);
+  const { t } = useTranslation(['common', 'create']);
 
   const handleStepDelete = (toDelete: string) => {
     setSteps(steps.filter((step) => step !== toDelete));
@@ -35,11 +37,11 @@ const Steps: React.FunctionComponent = () => {
       <AddStep open={open} close={handleClose} updateData={setSteps} />
       {/* Actual UI */}
       <Button variant="outlined" onClick={handleOpen}>
-        Add Step
+        {t('create:stepDialog.formFields.submit')}
       </Button>
 
       <Typography m={1} variant="h6">
-        Steps
+        {t('create:stepDialog.formFields.steps')}
       </Typography>
       <Grid container mt={1} sx={gridOutline}>
         {steps.map((step: string, index: number) => (

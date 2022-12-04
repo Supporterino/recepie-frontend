@@ -1,0 +1,26 @@
+{
+  "headers": {
+    "language": "Language",
+    "theming": "Theming",
+    "account": "Account",
+    "version": "Version"
+  },
+  "theme": {
+    "light": "light mode",
+    "dark": "dark mode"
+  },
+  "logoutButton": "Logout",
+  "version": {
+    "frontend": "Frontend",
+    "backend": "Backend"
+  },
+  "verification": {
+    "startEmail": "Verification process started. Check your mail for next steps.",
+    "failedEmail": "Failed to start verification process. Please try again in a few moments.",
+    "fetching": "Loading your user...",
+    "verified": "Verified",
+    "unverified": "Start verification process",
+    "pending": "Pending",
+    "none": "-"
+  }
+}

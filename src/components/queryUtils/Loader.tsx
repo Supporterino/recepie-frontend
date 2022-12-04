@@ -1,4 +1,5 @@
 import { Box, CircularProgress, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { alignCenterJustifyCenter } from '../layout/commonSx';
 import FlexCol from '../layout/FlexCol';
 
@@ -7,6 +8,7 @@ type LoaderProps = {
 };
 
 const Loader: React.FunctionComponent<LoaderProps> = ({ text }: LoaderProps) => {
+  const { t } = useTranslation('common');
   return (
     <FlexCol sx={{ flexGrow: 1, ...alignCenterJustifyCenter }}>
       <Box
@@ -20,7 +22,7 @@ const Loader: React.FunctionComponent<LoaderProps> = ({ text }: LoaderProps) => 
         }}
       >
         <CircularProgress sx={{ mx: 3, my: 1 }} />
-        <Typography sx={{ mx: 1 }}>{text ? text : 'Loading...'}</Typography>
+        <Typography sx={{ mx: 1 }}>{text ? text : t('loader.text')}</Typography>
       </Box>
     </FlexCol>
   );

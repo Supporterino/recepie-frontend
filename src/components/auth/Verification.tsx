@@ -10,10 +10,12 @@ import FlexColContainer from '../layout/FlexColContainer';
 import ErrorDisplay from '../queryUtils/ErrorText';
 import Loader from '../queryUtils/Loader';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { useTranslation } from 'react-i18next';
 
 const Verification: React.FunctionComponent = () => {
   const query = useQuery();
   const navigate = useNavigate();
+  const { t } = useTranslation('verification');
 
   const completeVerifyMutation = useMutation(
     () =>
@@ -31,7 +33,7 @@ const Verification: React.FunctionComponent = () => {
 
   return (
     <FlexColContainer>
-      {completeVerifyMutation.isLoading && <Loader text="Verifying your email address." />}
+      {completeVerifyMutation.isLoading && <Loader text={t('loading')} />}
       {completeVerifyMutation.isError && <ErrorDisplay text={`${completeVerifyMutation.error}`} />}
       {completeVerifyMutation.isSuccess && (
         <FlexCol sx={{ flexGrow: 1, ...alignCenterJustifyCenter }}>
@@ -46,8 +48,8 @@ const Verification: React.FunctionComponent = () => {
             }}
           >
             <CheckCircleIcon sx={{ fontSize: 60 }} />
-            <Typography>Verification complete</Typography>
-            <Button onClick={() => navigate('/', { replace: true })}>Go home.</Button>
+            <Typography>{t('success')}</Typography>
+            <Button onClick={() => navigate('/', { replace: true })}>{t('home')}</Button>
           </Box>
         </FlexCol>
       )}

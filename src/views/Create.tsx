@@ -4,6 +4,7 @@ import { useSnackbar } from 'notistack';
 import React from 'react';
 import { useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import BasicInfos from '../components/createSteps/basicInfos';
 import Ingredients from '../components/createSteps/ingredients';
 import Steps from '../components/createSteps/steps';
@@ -28,6 +29,7 @@ const Create: React.FunctionComponent = () => {
   const [activeStep, setActiveStep] = useState(0);
   const queryClient = useQueryClient();
   const { enqueueSnackbar } = useSnackbar();
+  const { t } = useTranslation(['common', 'create']);
 
   const totalSteps = () => {
     return steps.length;
@@ -66,7 +68,7 @@ const Create: React.FunctionComponent = () => {
       default:
         return (
           <FlexColContainer>
-            <Typography>You broke it</Typography>
+            <Typography>{t('create:broken')}</Typography>
           </FlexColContainer>
         );
     }
@@ -82,7 +84,7 @@ const Create: React.FunctionComponent = () => {
       (data.ingredients.length > 0 || data.sections.length > 0)
     )
       submitRecipeMutation.mutate(data);
-    else enqueueSnackbar('Please fillout all required fields.', { variant: 'error' });
+    else enqueueSnackbar(t('create:snackbar.missing'), { variant: 'error' });
   };
 
   const submitRecipeMutation = useMutation(
@@ -105,11 +107,11 @@ const Create: React.FunctionComponent = () => {
       onSuccess: () => {
         methods.reset();
         handleReset();
-        enqueueSnackbar('Recipe added.', { variant: 'success' });
+        enqueueSnackbar(t('create:snackbar.success'), { variant: 'success' });
         return queryClient.invalidateQueries(['recipes']);
       },
       onError: (error, variables, context) => {
-        enqueueSnackbar('Failed to set favorite on recipe', { variant: 'warning' });
+        enqueueSnackbar(`${t('create:snackbar.error')}${error}`, { variant: 'warning' });
       }
     }
   );
@@ -148,18 +150,18 @@ const Create: React.FunctionComponent = () => {
                 sx={{ mt: 2, mb: 2 }}
                 disabled={isFirstStep()}
               >
-                Back
+                {t('common:buttons.back')}
               </Button>
             </Grid>
             <Grid item xs={5}>
               {!isLastStep() && (
                 <Button onClick={handleNext} fullWidth variant="contained" sx={{ mt: 2, mb: 2 }}>
-                  Next
+                  {t('common:buttons.next')}
                 </Button>
               )}
               {isLastStep() && (
                 <Button type="submit" fullWidth variant="contained" sx={{ mt: 2, mb: 2 }}>
-                  Submit
+                  {t('common:buttons.submit')}
                 </Button>
               )}
             </Grid>

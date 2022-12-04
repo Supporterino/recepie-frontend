@@ -1,0 +1,10 @@
+{
+  "roles": {
+    "SUPERADMIN": "Owner",
+    "USER": "User",
+    "MODERATOR": "Moderator",
+    "ADMIN": "Admin"
+  },
+  "verified": "Verified",
+  "unverified": "Unverified"
+}

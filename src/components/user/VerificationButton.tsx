@@ -2,6 +2,7 @@ import { Button } from '@mui/material';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import useLoggedIn from '../../hooks/useLoggedIn';
 import { authenticationManager } from '../../services/AuthenticationManager';
 import { getUser } from '../../services/requests';
@@ -13,6 +14,7 @@ const VerificationButton: React.FunctionComponent = () => {
   const loggedIn = useLoggedIn();
   const userID = useRef<string>();
   const { enqueueSnackbar } = useSnackbar();
+  const { t } = useTranslation('settings');
   const [enabled, setEnabled] = useState<boolean>(loggedIn);
   const {
     isError,
@@ -32,10 +34,10 @@ const VerificationButton: React.FunctionComponent = () => {
 
   const verificationStartMutation = useMutation(() => sendRequest(startVerifyUrl, 'GET'), {
     onSuccess: async () => {
-      enqueueSnackbar('Verification started. Check your mail', { variant: 'success' });
+      enqueueSnackbar(t('verification.startEmail'), { variant: 'success' });
     },
     onError: (error, variables, context) => {
-      enqueueSnackbar('Failed to start email verification', { variant: 'error' });
+      enqueueSnackbar(t('verification.failedEmail'), { variant: 'error' });
     }
   });
 
@@ -48,11 +50,11 @@ const VerificationButton: React.FunctionComponent = () => {
       onClick={() => verificationStartMutation.mutate()}
       variant="contained"
     >
-      {isFetching && 'Prefetching your user...'}
-      {user && user.verified && 'Already verified'}
-      {user && !user.verified && 'Start verification'}
-      {verificationStartMutation.isLoading && 'Sending request...'}
-      {!user && !isFetching && !verificationStartMutation.isLoading && '-'}
+      {isFetching && t('verification.fetching')}
+      {user && user.verified && t('verification.verified')}
+      {user && !user.verified && t('verification.unverified')}
+      {verificationStartMutation.isLoading && t('verification.pending')}
+      {!user && !isFetching && !verificationStartMutation.isLoading && t('verification.none')}
     </Button>
   );
 };

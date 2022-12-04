@@ -8,6 +8,7 @@ import ListIcon from '@mui/icons-material/List';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import useLoggedIn from '../hooks/useLoggedIn';
+import { useTranslation } from 'react-i18next';
 
 const NavBar: React.FunctionComponent = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const NavBar: React.FunctionComponent = () => {
   const loggedIn = useLoggedIn();
   const minWidthIcon = '50px';
   const paddingIcons = 0.1;
+  const { t } = useTranslation('navbar');
 
   useEffect(() => {
     switch (location.pathname) {
@@ -53,7 +55,7 @@ const NavBar: React.FunctionComponent = () => {
     >
       <BottomNavigationAction
         sx={{ px: paddingIcons, minWidth: minWidthIcon }}
-        label="Home"
+        label={t('home')}
         icon={<HomeIcon />}
         onClick={() => {
           navigate('/');
@@ -61,7 +63,7 @@ const NavBar: React.FunctionComponent = () => {
       />
       <BottomNavigationAction
         sx={{ px: paddingIcons, minWidth: minWidthIcon }}
-        label="Lists"
+        label={t('lists')}
         icon={<ListIcon />}
         onClick={() => {
           navigate('/lists');
@@ -69,7 +71,7 @@ const NavBar: React.FunctionComponent = () => {
       />
       <BottomNavigationAction
         sx={{ px: paddingIcons, minWidth: minWidthIcon }}
-        label="New"
+        label={t('create')}
         disabled={!loggedIn}
         icon={<AddOutlinedIcon />}
         onClick={() => {
@@ -79,7 +81,7 @@ const NavBar: React.FunctionComponent = () => {
       {!loggedIn && (
         <BottomNavigationAction
           sx={{ px: paddingIcons, minWidth: minWidthIcon }}
-          label="Login"
+          label={t('create')}
           icon={<LoginIcon />}
           onClick={() => {
             navigate('/login');
@@ -89,7 +91,7 @@ const NavBar: React.FunctionComponent = () => {
       {loggedIn && (
         <BottomNavigationAction
           sx={{ px: paddingIcons, minWidth: minWidthIcon }}
-          label="Account"
+          label={t('account')}
           icon={<AccountCircleIcon />}
           onClick={() => {
             navigate('/me');
@@ -98,7 +100,7 @@ const NavBar: React.FunctionComponent = () => {
       )}
       <BottomNavigationAction
         sx={{ px: paddingIcons, minWidth: minWidthIcon }}
-        label="Settings"
+        label={t('settings')}
         icon={<SettingsIcon />}
         onClick={() => {
           navigate('/settings');

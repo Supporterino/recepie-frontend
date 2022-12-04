@@ -16,12 +16,14 @@ import Flex from '../components/layout/Flex';
 import FlexCol from '../components/layout/FlexCol';
 import FlexColContainer from '../components/layout/FlexColContainer';
 import { useMutation } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 
 const SignUp: React.FunctionComponent = () => {
   type IFormData = { username: string; email: string; password: string };
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const { register, handleSubmit } = useForm<IFormData>();
+  const { t } = useTranslation('signup');
 
   const registerMutation = useMutation(
     (data: IFormData) => sendRequest(registerUrl, 'POST', data),
@@ -32,12 +34,12 @@ const SignUp: React.FunctionComponent = () => {
             alreadyRegistered();
             break;
           default:
-            enqueueSnackbar('Registration failed. Please try again', { variant: 'warning' });
+            enqueueSnackbar(t('snackbar.error'), { variant: 'warning' });
             break;
         }
       },
       onSuccess: (data, variables, context) => {
-        enqueueSnackbar('Registration successfull.', { variant: 'success' });
+        enqueueSnackbar(t('snackbar.success'), { variant: 'success' });
         navigate('/login');
       },
       retry: false
@@ -49,7 +51,7 @@ const SignUp: React.FunctionComponent = () => {
   };
 
   const alreadyRegistered = () => {
-    enqueueSnackbar('E-Mail already in use for an account. Please sign in.', {
+    enqueueSnackbar(t('snackbar.mailTaken'), {
       variant: 'warning'
     });
     navigate('/login');
@@ -73,7 +75,7 @@ const SignUp: React.FunctionComponent = () => {
             required
             fullWidth
             id="username"
-            label="Username"
+            label={t('formFields.username')}
             autoFocus
           />
           <TextField
@@ -82,14 +84,14 @@ const SignUp: React.FunctionComponent = () => {
             fullWidth
             margin="normal"
             id="email"
-            label="Email Address"
+            label={t('formFields.email')}
             name="email"
             autoComplete="email"
           />
           <PasswordInput
             formRegister={register('password')}
             name="password"
-            label="Password"
+            label={t('formFields.password')}
             id="password"
             autoComplete="new-password"
           />
@@ -100,7 +102,7 @@ const SignUp: React.FunctionComponent = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign Up
+            {t('buttons.signup')}
           </Button>
           <Flex sx={{ width: '100%' }}>
             <Link
@@ -109,7 +111,7 @@ const SignUp: React.FunctionComponent = () => {
               }}
               variant="body2"
             >
-              Already have an account? Sign in
+              {t('buttons.signin')}
             </Link>
           </Flex>
         </Box>

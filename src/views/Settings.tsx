@@ -2,6 +2,11 @@ import {
   Button,
   Chip,
   Divider,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
   ToggleButton,
   ToggleButtonGroup,
   Typography,
@@ -20,6 +25,8 @@ import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import Version from '../components/meta/version';
 import VerificationButton from '../components/user/VerificationButton';
+import { useTranslation } from 'react-i18next';
+import { availableLanguages, availableLanguagesType } from '../utils/i18n';
 
 const Settings: React.FunctionComponent = () => {
   const theme = useTheme();
@@ -27,6 +34,7 @@ const Settings: React.FunctionComponent = () => {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { t, i18n } = useTranslation(['settings', 'language']);
 
   const logout = () => {
     queryClient.clear();
@@ -38,7 +46,7 @@ const Settings: React.FunctionComponent = () => {
   return (
     <FlexColContainer>
       <Divider sx={{ my: 1, ...centerTopStyleRow }}>
-        <Chip label="Theming" />
+        <Chip label={t('settings:headers.theming')} />
       </Divider>
       <Grid
         my={2}
@@ -50,7 +58,7 @@ const Settings: React.FunctionComponent = () => {
       >
         <Grid xs={6}>
           <Typography>
-            {theme.palette.mode.charAt(0).toUpperCase() + theme.palette.mode.slice(1)} mode
+            {'Active mode is: ' + t(`settings:theme.${theme.palette.mode}` as const)}
           </Typography>
         </Grid>
         <Grid xs={6}>
@@ -73,7 +81,25 @@ const Settings: React.FunctionComponent = () => {
         </Grid>
       </Grid>
       <Divider sx={{ my: 1, ...centerTopStyleRow }}>
-        <Chip label="Account" />
+        <Chip label={t('settings:headers.language')} />
+      </Divider>
+      <FormControl fullWidth>
+        <InputLabel id="language-select-label">{t('settings:headers.language')}</InputLabel>
+        <Select
+          labelId="language-select-label"
+          value={i18n.language}
+          label={t('settings:headers.language')}
+          onChange={(event: SelectChangeEvent) => i18n.changeLanguage(event.target.value)}
+        >
+          {availableLanguages.map((lang: string) => (
+            <MenuItem value={lang}>
+              {t(`language:${lang as availableLanguagesType}` as const)}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <Divider sx={{ my: 1, ...centerTopStyleRow }}>
+        <Chip label={t('settings:headers.account')} />
       </Divider>
       <Button
         disabled={!authenticationManager.hasUser()}
@@ -81,11 +107,11 @@ const Settings: React.FunctionComponent = () => {
         onClick={logout}
         variant="contained"
       >
-        Logout
+        {t('settings:logoutButton')}
       </Button>
       <VerificationButton />
       <Divider sx={{ my: 1, ...centerTopStyleRow }}>
-        <Chip label="Version" />
+        <Chip label={t('settings:headers.version')} />
       </Divider>
       <Version />
     </FlexColContainer>

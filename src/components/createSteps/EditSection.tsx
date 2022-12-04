@@ -20,6 +20,7 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIngredient from './addIngredient';
 import Flex from '../layout/Flex';
+import { useTranslation } from 'react-i18next';
 
 type EditSectionProps = {
   open: boolean;
@@ -48,6 +49,7 @@ const EditSection: React.FunctionComponent<EditSectionProps> = ({
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   };
+  const { t } = useTranslation(['common', 'create']);
 
   const handleIngredientDelete = (toDelete: Ingredient) => {
     setIngredients(ingredients.filter((ingredient) => ingredient !== toDelete));
@@ -60,7 +62,10 @@ const EditSection: React.FunctionComponent<EditSectionProps> = ({
   return (
     <Dialog open={open} onClose={close}>
       <DialogTitle>
-        {mode === 'EDIT' ? 'Edit' : 'Add'} section - {name}
+        {mode === 'EDIT'
+          ? t('create:ingredientsDialog.title.edit')
+          : t('create:ingredientsDialog.title.add')}{' '}
+        {t('create:ingredientsDialog.title.section')} - {name}
       </DialogTitle>
       <DialogContent>
         <AddIngredient
@@ -72,7 +77,7 @@ const EditSection: React.FunctionComponent<EditSectionProps> = ({
           required
           variant="outlined"
           fullWidth
-          label="Name"
+          label={t('create:ingredientsDialog.formFields.name')}
           value={name}
           onChange={handleNameChange}
           sx={{ mt: 1 }}
@@ -80,12 +85,12 @@ const EditSection: React.FunctionComponent<EditSectionProps> = ({
         <Grid container my={1} sx={gridOutline}>
           <Grid xs={4} sx={centerTopStyleCol}>
             <Typography sx={{ fontWeight: 'bold' }} ml={1}>
-              Amount
+              {t('create:ingredientsDialog.formFields.amount')}
             </Typography>
           </Grid>
           <Grid xs={8} sx={centerTopStyleCol}>
             <Typography sx={{ fontWeight: 'bold' }} ml={1}>
-              Ingredient
+              {t('create:ingredientsDialog.formFields.ingredient')}
             </Typography>
           </Grid>
           {ingredients.map((ing: Ingredient, index: number) => (
@@ -112,14 +117,14 @@ const EditSection: React.FunctionComponent<EditSectionProps> = ({
         </Grid>
         <Flex sx={alignCenterJustifyCenter}>
           <Button variant="contained" sx={{ my: 1 }} onClick={() => setAddIngredientOpen(true)}>
-            Add new ingredient
+            {t('create:ingredientsDialog.buttons.add')}
           </Button>
         </Flex>
       </DialogContent>
       <DialogActions>
-        <Button onClick={close}>Cancel</Button>
+        <Button onClick={close}>{t('common:buttons.cancel')}</Button>
         <Button variant="contained" onClick={onSubmit}>
-          Save
+          {t('common:buttons.save')}
         </Button>
       </DialogActions>
     </Dialog>

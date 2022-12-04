@@ -8,6 +8,7 @@ import {
   TextField
 } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 type SetSectionNameProps = {
   open: boolean;
@@ -24,6 +25,7 @@ const SetSectionName: React.FunctionComponent<SetSectionNameProps> = ({
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   };
+  const { t } = useTranslation(['common', 'create']);
   const onSubmit = () => {
     console.log(`Dialog  value ${name}`);
     submit(name!);
@@ -32,23 +34,23 @@ const SetSectionName: React.FunctionComponent<SetSectionNameProps> = ({
 
   return (
     <Dialog open={open} onClose={close}>
-      <DialogTitle>Set name of section</DialogTitle>
+      <DialogTitle>{t('create:sectionDialog.title')}</DialogTitle>
       <DialogContent>
-        <DialogContentText>Give your section of ingredients a name.</DialogContentText>
+        <DialogContentText>{t('create:sectionDialog.text')}</DialogContentText>
         <TextField
           required
           variant="outlined"
           fullWidth
-          label="Name"
+          label={t('create:sectionDialog.formFields.name')}
           value={name}
           onChange={handleNameChange}
           sx={{ mt: 1 }}
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={close}>Cancel</Button>
+        <Button onClick={close}>{t('common:buttons.cancel')}</Button>
         <Button variant="contained" disabled={!name} onClick={onSubmit}>
-          Set name
+          {t('create:sectionDialog.formFields.submit')}
         </Button>
       </DialogActions>
     </Dialog>

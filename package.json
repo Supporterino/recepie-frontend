@@ -37,9 +37,9 @@
     "lint-staged": "lint-staged --config lint-staged.js",
     "lint": "eslint src --color",
     "husky-install": "husky install",
-    "push": "npm version patch && git push",
-    "push-minor": "npm version minor && git push",
-    "push-major": "npm version major && git push"
+    "push": "yarn version patch && git push",
+    "push-minor": "yarn version minor && git push",
+    "push-major": "yarn version major && git push"
   },
   "eslintConfig": {
     "extends": [

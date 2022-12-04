@@ -14,6 +14,7 @@ import { alignCenterJustifyCenter } from '../components/layout/commonSx';
 import useQuery from '../hooks/useQuery';
 import { useMutation } from '@tanstack/react-query';
 import sendRequest, { completePasswordResetUrl } from '../services/requestService';
+import { useTranslation } from 'react-i18next';
 
 const PasswordReset: React.FunctionComponent = () => {
   type IFormData = { password1: string; password2: string };
@@ -21,6 +22,7 @@ const PasswordReset: React.FunctionComponent = () => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const { register, handleSubmit } = useForm<IFormData>({ mode: 'onChange' });
+  const { t } = useTranslation(['passwordReset', 'common']);
 
   const resetMutation = useMutation(
     (data: IFormData) =>
@@ -31,10 +33,10 @@ const PasswordReset: React.FunctionComponent = () => {
       }),
     {
       onError: (error, variables, context) => {
-        enqueueSnackbar('Failed to reset your password. Please try again.', { variant: 'error' });
+        enqueueSnackbar(t('passwordReset:snackbar.error'), { variant: 'error' });
       },
       onSuccess: (data, variables, context) => {
-        enqueueSnackbar('Password changed. Please log in', { variant: 'success' });
+        enqueueSnackbar(t('passwordReset:snackbar.success'), { variant: 'success' });
         navigate('/login');
       },
       retry: false
@@ -58,14 +60,14 @@ const PasswordReset: React.FunctionComponent = () => {
           <PasswordInput
             formRegister={register('password1', { required: true })}
             name="password"
-            label="Password"
+            label={t('passwordReset:formFields.password')}
             id="password"
             autoComplete="current-password"
           />
           <PasswordInput
             formRegister={register('password2', { required: true })}
             name="password"
-            label="Repeat password"
+            label={t('passwordReset:formFields.repeatPassword')}
             id="password"
             autoComplete="current-password"
           />
@@ -76,8 +78,8 @@ const PasswordReset: React.FunctionComponent = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            {!resetMutation.isLoading && 'Submit'}
-            {resetMutation.isLoading && 'Resetting...'}
+            {!resetMutation.isLoading && t('common:buttons.submit')}
+            {resetMutation.isLoading && t('common:buttons.pending')}
           </Button>
         </Box>
       </FlexCol>

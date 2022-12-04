@@ -7,7 +7,7 @@ import { authenticationManager } from '../services/AuthenticationManager';
 import { getOwnRecipes, getUser } from '../services/requests';
 import FlexCol from '../components/layout/FlexCol';
 import { alignCenterJustifyCenter, alignStartJustifyCenter } from '../components/layout/commonSx';
-import { getRoleKeyName, Recipe, Role, User } from '../types';
+import { getRoleKeyName, Recipe, Role, RoleType, User } from '../types';
 import ListOverview from '../components/listViews/ListOverview';
 import UserImage from '../components/user/UserImage';
 import Flex from '../components/layout/Flex';
@@ -17,9 +17,11 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import GppBadIcon from '@mui/icons-material/GppBad';
 import ImageUpload, { Target } from '../components/createSteps/imageUpload';
+import { useTranslation } from 'react-i18next';
 
 const UserSite: React.FunctionComponent = () => {
   const userID = authenticationManager.getUserID();
+  const { t } = useTranslation(['user', 'lists']);
   const {
     isLoading,
     isError,
@@ -31,15 +33,13 @@ const UserSite: React.FunctionComponent = () => {
   const [uploadOpen, setUploadOpen] = useState<boolean>(false);
 
   const getRoleNode = (role: Role): ReactNode => {
-    const roleString = getRoleKeyName(role).replaceAll(
-      /\S*/g,
-      (word) => `${word.slice(0, 1)}${word.slice(1).toLowerCase()}`
-    );
+    const roleString = getRoleKeyName(role);
+
     return (
       <Flex sx={{ mb: 0.25, ...alignCenterJustifyCenter }}>
         <AdminPanelSettingsIcon fontSize="small" color={role > 1 ? 'error' : 'secondary'} />
         <Typography color={role > 1 ? 'error' : 'secondary'} sx={{ ml: 0.5 }}>
-          {roleString}
+          {t(`user:roles.${roleString as RoleType}` as const)}
         </Typography>
       </Flex>
     );
@@ -50,9 +50,9 @@ const UserSite: React.FunctionComponent = () => {
       <Flex sx={alignCenterJustifyCenter}>
         {verified ? <VerifiedUserIcon fontSize="small" /> : <GppBadIcon fontSize="small" />}
         {verified ? (
-          <Typography sx={{ ml: 0.5 }}>Verified</Typography>
+          <Typography sx={{ ml: 0.5 }}>{t('user:verified')}</Typography>
         ) : (
-          <Typography sx={{ ml: 0.5 }}>Unverified</Typography>
+          <Typography sx={{ ml: 0.5 }}>{t('user:unverified')}</Typography>
         )}
       </Flex>
     );
@@ -103,7 +103,7 @@ const UserSite: React.FunctionComponent = () => {
         }}
         target={Target.USER}
       />
-      <ListOverview name="Own recipes" queryObject={ownRecipesQuery} />
+      <ListOverview name={t('lists:ownRecipes')} queryObject={ownRecipesQuery} />
     </FlexColContainer>
   );
 };

@@ -18,6 +18,7 @@ import { alignCenterJustifyCenter, centerStyle, flexCol } from '../layout/common
 import { useNavigate } from 'react-router-dom';
 import useLoggedIn from '../../hooks/useLoggedIn';
 import RecipeImage from '../recipe/RecipeImage';
+import { useTranslation } from 'react-i18next';
 
 export type CardWideProps = {
   recipe: Recipe;
@@ -28,6 +29,7 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const loggedIn = useLoggedIn();
+  const { t } = useTranslation('common');
 
   const imgURL = () => {
     return `${recipe.picture !== '' ? recipe.picture : 'images/no-pictures.png'}`;
@@ -57,7 +59,7 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
         ]);
       },
       onError: (error, variables, context) => {
-        enqueueSnackbar('Failed to set favorite on recipe', { variant: 'warning' });
+        enqueueSnackbar(t('snackbar.errorFav'), { variant: 'warning' });
       }
     }
   );
@@ -76,7 +78,7 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
         ]);
       },
       onError: (error, variables, context) => {
-        enqueueSnackbar('Failed to set cooklist on recipe', { variant: 'warning' });
+        enqueueSnackbar(t('snackbar.errorCooklist'), { variant: 'warning' });
       }
     }
   );

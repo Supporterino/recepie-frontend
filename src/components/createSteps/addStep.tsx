@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useState, ChangeEvent, SetStateAction, Dispatch, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 type AddStepProps = {
   open: boolean;
@@ -25,6 +26,7 @@ const AddStep: React.FunctionComponent<AddStepProps> = ({
 }: AddStepProps) => {
   const [leaveOpen, setLeaveOpen] = useState<boolean>(false);
   const { enqueueSnackbar } = useSnackbar();
+  const { t } = useTranslation(['common', 'create']);
 
   const [step, setStep] = useState<string>();
   const handleStepChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +42,7 @@ const AddStep: React.FunctionComponent<AddStepProps> = ({
       if (inputRef.current) inputRef.current.value = '';
       if (!leaveOpen) close();
     } else {
-      enqueueSnackbar('Please enter a new step', { variant: 'warning' });
+      enqueueSnackbar(t('create:snackbar.emptyStep'), { variant: 'warning' });
     }
   };
 
@@ -54,7 +56,7 @@ const AddStep: React.FunctionComponent<AddStepProps> = ({
           inputRef={inputRef}
           variant="outlined"
           fullWidth
-          label="Step"
+          label={t('create:stepDialog.formFields.step')}
           multiline
           minRows={3}
           maxRows={10}
@@ -71,13 +73,13 @@ const AddStep: React.FunctionComponent<AddStepProps> = ({
               }}
             />
           }
-          label="Add another"
+          label={t('create:addDialog.formFields.addAnother')}
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={close}>Cancel</Button>
+        <Button onClick={close}>{t('common:buttons.cancel')}</Button>
         <Button variant="contained" onClick={onSubmit}>
-          Add Step
+          {t('create:stepDialog.formFields.submit')}
         </Button>
       </DialogActions>
     </Dialog>

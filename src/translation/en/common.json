@@ -1,0 +1,23 @@
+{
+  "title": "Recepie",
+  "buttons": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "pending": "Pending...",
+    "next": "Next",
+    "back": "Back",
+    "save": "Save",
+    "upload": "Upload"
+  },
+  "snackbar": {
+    "errorFav": "Failed to set favorite for recipe.",
+    "errorCooklist": "Failed to set cooklist on recipe."
+  },
+  "errorDisplay": {
+    "title": "Error",
+    "text": "Failed to load ressources with error — "
+  },
+  "loader": {
+    "text": "Loading..."
+  }
+}

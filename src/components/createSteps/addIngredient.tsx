@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useState, ChangeEvent, Dispatch, SetStateAction, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { AllMeasuresUnits, initConverter, allMeasures, AllMeasures, Ingredient } from '../../types';
 
 type AddIngredientProps = {
@@ -27,6 +28,7 @@ const AddIngredient: React.FunctionComponent<AddIngredientProps> = ({
 }: AddIngredientProps) => {
   const { enqueueSnackbar } = useSnackbar();
   const [leaveOpen, setLeaveOpen] = useState<boolean>(false);
+  const { t } = useTranslation(['common', 'create']);
 
   const [name, setName] = useState<string>();
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -73,20 +75,20 @@ const AddIngredient: React.FunctionComponent<AddIngredientProps> = ({
       if (inputRefName.current) inputRefName.current.value = '';
       if (!leaveOpen) close();
     } else {
-      enqueueSnackbar('Please fillout all fields!', { variant: 'warning' });
+      enqueueSnackbar(t('create:snackbar.errorFields'), { variant: 'warning' });
     }
   };
 
   return (
     <Dialog open={open} onClose={close}>
-      <DialogTitle>Add Ingredient</DialogTitle>
+      <DialogTitle>{t('create:addDialog.title')}</DialogTitle>
       <DialogContent>
-        <DialogContentText>You are about to add a new ingredient to your recipe.</DialogContentText>
+        <DialogContentText>{t('create:addDialog.text')}</DialogContentText>
         <TextField
           required
           variant="outlined"
           fullWidth
-          label="Name"
+          label={t('create:addDialog.formFields.name')}
           inputRef={inputRefName}
           value={name}
           onChange={handleNameChange}
@@ -98,7 +100,7 @@ const AddIngredient: React.FunctionComponent<AddIngredientProps> = ({
           type="number"
           fullWidth
           inputRef={inputRefAmount}
-          label="Amount"
+          label={t('create:addDialog.formFields.amount')}
           inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
           value={amount}
           onChange={handleAmountChange}
@@ -125,13 +127,13 @@ const AddIngredient: React.FunctionComponent<AddIngredientProps> = ({
               }}
             />
           }
-          label="Add another"
+          label={t('create:addDialog.formFields.addAnother')}
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={close}>Cancel</Button>
+        <Button onClick={close}>{t('common:buttons.cancel')}</Button>
         <Button variant="contained" onClick={onSubmit}>
-          Add Ingredient
+          {t('create:addDialog.formFields.submit')}
         </Button>
       </DialogActions>
     </Dialog>

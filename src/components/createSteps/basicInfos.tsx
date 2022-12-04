@@ -2,6 +2,7 @@ import { Autocomplete, Chip, createFilterOptions, TextField } from '@mui/materia
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { getAllTags } from '../../services/requests';
 import FlexColContainer from '../layout/FlexColContainer';
 import ErrorDisplay from '../queryUtils/ErrorText';
@@ -12,6 +13,7 @@ const BasicInfos: React.FunctionComponent = () => {
   const { register, setValue, getValues } = useFormContext();
   const [tags, setTags] = useState<string[]>(getValues('tags') || []);
   const [servings, setServings] = useState<number>(getValues('numberOfServings' || 1));
+  const { t } = useTranslation(['common', 'create']);
 
   useEffect(() => {
     setValue('tags', tags);
@@ -45,7 +47,7 @@ const BasicInfos: React.FunctionComponent = () => {
         required
         fullWidth
         id="name"
-        label="Name"
+        label={t('create:basic.formFields.name')}
         name="name"
         autoComplete="name"
         autoFocus
@@ -53,7 +55,7 @@ const BasicInfos: React.FunctionComponent = () => {
       <TextField
         type="number"
         inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-        label="Servings"
+        label={t('create:basic.formFields.servings')}
         onChange={(event) => setServings(+event.target.value)}
         value={servings}
         fullWidth
@@ -66,7 +68,7 @@ const BasicInfos: React.FunctionComponent = () => {
         required
         fullWidth
         id="description"
-        label="Description"
+        label={t('create:basic.formFields.description')}
         name="description"
         autoComplete="description"
         multiline
@@ -107,7 +109,13 @@ const BasicInfos: React.FunctionComponent = () => {
           return filtered;
         }}
         renderInput={(params) => (
-          <TextField label="Tags" margin="normal" required {...params} variant="outlined" />
+          <TextField
+            label={t('create:basic.formFields.tags')}
+            margin="normal"
+            required
+            {...params}
+            variant="outlined"
+          />
         )}
       />
     </FlexColContainer>

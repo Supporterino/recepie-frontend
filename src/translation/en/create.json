@@ -1,0 +1,65 @@
+{
+  "broken": "What ever you have done. Congratulations you have reached unreachable code.",
+  "snackbar": {
+    "missing": "Please fillout all required fields.",
+    "success": "Recipe added.",
+    "error": "Failed to create recipe. Error: ",
+    "errorFields": "Please fillout all required fields",
+    "emptyStep": "Please enter a new step or cancel."
+  },
+  "addDialog": {
+    "title": "Add Ingredient",
+    "text": "You are about to add a new ingredient to your recipe.",
+    "formFields": {
+      "name": "Name",
+      "amount": "Amount",
+      "addAnother": "Add another one.",
+      "submit": "Add Ingredient"
+    }
+  },
+  "stepDialog": {
+    "formFields": {
+      "step": "Step",
+      "submit": "Add step",
+      "steps": "Steps"
+    }
+  },
+  "basic": {
+    "formFields": {
+      "name": "Name",
+      "servings": "Servings",
+      "description": "Description",
+      "tags": "Tags"
+    }
+  },
+  "ingredientsDialog": {
+    "formFields": {
+      "name": "Name",
+      "amount": "Amount",
+      "ingredient": "Ingredient",
+      "action": "Actions"
+    },
+    "buttons": {
+      "add": "Add new ingredient",
+      "section": "Make section"
+    },
+    "title": {
+      "add": "Add",
+      "edit": "Edit",
+      "section": "Section"
+    }
+  },
+  "imageUpload": {
+    "title": "Image Upload",
+    "text": "Please upload an image file below.",
+    "error": "Failed to upload image. Please try again."
+  },
+  "sectionDialog": {
+    "title": "Set name of section",
+    "text": "Give your section of ingredients a name.",
+    "formFields": {
+      "name": "Name",
+      "submit": "Set name"
+    }
+  }
+}

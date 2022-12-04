@@ -15,6 +15,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import sendRequest, { imageUploadUrl } from '../../services/requestService';
 import { useSnackbar } from 'notistack';
 import FlexCol from '../layout/FlexCol';
+import { useTranslation } from 'react-i18next';
 
 export enum Target {
   USER = 'user',
@@ -38,6 +39,7 @@ const ImageUpload: React.FunctionComponent<ImageUploadProps> = ({
   const [disabled, setDisabled] = useState<boolean>(true);
   const queryClient = useQueryClient();
   const { enqueueSnackbar } = useSnackbar();
+  const { t } = useTranslation(['common', 'create']);
 
   const uploadMutation = useMutation(
     (data: FormData) => sendRequest(imageUploadUrl, 'POST', data, false),
@@ -53,7 +55,7 @@ const ImageUpload: React.FunctionComponent<ImageUploadProps> = ({
         ]);
       },
       onError: (error, variables, context) => {
-        enqueueSnackbar('Failed to upload image', { variant: 'warning' });
+        enqueueSnackbar(t('create:imageUpload.error'), { variant: 'warning' });
         close();
       }
     }
@@ -82,7 +84,7 @@ const ImageUpload: React.FunctionComponent<ImageUploadProps> = ({
   return (
     <Dialog open={open} onClose={() => close()}>
       <DialogTitle color="text.primary">
-        Image Upload
+        {t('create:imageUpload.title')}
         <IconButton
           disabled={uploadMutation.isLoading}
           onClick={() => close()}
@@ -98,7 +100,7 @@ const ImageUpload: React.FunctionComponent<ImageUploadProps> = ({
       <DialogContent>
         <FlexCol>
           <Typography color="text.secondary" alignSelf="flex-start">
-            Please upload an image file below.
+            {t('create:imageUpload.text')}
           </Typography>
 
           <Input
@@ -114,7 +116,7 @@ const ImageUpload: React.FunctionComponent<ImageUploadProps> = ({
       </DialogContent>
       <DialogActions>
         <Button disabled={uploadMutation.isLoading} onClick={() => close()}>
-          Cancel
+          {t('common:buttons.cancel')}
         </Button>
         <Button
           disabled={disabled}
@@ -124,7 +126,7 @@ const ImageUpload: React.FunctionComponent<ImageUploadProps> = ({
             upload();
           }}
         >
-          {uploadMutation.isLoading ? 'Uploading...' : 'Upload'}
+          {uploadMutation.isLoading ? t('common:buttons.pending') : t('common:buttons.upload')}
         </Button>
       </DialogActions>
     </Dialog>

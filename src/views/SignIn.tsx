@@ -21,6 +21,7 @@ import Flex from '../components/layout/Flex';
 import ResetPasswordStart from '../components/auth/ResetPasswordStart';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 
 const SignIn: React.FunctionComponent = () => {
   type IFormData = { email: string; password: string };
@@ -28,6 +29,7 @@ const SignIn: React.FunctionComponent = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { register, handleSubmit } = useForm<IFormData>();
   const [resetOpen, setResetOpen] = useState<boolean>(false);
+  const { t } = useTranslation('signin');
 
   const loginMutation = useMutation((data: IFormData) => sendRequest(loginUrl, 'POST', data), {
     onSuccess: async (data, variables, context) => {
@@ -39,11 +41,11 @@ const SignIn: React.FunctionComponent = () => {
         jwtExpiry: moment().add(15, 'm').toDate(),
         refreshTokenExpiry: moment().add(7, 'd').toDate()
       });
-      enqueueSnackbar('Successfully logged in.', { variant: 'success' });
+      enqueueSnackbar(t('snackbar.success'), { variant: 'success' });
       navigate('/');
     },
     onError: (error, variables, context) => {
-      enqueueSnackbar('Log in failed. Please try again', { variant: 'warning' });
+      enqueueSnackbar(t('snackbar.failed'), { variant: 'warning' });
     },
     retry: false
   });
@@ -60,7 +62,7 @@ const SignIn: React.FunctionComponent = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          {t('title')}
         </Typography>
         <Box component="form" onSubmit={handleSubmit(login)} sx={{ mt: 1 }}>
           <TextField
@@ -69,7 +71,7 @@ const SignIn: React.FunctionComponent = () => {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label={t('formFields.email')}
             name="email"
             autoComplete="email"
             autoFocus
@@ -77,16 +79,16 @@ const SignIn: React.FunctionComponent = () => {
           <PasswordInput
             formRegister={register('password')}
             name="password"
-            label="Password"
+            label={t('formFields.password')}
             id="password"
             autoComplete="current-password"
           />
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-            Sign In
+            {t('buttons.signin')}
           </Button>
           <Flex sx={{ width: '100%' }}>
             <Link onClick={() => setResetOpen(true)} variant="body2" sx={{ flexGrow: 1 }}>
-              Forgot password?
+              {t('buttons.forgot')}
             </Link>
             <Link
               onClick={() => {
@@ -94,7 +96,7 @@ const SignIn: React.FunctionComponent = () => {
               }}
               variant="body2"
             >
-              {"Don't have an account? Sign Up"}
+              {t('buttons.signup')}
             </Link>
           </Flex>
         </Box>

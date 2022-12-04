@@ -11,6 +11,7 @@ import SetSectionName from './setSectionName';
 import Flex from '../layout/Flex';
 import EditIcon from '@mui/icons-material/Edit';
 import EditSection from './EditSection';
+import { useTranslation } from 'react-i18next';
 
 const Ingredients: React.FunctionComponent = () => {
   const formContext = useFormContext();
@@ -27,6 +28,7 @@ const Ingredients: React.FunctionComponent = () => {
   const [nameOpen, setNameOpen] = useState<boolean>(false);
   const handleNameClose = () => setNameOpen(false);
   const handleNameOpen = () => setNameOpen(true);
+  const { t } = useTranslation(['common', 'create']);
 
   const [editSectionOpen, setEditSectionOpen] = useState<boolean[]>(
     Array(sections.length).fill(false)
@@ -74,7 +76,7 @@ const Ingredients: React.FunctionComponent = () => {
       <SetSectionName open={nameOpen} close={handleNameClose} submit={handleSectionCreate} />
       {/* Actual UI */}
       <Button variant="outlined" onClick={handleAddOpen}>
-        Add Ingredient
+        {t('create:ingredientsDialog.buttons.add')}
       </Button>
       <Button
         variant="outlined"
@@ -82,18 +84,18 @@ const Ingredients: React.FunctionComponent = () => {
         disabled={ingredients.length === 0}
         onClick={handleNameOpen}
       >
-        Make Sections
+        {t('create:ingredientsDialog.buttons.section')}
       </Button>
 
       <Grid container mt={1} sx={gridOutline}>
         <Grid xs={5} sx={centerStyle}>
-          <Typography>Ingredient</Typography>
+          <Typography>{t('create:ingredientsDialog.formFields.ingredient')}</Typography>
         </Grid>
         <Grid xs={5} sx={centerStyle}>
-          <Typography>Amount</Typography>
+          <Typography>{t('create:ingredientsDialog.formFields.amount')}</Typography>
         </Grid>
         <Grid xs={2} sx={centerStyle}>
-          <Typography>Actions</Typography>
+          <Typography>{t('create:ingredientsDialog.formFields.action')}</Typography>
         </Grid>
         {ingredients.map((ing: Ingredient, index: number) => (
           <>
@@ -156,10 +158,10 @@ const Ingredients: React.FunctionComponent = () => {
             </Flex>
             <Grid container mt={1} sx={gridOutline}>
               <Grid xs={6} sx={centerStyle}>
-                <Typography>Ingredient</Typography>
+                <Typography>{t('create:ingredientsDialog.formFields.ingredient')}</Typography>
               </Grid>
               <Grid xs={6} sx={centerStyle}>
-                <Typography>Amount</Typography>
+                <Typography>{t('create:ingredientsDialog.formFields.amount')}</Typography>
               </Grid>
               {section.items.map((ing: Ingredient, index: number) => (
                 <>
