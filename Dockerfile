@@ -3,9 +3,8 @@ FROM node:lts as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY ./package.json /app/
-COPY ./package-lock.json /app/
-RUN npm ci
-RUN npm i -g yarn
+COPY ./yarn.lock /app/
+RUN yarn
 COPY . /app
 RUN yarn build
 
