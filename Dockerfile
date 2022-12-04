@@ -5,8 +5,9 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY ./package.json /app/
 COPY ./package-lock.json /app/
 RUN npm ci
+RUN npm i -g yarn
 COPY . /app
-RUN npm run build
+RUN yarn build
 
 # stage 2 - build the final image and copy the react build files
 FROM nginx:stable-alpine
