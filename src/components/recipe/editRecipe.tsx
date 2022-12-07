@@ -27,6 +27,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import EditIcon from '@mui/icons-material/Edit';
 import EditSection from '../createSteps/EditSection';
 import RecipeImage from './RecipeImage';
+import { useTranslation } from 'react-i18next';
 
 const EditRecipeView: React.FunctionComponent = () => {
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ const EditRecipeView: React.FunctionComponent = () => {
   const { id } = useParams();
   const { state } = useLocation();
   const recipe = state as Recipe;
+  const { t } = useTranslation(['common', 'recipe']);
 
   if (!id) navigate('/');
 
@@ -110,7 +112,7 @@ const EditRecipeView: React.FunctionComponent = () => {
         return navigate(`/recipe/${id}`, { replace: true });
       },
       onError: (error, variables, context) => {
-        enqueueSnackbar('Failed to edit recipe', { variant: 'error' });
+        enqueueSnackbar(t('recipe:editView.error'), { variant: 'error' });
       }
     }
   );
@@ -139,11 +141,13 @@ const EditRecipeView: React.FunctionComponent = () => {
         <FlexCol sx={{ justifyContent: 'space-evenly' }}>
           <TextField
             fullWidth
-            label="Name"
+            label={t('recipe:strings.name')}
             value={name}
             onChange={(event) => setName(event.target.value)}
           />
-          <Typography variant="body2">by {recipe.owner.username}</Typography>
+          <Typography variant="body2">
+            {t('recipe:strings.by')} {recipe.owner.username}
+          </Typography>
           <Flex sx={alignCenterJustifyStart}>
             <Rating value={recipe.rating.avgRating} readOnly precision={0.5} />
             <Typography sx={{ color: 'text.secondary' }} variant="body2" ml={0.5}>
@@ -153,24 +157,24 @@ const EditRecipeView: React.FunctionComponent = () => {
         </FlexCol>
       </Flex>
 
-      <Typography variant="h6">Description</Typography>
+      <Typography variant="h6">{t('recipe:strings.description')}</Typography>
       <TextField
         size="small"
         fullWidth
-        label="Description"
+        label={t('recipe:strings.description')}
         multiline
         value={description}
         onChange={(event) => setDescription(event.target.value)}
         sx={{ my: 1 }}
       />
 
-      <Typography variant="h6">Ingredients</Typography>
+      <Typography variant="h6">{t('recipe:strings.ingredients')}</Typography>
       <Flex sx={{ mt: 1, ...alignCenterJustifyCenter }}>
         <TextField
           size="small"
           type="number"
           inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-          label="Servings"
+          label={t('recipe:strings.servings')}
           onChange={(event) => setServings(+event.target.value)}
           value={servings}
         />
@@ -184,17 +188,17 @@ const EditRecipeView: React.FunctionComponent = () => {
       {ingredients.length > 0 && (
         <>
           <Button variant="outlined" sx={{ my: 1 }} onClick={() => setAddIngredientOpen(true)}>
-            Add new ingredient
+            {t('recipe:editView.addIngredient')}
           </Button>
           <Grid container my={1} sx={gridOutline}>
             <Grid xs={4} sx={centerTopStyleCol}>
               <Typography sx={{ fontWeight: 'bold' }} ml={1}>
-                Amount
+                {t('recipe:strings.amount')}
               </Typography>
             </Grid>
             <Grid xs={8} sx={centerTopStyleCol}>
               <Typography sx={{ fontWeight: 'bold' }} ml={1}>
-                Ingredient
+                {t('recipe:strings.ingredient')}
               </Typography>
             </Grid>
             {ingredients.map((ing: Ingredient, index: number) => (
@@ -225,7 +229,7 @@ const EditRecipeView: React.FunctionComponent = () => {
       {sections.length > 0 && (
         <>
           <Button variant="outlined" sx={{ my: 1 }} onClick={() => setAddSectionOpen(true)}>
-            Add new section
+            {t('recipe:editView.addSection')}
           </Button>
           <EditSection
             open={addSectionOpen}
@@ -275,12 +279,12 @@ const EditRecipeView: React.FunctionComponent = () => {
               <Grid container my={1} sx={gridOutline}>
                 <Grid xs={4} sx={centerTopStyleCol}>
                   <Typography sx={{ fontWeight: 'bold' }} ml={1}>
-                    Amount
+                    {t('recipe:strings.amount')}
                   </Typography>
                 </Grid>
                 <Grid xs={8} sx={centerTopStyleCol}>
                   <Typography sx={{ fontWeight: 'bold' }} ml={1}>
-                    Ingredient
+                    {t('recipe:strings.ingredient')}
                   </Typography>
                 </Grid>
                 {section.items.map((ing: Ingredient, index: number) => (
@@ -306,10 +310,10 @@ const EditRecipeView: React.FunctionComponent = () => {
         </>
       )}
 
-      <Typography variant="h6">Steps</Typography>
+      <Typography variant="h6">{t('recipe:strings.steps')}</Typography>
       <AddStep open={addStepOpen} close={() => setAddStepOpen(false)} updateData={setSteps} />
       <Button variant="outlined" sx={{ my: 1 }} onClick={() => setAddStepOpen(true)}>
-        Add new step
+        {t('recipe:editView.addStep')}
       </Button>
       <Grid container my={1} sx={gridOutline}>
         {steps.map((step: string, index: number) => (

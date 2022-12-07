@@ -11,6 +11,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
 import sendRequest, { deleteRecipeUrl } from '../../services/requestService';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 type DeleteRecipeProps = {
   open: boolean;
@@ -26,6 +27,7 @@ const DeleteRecipe: React.FunctionComponent<DeleteRecipeProps> = ({
   const queryClient = useQueryClient();
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
+  const { t } = useTranslation(['common', 'recipe']);
   const deleteMutation = useMutation(() => sendRequest(deleteRecipeUrl, 'DELETE', { recipeID }), {
     onSuccess: async () => {
       await Promise.all([
@@ -38,18 +40,15 @@ const DeleteRecipe: React.FunctionComponent<DeleteRecipeProps> = ({
       return navigate(-1);
     },
     onError: (error, variables, context) => {
-      enqueueSnackbar('Failed to delete recipe', { variant: 'warning' });
+      enqueueSnackbar(t('recipe:deleteDialog.error'), { variant: 'warning' });
     }
   });
 
   return (
     <Dialog open={open} onClose={close}>
-      <DialogTitle color="error">{'Delete recipe?'}</DialogTitle>
+      <DialogTitle color="error"> {t('recipe:deleteDialog.title')}</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          Are you sure that you want to delete this recipe? Deletions cannot be reverted and neither
-          you nor any other users can access the recipe.
-        </DialogContentText>
+        <DialogContentText>{t('recipe:deleteDialog.text')}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button
@@ -59,7 +58,7 @@ const DeleteRecipe: React.FunctionComponent<DeleteRecipeProps> = ({
           variant="outlined"
           color="secondary"
         >
-          Cancel
+          {t('common:buttons.cancel')}
         </Button>
         <Button
           disabled={deleteMutation.isLoading}
@@ -70,7 +69,9 @@ const DeleteRecipe: React.FunctionComponent<DeleteRecipeProps> = ({
           startIcon={<DeleteIcon />}
           color="error"
         >
-          {deleteMutation.isLoading ? 'Processing...' : 'Delete'}
+          {deleteMutation.isLoading
+            ? t('common:buttons.pending')
+            : t('recipe:deleteDialog.submitButton')}
         </Button>
       </DialogActions>
     </Dialog>

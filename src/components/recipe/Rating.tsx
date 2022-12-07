@@ -10,6 +10,7 @@ import {
 import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { getRating } from '../../services/requests';
 import sendRequest, { addRatingUrl, updateRatingUrl } from '../../services/requestService';
 import Flex from '../layout/Flex';
@@ -25,7 +26,7 @@ const Review: React.FunctionComponent<ReviewProps> = ({ open, close, recipeID }:
   const queryClient = useQueryClient();
   const { enqueueSnackbar } = useSnackbar();
   const [rating, setRating] = useState<number>(0);
-
+  const { t } = useTranslation(['common', 'recipe']);
   const {
     isLoading,
     isError,
@@ -54,7 +55,7 @@ const Review: React.FunctionComponent<ReviewProps> = ({ open, close, recipeID }:
         return close();
       },
       onError: (error, variables, context) => {
-        enqueueSnackbar('Failed to update rating on recipe', { variant: 'warning' });
+        enqueueSnackbar(t('recipe:ratingDialog.error'), { variant: 'warning' });
       }
     }
   );
@@ -68,10 +69,10 @@ const Review: React.FunctionComponent<ReviewProps> = ({ open, close, recipeID }:
 
   return (
     <Dialog open={open} onClose={close}>
-      <DialogTitle>Submit a review</DialogTitle>
+      <DialogTitle>{t('recipe:ratingDialog.title')}</DialogTitle>
       <DialogContent>
         <Flex>
-          <Typography mr={1}>Your Rating</Typography>
+          <Typography mr={1}>{t('recipe:ratingDialog.rating')}</Typography>
           <Rating
             disabled={isLoading}
             value={rating}
@@ -87,7 +88,7 @@ const Review: React.FunctionComponent<ReviewProps> = ({ open, close, recipeID }:
           variant="outlined"
           color="secondary"
         >
-          Cancel
+          {t('common:buttons.cancel')}
         </Button>
         <Button
           disabled={rateMutation.isLoading}
@@ -96,7 +97,7 @@ const Review: React.FunctionComponent<ReviewProps> = ({ open, close, recipeID }:
           }}
           variant="contained"
         >
-          {rateMutation.isLoading ? 'Processing...' : 'Submit'}
+          {rateMutation.isLoading ? t('common:buttons.pending') : t('common:buttons.submit')}
         </Button>
       </DialogActions>
     </Dialog>

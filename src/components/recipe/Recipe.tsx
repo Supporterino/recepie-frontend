@@ -53,6 +53,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteRecipe from './DeleteRecipe';
 import Review from './Rating';
 import RecipeImage from './RecipeImage';
+import { useTranslation } from 'react-i18next';
 
 const RecipeView: React.FunctionComponent = () => {
   const { id } = useParams();
@@ -63,6 +64,7 @@ const RecipeView: React.FunctionComponent = () => {
   const [reviewOpen, setReviewOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const loggedIn = useLoggedIn();
+  const { t } = useTranslation(['common', 'recipe']);
 
   if (!id) navigate('/');
 
@@ -95,11 +97,11 @@ const RecipeView: React.FunctionComponent = () => {
     try {
       await navigator.share({
         url: `/recipe/${id}`,
-        title: 'Recipe Title',
-        text: 'Here is a recipe for you'
+        title: recipe?.name,
+        text: t('recipe:share.string')
       });
     } catch (error) {
-      enqueueSnackbar('Failed to share recipe via navigator', { variant: 'warning' });
+      enqueueSnackbar(t('recipe:share.error'), { variant: 'warning' });
     }
   };
 
@@ -119,7 +121,7 @@ const RecipeView: React.FunctionComponent = () => {
         ]);
       },
       onError: (error, variables, context) => {
-        enqueueSnackbar('Failed to set favorite on recipe', { variant: 'warning' });
+        enqueueSnackbar(t('recipe:snackbar.favError'), { variant: 'warning' });
       }
     }
   );
@@ -140,7 +142,7 @@ const RecipeView: React.FunctionComponent = () => {
         ]);
       },
       onError: (error, variables, context) => {
-        enqueueSnackbar('Failed to set cooklist on recipe', { variant: 'warning' });
+        enqueueSnackbar(t('recipe:snackbar.cooklistError'), { variant: 'warning' });
       }
     }
   );
@@ -185,7 +187,9 @@ const RecipeView: React.FunctionComponent = () => {
         />
         <FlexCol sx={{ justifyContent: 'space-evenly' }}>
           <Typography variant="h5">{recipe.name}</Typography>
-          <Typography variant="body2">by {recipe.owner.username}</Typography>
+          <Typography variant="body2">
+            {t('recipe:strings.by')} {recipe.owner.username}
+          </Typography>
           <Flex
             sx={alignCenterJustifyStart}
             onClick={() => {
@@ -208,12 +212,12 @@ const RecipeView: React.FunctionComponent = () => {
         recipeID={id!}
       />
 
-      <Typography variant="h6">Description</Typography>
+      <Typography variant="h6">{t('recipe:strings.description')}</Typography>
       <Typography variant="body2" mb={1}>
         {recipe.description}
       </Typography>
 
-      <Typography variant="h6">Ingredients</Typography>
+      <Typography variant="h6">{t('recipe:strings.ingredients')}</Typography>
       <Flex sx={{ mt: 1, ...alignCenterJustifyCenter }}>
         <IconButton
           size="small"
@@ -225,7 +229,7 @@ const RecipeView: React.FunctionComponent = () => {
         <TextField
           size="small"
           inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-          label="Servings"
+          label={t('recipe:strings.servings')}
           onChange={(event) => setServings(+event.target.value)}
           value={servings}
         />
@@ -237,12 +241,12 @@ const RecipeView: React.FunctionComponent = () => {
       <Grid container my={1} sx={gridOutline}>
         <Grid xs={4} sx={centerTopStyleCol}>
           <Typography sx={{ fontWeight: 'bold' }} ml={1}>
-            Amount
+            {t('recipe:strings.amount')}
           </Typography>
         </Grid>
         <Grid xs={8} sx={centerTopStyleCol}>
           <Typography sx={{ fontWeight: 'bold' }} ml={1}>
-            Ingredient
+            {t('recipe:strings.ingredient')}
           </Typography>
         </Grid>
         {recipe.ingredients.items &&
@@ -291,7 +295,7 @@ const RecipeView: React.FunctionComponent = () => {
           ))}
       </Grid>
 
-      <Typography variant="h6">Steps</Typography>
+      <Typography variant="h6">{t('recipe:strings.steps')}</Typography>
       <Grid container my={1} sx={gridOutline}>
         {recipe.steps.map((step: string, index: number) => (
           <>
@@ -318,7 +322,7 @@ const RecipeView: React.FunctionComponent = () => {
           <ListItemIcon>
             <Share fontSize="small" color="secondary" />
           </ListItemIcon>
-          <ListItemText>Share</ListItemText>
+          <ListItemText>{t('recipe:strings.share')}</ListItemText>
         </MenuItem>
         {loggedIn && (
           <MenuItem
@@ -337,10 +341,10 @@ const RecipeView: React.FunctionComponent = () => {
             </ListItemIcon>
             <ListItemText>
               {favMutation.isLoading
-                ? 'Pending...'
+                ? t('common:buttons.pending')
                 : recipe.isFavorite
-                ? 'Remove from Favorites'
-                : 'Add to Favorites'}
+                ? t('recipe:menuItems.rmFav')
+                : t('recipe:menuItems.addFav')}
             </ListItemText>
           </MenuItem>
         )}
@@ -361,10 +365,10 @@ const RecipeView: React.FunctionComponent = () => {
             </ListItemIcon>
             <ListItemText>
               {cooklistMutation.isLoading
-                ? 'Pending...'
+                ? t('common:buttons.pending')
                 : recipe.isCookList
-                ? 'Remove from Cooklist'
-                : 'Add to Cooklist'}
+                ? t('recipe:menuItems.rmCooklist')
+                : t('recipe:menuItems.addCooklist')}
             </ListItemText>
           </MenuItem>
         )}
@@ -377,7 +381,7 @@ const RecipeView: React.FunctionComponent = () => {
             <ListItemIcon>
               <Upload fontSize="small" color="secondary" />
             </ListItemIcon>
-            <ListItemText>Upload Image</ListItemText>
+            <ListItemText>{t('recipe:menuItems.uploadImage')}</ListItemText>
           </MenuItem>
         )}
         {owner && (
@@ -389,7 +393,7 @@ const RecipeView: React.FunctionComponent = () => {
             <ListItemIcon>
               <EditIcon fontSize="small" color="secondary" />
             </ListItemIcon>
-            <ListItemText>Edit</ListItemText>
+            <ListItemText>{t('recipe:menuItems.edit')}</ListItemText>
           </MenuItem>
         )}
         {owner && (
@@ -401,7 +405,7 @@ const RecipeView: React.FunctionComponent = () => {
             <ListItemIcon>
               <DeleteIcon fontSize="small" color="error" />
             </ListItemIcon>
-            <ListItemText>Delete</ListItemText>
+            <ListItemText>{t('recipe:menuItems.delete')}</ListItemText>
           </MenuItem>
         )}
       </Menu>

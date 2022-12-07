@@ -24,6 +24,8 @@ import user_en from '../translation/en/user.json';
 import user_de from '../translation/de/user.json';
 import lists_en from '../translation/en/lists.json';
 import lists_de from '../translation/de/lists.json';
+import recipe_en from '../translation/en/recipe.json';
+import recipe_de from '../translation/de/recipe.json';
 
 export const resources = {
   en: {
@@ -38,7 +40,8 @@ export const resources = {
     create: create_en,
     verification: verification_en,
     user: user_en,
-    lists: lists_en
+    lists: lists_en,
+    recipe: recipe_en
   },
   de: {
     common: common_de,
@@ -52,7 +55,8 @@ export const resources = {
     create: create_de,
     verification: verification_de,
     user: user_de,
-    lists: lists_de
+    lists: lists_de,
+    recipe: recipe_de
   }
 };
 
