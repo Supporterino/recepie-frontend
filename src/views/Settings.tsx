@@ -27,6 +27,7 @@ import Version from '../components/meta/version';
 import VerificationButton from '../components/user/VerificationButton';
 import { useTranslation } from 'react-i18next';
 import { availableLanguages, availableLanguagesType } from '../utils/i18n';
+import LegalInfo from '../components/meta/legalInfo';
 
 const Settings: React.FunctionComponent = () => {
   const theme = useTheme();
@@ -114,6 +115,7 @@ const Settings: React.FunctionComponent = () => {
         <Chip label={t('settings:headers.version')} />
       </Divider>
       <Version />
+      <LegalInfo />
     </FlexColContainer>
   );
 };
