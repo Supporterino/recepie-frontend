@@ -1,17 +1,17 @@
 {
-  "title": "Sign in",
+  "title": "Einloggen",
   "snackbar": {
-    "error": "Registration failed on serversode. Please try again.",
-    "success": "Registration complete. You can log in now.",
-    "mailTaken": "E-Mail already in use for an account. Please sign in."
+    "error": "Registierung fehlgeschlagen. Versuche es bitte erneut.",
+    "success": "Deine Registrierung war erfolgreich. Du kannst dich jetzt einloggen.",
+    "mailTaken": "Diese E-Mail existiert bereits. Log dich bitte ein."
   },
   "formFields": {
-    "email": "Mail address",
-    "password": "Password",
-    "username": "Username"
+    "email": "E-Mail-Adresse",
+    "password": "Passwort",
+    "username": "Nick"
   },
   "buttons": {
-    "signup": "Sign Up",
-    "signin": "Already have an account? Sign in"
+    "signup": "Registrieren",
+    "signin": "Du hast schon ein Konto? Log dich hier ein."
   }
 }

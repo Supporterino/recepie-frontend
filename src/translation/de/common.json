@@ -1,23 +1,23 @@
 {
   "title": "Recepie",
   "buttons": {
-    "submit": "Submit",
+    "submit": "Einreichen",
     "cancel": "Abbrechen",
-    "pending": "Pending...",
-    "next": "Next",
-    "back": "Back",
+    "pending": "Ausstehend...",
+    "next": "Vor",
+    "back": "Zurück",
     "save": "Speichern",
-    "upload": "Upload"
+    "upload": "Hochladen"
   },
   "snackbar": {
-    "errorFav": "Failed to set favorite for recipe.",
-    "errorCooklist": "Failed to set cooklist on recipe."
+    "errorFav": "Rezept konnte nicht zu den Favoriten hinzugefügt werden.",
+    "errorCooklist": "Rezept konnte nicht zu der Kochliste hinzugefügt werden."
   },
   "errorDisplay": {
-    "title": "Error",
-    "text": "Failed to load ressources with error — "
+    "title": "Fehler",
+    "text": "Fehler beim Laden der Ressourcen — "
   },
   "loader": {
-    "text": "Loading..."
+    "text": "Laden..."
   }
 }
