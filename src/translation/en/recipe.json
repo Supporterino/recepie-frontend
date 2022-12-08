@@ -1,6 +1,6 @@
 {
   "deleteDialog": {
-    "title": "Delete recipe?",
+    "title": "Delete recipe ?",
     "text": "Are you sure that you want to delete this recipe? Deletions cannot be reverted and neither you nor any other users can access the recipe.",
     "submitButton": "Delete",
     "error": "Failed to delete recipe."
