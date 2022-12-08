@@ -1,10 +1,10 @@
 {
   "roles": {
-    "SUPERADMIN": "Owner",
-    "USER": "User",
+    "SUPERADMIN": "Eigentümer",
+    "USER": "Nutzer",
     "MODERATOR": "Moderator",
     "ADMIN": "Admin"
   },
-  "verified": "Verified",
-  "unverified": "Unverified"
+  "verified": "Verifiziert",
+  "unverified": "Nicht verifiziert"
 }
