@@ -6,8 +6,7 @@
     "version": "Version"
   },
   "theme": {
-    "light": "light mode",
-    "dark": "dark mode"
+    "mode": "Color mode"
   },
   "logoutButton": "Logout",
   "version": {

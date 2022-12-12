@@ -1,9 +1,13 @@
+import { PaletteMode } from '@mui/material';
 import { createContext } from 'react';
 
 const ColorModeContext = createContext({
-  toggleColorMode: () => {}
+  setColorMode: (value: ThemeOptions) => {},
+  getActiveMode: (): ThemeOptions => {
+    return 'auto';
+  }
 });
 
-export type themeMode = 'light' | 'dark';
+export type ThemeOptions = PaletteMode | 'auto';
 
 export default ColorModeContext;

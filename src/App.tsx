@@ -1,11 +1,11 @@
-import { ThemeProvider, CssBaseline } from '@mui/material';
+import { ThemeProvider, CssBaseline, useMediaQuery } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SnackbarProvider } from 'notistack';
 import React, { useEffect, useMemo, useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import './App.css';
 import Layout from './components/Layout';
-import ColorModeContext, { themeMode } from './services/ThemeContext';
+import ColorModeContext, { ThemeOptions } from './services/ThemeContext';
 import theme from './theme';
 import './utils/i18n';
 const App: React.FunctionComponent = () => {
@@ -17,18 +17,35 @@ const App: React.FunctionComponent = () => {
       }
     }
   });
-  const [mode, setMode] = useState<themeMode>(
-    (localStorage.getItem(THEME_KEY) as themeMode) || 'light'
+  const preferesDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const [mode, setMode] = useState<ThemeOptions>(
+    (localStorage.getItem(THEME_KEY) as ThemeOptions) || 'auto'
   );
   const colorMode = useMemo(
     () => ({
-      toggleColorMode: () => {
-        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+      setColorMode: (value: ThemeOptions) => {
+        switch (value) {
+          case 'light':
+            setMode('light');
+            break;
+          case 'dark':
+            setMode('dark');
+            break;
+          case 'auto':
+            setMode('auto');
+            break;
+        }
+      },
+      getActiveMode: () => {
+        return mode;
       }
     }),
-    []
+    [mode]
   );
-  const activeTheme = useMemo(() => theme(mode), [mode]);
+  const activeTheme = useMemo(
+    () => theme(mode === 'auto' ? (preferesDarkMode ? 'dark' : 'light') : mode),
+    [mode, preferesDarkMode]
+  );
 
   useEffect(() => {
     localStorage.setItem(THEME_KEY, mode);

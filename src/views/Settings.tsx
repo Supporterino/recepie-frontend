@@ -9,18 +9,16 @@ import {
   SelectChangeEvent,
   ToggleButton,
   ToggleButtonGroup,
-  Typography,
-  useTheme
+  Typography
 } from '@mui/material';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { useContext } from 'react';
 import ColorModeContext from '../services/ThemeContext';
 import FlexColContainer from '../components/layout/FlexColContainer';
-import Grid from '@mui/system/Unstable_Grid';
 import { authenticationManager } from '../services/AuthenticationManager';
 import { useSnackbar } from 'notistack';
-import { centerTopStyleRow } from '../components/layout/commonSx';
+import { alignCenterJustifyCenter, centerTopStyleRow } from '../components/layout/commonSx';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import Version from '../components/meta/version';
@@ -28,9 +26,10 @@ import VerificationButton from '../components/user/VerificationButton';
 import { useTranslation } from 'react-i18next';
 import { availableLanguages, availableLanguagesType } from '../utils/i18n';
 import LegalInfo from '../components/meta/legalInfo';
+import BrightnessAutoIcon from '@mui/icons-material/BrightnessAuto';
+import Flex from '../components/layout/Flex';
 
 const Settings: React.FunctionComponent = () => {
-  const theme = useTheme();
   const colorMode = useContext(ColorModeContext);
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
@@ -49,38 +48,27 @@ const Settings: React.FunctionComponent = () => {
       <Divider sx={{ my: 1, ...centerTopStyleRow }}>
         <Chip label={t('settings:headers.theming')} />
       </Divider>
-      <Grid
-        my={2}
-        container
-        justifyContent="space-evenly"
-        alignItems="center"
-        spacing={0}
-        columns={12}
-      >
-        <Grid xs={6}>
-          <Typography>
-            {'Active mode is: ' + t(`settings:theme.${theme.palette.mode}` as const)}
-          </Typography>
-        </Grid>
-        <Grid xs={6}>
-          <ToggleButtonGroup
-            fullWidth
-            value={theme.palette.mode}
-            exclusive
-            onChange={(event, value) => {
-              colorMode.toggleColorMode();
-            }}
-            color="primary"
-          >
-            <ToggleButton value="light" aria-label="left aligned">
-              <LightModeIcon />
-            </ToggleButton>
-            <ToggleButton value="dark" aria-label="centered">
-              <DarkModeIcon />
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </Grid>
-      </Grid>
+      <Flex sx={alignCenterJustifyCenter}>
+        <Typography sx={{ flexGrow: 1 }}>{t(`settings:theme.mode`)}</Typography>
+        <ToggleButtonGroup
+          value={colorMode.getActiveMode()}
+          exclusive
+          onChange={(event, value) => {
+            colorMode.setColorMode(value);
+          }}
+          color="primary"
+        >
+          <ToggleButton value="light">
+            <LightModeIcon sx={{ mx: 2 }} />
+          </ToggleButton>
+          <ToggleButton value="auto">
+            <BrightnessAutoIcon sx={{ mx: 2 }} />
+          </ToggleButton>
+          <ToggleButton value="dark">
+            <DarkModeIcon sx={{ mx: 2 }} />
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </Flex>
       <Divider sx={{ my: 1, ...centerTopStyleRow }}>
         <Chip label={t('settings:headers.language')} />
       </Divider>

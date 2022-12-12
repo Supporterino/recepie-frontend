@@ -6,8 +6,7 @@
     "version": "Version"
   },
   "theme": {
-    "light": "Helles Design",
-    "dark": "Dunkles Design"
+    "mode": "Design"
   },
   "logoutButton": "Abmelden",
   "version": {
