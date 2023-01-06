@@ -1,30 +1,92 @@
-import { Chip, IconButton } from '@mui/material';
-import { useState } from 'react';
+import { Autocomplete, Chip, createFilterOptions, TextField } from '@mui/material';
+import { useQuery } from '@tanstack/react-query';
+import { t } from 'i18next';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { getAllTags } from '../../services/requests';
 import Flex from '../layout/Flex';
-import FlexCol from '../layout/FlexCol';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 type TagListProps = {
-  tags: string[];
+  initialTags: string[];
+  editable?: boolean;
+  updateHook?: Dispatch<SetStateAction<string[]>>;
 };
 
-const TagList: React.FunctionComponent<TagListProps> = ({ tags }: TagListProps) => {
-    const [expand, setExpand] = useState<boolean>(false)
-    const shouldSplit = tags.length > 2;
-    let toRender: JSX.Element[];
+const TagList: React.FunctionComponent<TagListProps> = ({
+  initialTags,
+  editable,
+  updateHook
+}: TagListProps) => {
+  const { data } = useQuery(['tags'], getAllTags);
+  const [tags, setTags] = useState<string[]>(initialTags);
 
-    if (shouldSplit) {
-        toRender = tags.slice(0, 2).map((tag: string) => <Chip label={tag} sx={{ mx: 0.2 }} />)
-    } else {
-        toRender = tags.map((tag: string) => <Chip label={tag} sx={{ mx: 0.2 }} />)
-    }
+  useEffect(() => {
+    if (updateHook) updateHook(tags);
+  }, [tags, updateHook]);
+
+  const deleteTag = (toDelete: string) => {
+    setTags(tags.filter((tag) => tag !== toDelete));
+  };
+
+  const updateTags = (tags: string[]) => {
+    const cleanedTags: string[] = [];
+    tags.forEach((tag) => cleanedTags.push(tag.replace('create new tag:', '').trim()));
+    setTags(cleanedTags);
+  };
+
+  const filter = createFilterOptions<string>();
 
   return (
-      <Flex>
-        {toRender}
-        {shouldSplit && <IconButton onClick={() => setExpand((prev) => !prev)}><ArrowBackIosNewIcon /></IconButton>}
-        {expand && tags.map((tag: string) => <Chip label={tag} sx={{ mx: 0.2 }} />)}
-      </Flex>
+    <Flex sx={{ flexWrap: 'wrap', mt: 1, mb: 1 }}>
+      {!editable ? (
+        tags.map((tag: string) => <Chip label={tag} sx={{ mx: 0.2 }} />)
+      ) : (
+        <Autocomplete
+          multiple
+          id="tags-filled"
+          options={data.sort().map((option: string) => option)}
+          renderTags={(value: readonly string[]) =>
+            value.map((tag: string) => (
+              <Chip
+                label={tag}
+                key={tag}
+                id={tag}
+                sx={{ mx: 0.2 }}
+                color="secondary"
+                onDelete={() => deleteTag(tag)}
+              />
+            ))
+          }
+          value={tags}
+          onChange={(event, value) => updateTags(value)}
+          freeSolo
+          getOptionDisabled={(option) => option.includes('invalid input')}
+          filterOptions={(options, params) => {
+            const filtered = filter(options, params);
+
+            const inputValue = params.inputValue.trim();
+            // Suggest the creation of a new value
+            const isExisting = options.some((option) => inputValue === option);
+
+            if (inputValue.includes(' ')) {
+              filtered.push(`invalid input: ${inputValue}`);
+            } else if (inputValue !== '' && !isExisting) {
+              filtered.push(`create new tag: ${inputValue}`);
+            }
+
+            return filtered;
+          }}
+          renderInput={(params) => (
+            <TextField
+              label={t('create:basic.formFields.tags')}
+              margin="normal"
+              required
+              {...params}
+              variant="outlined"
+            />
+          )}
+        />
+      )}
+    </Flex>
   );
 };
 

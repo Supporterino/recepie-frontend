@@ -25,7 +25,8 @@
     "amount": "Menge",
     "ingredient": "Zutat",
     "steps": "Schritte",
-    "share": "Teilen"
+    "share": "Teilen",
+    "tags": "Tags"
   },
   "share": {
     "string": "Hier ist ein Rezept, das dir gefallen könnte. :)",

@@ -1,6 +1,5 @@
 import {
   Box,
-  Chip,
   IconButton,
   ListItemIcon,
   ListItemText,
@@ -203,7 +202,6 @@ const RecipeView: React.FunctionComponent = () => {
               ({recipe.rating.numOfRatings})
             </Typography>
           </Flex>
-          <TagList tags={recipe.tags} />
         </FlexCol>
       </Flex>
 
@@ -219,6 +217,9 @@ const RecipeView: React.FunctionComponent = () => {
       <Typography variant="body2" mb={1}>
         {recipe.description}
       </Typography>
+
+      <Typography variant="h6">{t('recipe:strings.tags')}</Typography>
+      <TagList initialTags={recipe.tags} />
 
       <Typography variant="h6">{t('recipe:strings.ingredients')}</Typography>
       <Flex sx={{ mt: 1, ...alignCenterJustifyCenter }}>

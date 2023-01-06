@@ -28,6 +28,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import EditSection from '../createSteps/EditSection';
 import RecipeImage from './RecipeImage';
 import { useTranslation } from 'react-i18next';
+import TagList from './TagList';
 
 const EditRecipeView: React.FunctionComponent = () => {
   const navigate = useNavigate();
@@ -46,6 +47,7 @@ const EditRecipeView: React.FunctionComponent = () => {
   const [steps, setSteps] = useState<string[]>(recipe.steps);
   const [description, setDescription] = useState<string>(recipe.description);
   const [name, setName] = useState<string>(recipe.name);
+  const [tags, setTags] = useState<Array<string>>(recipe.tags);
 
   const handleIngredientDelete = (toDelete: Ingredient) => {
     setIngredients(ingredients.filter((ingredient) => ingredient !== toDelete));
@@ -83,7 +85,6 @@ const EditRecipeView: React.FunctionComponent = () => {
     setAddSectionOpen(false);
   };
 
-  // TODO: Add tag editing
   const editMutation = useMutation(
     () =>
       sendRequest(editRecipeUrl, 'POST', {
@@ -98,7 +99,8 @@ const EditRecipeView: React.FunctionComponent = () => {
               }
             : { items: ingredients })
         },
-        steps
+        steps,
+        tags
       }),
     {
       onSuccess: async () => {
@@ -167,6 +169,9 @@ const EditRecipeView: React.FunctionComponent = () => {
         onChange={(event) => setDescription(event.target.value)}
         sx={{ my: 1 }}
       />
+
+      <Typography variant="h6">{t('recipe:strings.tags')}</Typography>
+      <TagList initialTags={tags} editable updateHook={setTags} />
 
       <Typography variant="h6">{t('recipe:strings.ingredients')}</Typography>
       <Flex sx={{ mt: 1, ...alignCenterJustifyCenter }}>

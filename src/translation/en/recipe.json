@@ -25,7 +25,8 @@
     "amount": "Amount",
     "ingredient": "Ingredient",
     "steps": "Steps",
-    "share": "Share"
+    "share": "Share",
+    "tags": "Tags"
   },
   "share": {
     "string": "Here is a recipe you might like. :)",
