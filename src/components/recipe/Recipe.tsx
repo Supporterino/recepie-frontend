@@ -1,5 +1,6 @@
 import {
   Box,
+  Chip,
   IconButton,
   ListItemIcon,
   ListItemText,
@@ -54,6 +55,7 @@ import DeleteRecipe from './DeleteRecipe';
 import Review from './Rating';
 import RecipeImage from './RecipeImage';
 import { useTranslation } from 'react-i18next';
+import TagList from './TagList';
 
 const RecipeView: React.FunctionComponent = () => {
   const { id } = useParams();
@@ -201,6 +203,7 @@ const RecipeView: React.FunctionComponent = () => {
               ({recipe.rating.numOfRatings})
             </Typography>
           </Flex>
+          <TagList tags={recipe.tags} />
         </FlexCol>
       </Flex>
 
