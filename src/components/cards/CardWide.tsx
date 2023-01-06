@@ -31,10 +31,6 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
   const loggedIn = useLoggedIn();
   const { t } = useTranslation('common');
 
-  const imgURL = () => {
-    return `${recipe.picture !== '' ? recipe.picture : 'images/no-pictures.png'}`;
-  };
-
   const lineLimit = (num: number) => {
     return {
       display: '-webkit-box',
@@ -144,7 +140,7 @@ const CardWide: React.FunctionComponent<CardWideProps> = ({ recipe }: CardWidePr
         </Box>
       </CardContent>
       <RecipeImage
-        url={imgURL()}
+        url={recipe.picture}
         width="120px"
         height="150px"
         onClick={() => navigate(`/recipe/${recipe.id}`)}
