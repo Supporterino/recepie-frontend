@@ -55,7 +55,7 @@ const ListOverview: React.FunctionComponent<ListViewProps> = ({
           {recipes &&
             recipes.slice(0, numOfRecipes).map((recipe, index) => (
               <RecipeImage
-                url={`${recipe.picture !== '' ? recipe.picture : 'images/no-pictures.png'}`}
+                url={recipe.picture}
                 onClick={() => {
                   navigate(`/recipe/${recipe.id}`);
                 }}
