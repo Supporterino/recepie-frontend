@@ -1,4 +1,6 @@
 build:
+  variables:
+      GIT_SUBMODULE_STRATEGY: recursive
   stage: build
   image:
     name: gcr.io/kaniko-project/executor:v1.9.1-debug
