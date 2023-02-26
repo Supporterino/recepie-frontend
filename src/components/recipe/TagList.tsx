@@ -36,12 +36,13 @@ const TagList: React.FunctionComponent<TagListProps> = ({
   const filter = createFilterOptions<string>();
 
   return (
-    <Flex sx={{ flexWrap: 'wrap', mt: 1, mb: 1 }}>
+    <Flex sx={{ flexWrap: 'wrap', mt: 1, mb: 1, width: '100%' }}>
       {!editable ? (
         tags.map((tag: string) => <Chip label={tag} sx={{ mx: 0.2 }} />)
       ) : (
         <Autocomplete
           multiple
+          fullWidth
           id="tags-filled"
           options={data.sort().map((option: string) => option)}
           renderTags={(value: readonly string[]) =>
