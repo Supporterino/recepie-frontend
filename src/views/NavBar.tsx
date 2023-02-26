@@ -81,7 +81,7 @@ const NavBar: React.FunctionComponent = () => {
       {!loggedIn && (
         <BottomNavigationAction
           sx={{ px: paddingIcons, minWidth: minWidthIcon }}
-          label={t('create')}
+          label={t('login')}
           icon={<LoginIcon />}
           onClick={() => {
             navigate('/login');
