@@ -35,8 +35,8 @@ import sendRequest, {
   removeCookListUrl,
   addCookListUrl
 } from '../../services/requestService';
-import { Recipe, Ingredient, IngredientSection } from '../../types';
-import ImageUpload, { Target } from '../createSteps/imageUpload';
+import { Recipe, Ingredient, IngredientSection, PhotoTypes } from '../../types';
+import ImageUpload from '../createSteps/imageUpload';
 import {
   alignCenterJustifyStart,
   alignCenterJustifyCenter,
@@ -419,7 +419,7 @@ const RecipeView: React.FunctionComponent = () => {
           close={() => {
             setUploadOpen(false);
           }}
-          target={Target.RECIPE}
+          target={PhotoTypes.RECIPE}
           recipeID={id!}
         />
       )}

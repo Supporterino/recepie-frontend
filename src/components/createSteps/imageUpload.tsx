@@ -16,16 +16,12 @@ import sendRequest, { imageUploadUrl } from '../../services/requestService';
 import { useSnackbar } from 'notistack';
 import FlexCol from '../layout/FlexCol';
 import { useTranslation } from 'react-i18next';
-
-export enum Target {
-  USER = 'user',
-  RECIPE = 'recipe'
-}
+import { PhotoTypes } from '../../types';
 
 type ImageUploadProps = {
   open: boolean;
   close: Function;
-  target: Target;
+  target: PhotoTypes;
   recipeID?: string;
 };
 
@@ -65,8 +61,8 @@ const ImageUpload: React.FunctionComponent<ImageUploadProps> = ({
     if (hasFile()) {
       const data: FormData = new FormData();
       data.append('target', target);
-      if (target === Target.USER) data.append('userID', authenticationManager.getUserID());
-      if (target === Target.RECIPE) data.append('recipeID', recipeID!);
+      if (target === PhotoTypes.AVATAR) data.append('userID', authenticationManager.getUserID());
+      if (target === PhotoTypes.RECIPE) data.append('recipeID', recipeID!);
       data.append('myfile', (inputFile.current!.children[0]! as HTMLInputElement).files![0]);
 
       uploadMutation.mutate(data);

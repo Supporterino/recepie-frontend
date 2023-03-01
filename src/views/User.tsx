@@ -7,7 +7,7 @@ import { authenticationManager } from '../services/AuthenticationManager';
 import { getOwnRecipes, getUser } from '../services/requests';
 import FlexCol from '../components/layout/FlexCol';
 import { alignCenterJustifyCenter, alignStartJustifyCenter } from '../components/layout/commonSx';
-import { getRoleKeyName, Recipe, Role, RoleType, User } from '../types';
+import { getRoleKeyName, PhotoTypes, Recipe, Role, RoleType, User } from '../types';
 import ListOverview from '../components/listViews/ListOverview';
 import UserImage from '../components/user/UserImage';
 import Flex from '../components/layout/Flex';
@@ -16,7 +16,7 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import GppBadIcon from '@mui/icons-material/GppBad';
-import ImageUpload, { Target } from '../components/createSteps/imageUpload';
+import ImageUpload from '../components/createSteps/imageUpload';
 import { useTranslation } from 'react-i18next';
 
 const UserSite: React.FunctionComponent = () => {
@@ -101,7 +101,7 @@ const UserSite: React.FunctionComponent = () => {
         close={() => {
           setUploadOpen(false);
         }}
-        target={Target.USER}
+        target={PhotoTypes.AVATAR}
       />
       <ListOverview name={t('lists:ownRecipes')} queryObject={ownRecipesQuery} />
     </FlexColContainer>
