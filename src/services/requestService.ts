@@ -24,6 +24,7 @@ export const ownRatingUrl = baseUrl + secured + 'v1/rating/getRatingForUser';
 export const getOwnRecipesUrl = baseUrl + secured + 'v1/recipe-provider/getMyRecipes';
 export const completeVerifyUrl = baseUrl + unSecured + 'v1/verification/completeVerification';
 export const startVerifyUrl = baseUrl + secured + 'v1/verification/verifyEmail';
+export const changePrimaryPictureUrl = baseUrl + secured + 'v1/photo/setPrimaryPicture';
 export const resetPasswordUrl = baseUrl + unSecured + 'v1/verification/passwordReset';
 export const completePasswordResetUrl =
   baseUrl + unSecured + 'v1/verification/completePasswordReset';

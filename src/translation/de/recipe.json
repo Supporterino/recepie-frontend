@@ -44,5 +44,9 @@
     "uploadImage": "Bild hochladen",
     "edit": "Bearbeiten",
     "delete": "Löschen"
+  },
+  "galery": {
+    "title": "Gallery",
+    "primaryButton": "Set as primary"
   }
 }

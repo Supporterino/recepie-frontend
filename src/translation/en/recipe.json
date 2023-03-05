@@ -46,6 +46,7 @@
     "delete": "Delete"
   },
   "galery": {
-    "title": "Gallery"
+    "title": "Gallery",
+    "primaryButton": "Set as primary"
   }
 }

@@ -12,23 +12,23 @@ import { useTranslation } from 'react-i18next';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 import SwipeableViews from 'react-swipeable-views';
-import { autoPlay } from 'react-swipeable-views-utils';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
-
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
+import { UseMutationResult } from '@tanstack/react-query';
 
 type GalerieProps = {
   open: boolean;
   close: () => void;
   primaryImage: string;
   images: string[];
+  changeMutation: UseMutationResult<Response, unknown, number, unknown>;
 };
 
 const Galerie: React.FunctionComponent<GalerieProps> = ({
   open,
   close,
   images,
-  primaryImage
+  primaryImage,
+  changeMutation
 }: GalerieProps) => {
   const { t } = useTranslation(['common', 'recipe']);
   const [activeStep, setActiveStep] = useState(0);
@@ -63,12 +63,23 @@ const Galerie: React.FunctionComponent<GalerieProps> = ({
             sx={{
               display: 'flex',
               alignItems: 'center',
+              flexDirection: 'row-reverse',
               height: 50,
               pl: 2,
               bgcolor: 'background.default'
             }}
-          ></Paper>
-          <AutoPlaySwipeableViews
+          >
+            <Button
+              disabled={activeStep === 0}
+              onClick={() => {
+                changeMutation.mutate(activeStep - 1);
+                close();
+              }}
+            >
+              {t('recipe:galery.primaryButton')}
+            </Button>
+          </Paper>
+          <SwipeableViews
             axis="x"
             index={activeStep}
             onChangeIndex={handleStepChange}
@@ -84,6 +95,7 @@ const Galerie: React.FunctionComponent<GalerieProps> = ({
                       display: 'block',
                       maxWidth: 400,
                       overflow: 'hidden',
+                      objectFit: 'cover',
                       width: '100%'
                     }}
                     src={url}
@@ -91,7 +103,7 @@ const Galerie: React.FunctionComponent<GalerieProps> = ({
                 ) : null}
               </div>
             ))}
-          </AutoPlaySwipeableViews>
+          </SwipeableViews>
           <MobileStepper
             steps={maxSteps}
             position="static"
