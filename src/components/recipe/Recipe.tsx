@@ -34,7 +34,8 @@ import sendRequest, {
   addFavoriteUrl,
   removeCookListUrl,
   addCookListUrl,
-  changePrimaryPictureUrl
+  changePrimaryPictureUrl,
+  deleteAdditionalPictureUrl
 } from '../../services/requestService';
 import { Recipe, Ingredient, IngredientSection, PhotoTypes } from '../../types';
 import ImageUpload from '../createSteps/imageUpload';
@@ -169,6 +170,25 @@ const RecipeView: React.FunctionComponent = () => {
     }
   );
 
+  const deletePictureMutation = useMutation(
+    (index: number) =>
+      sendRequest(deleteAdditionalPictureUrl, 'POST', { recipeID: id, index: index }),
+    {
+      onSuccess: () => {
+        return Promise.all([
+          queryClient.invalidateQueries(['recipes']),
+          queryClient.invalidateQueries(['cooklist']),
+          queryClient.invalidateQueries(['lists']),
+          queryClient.invalidateQueries(['recipe', id]),
+          queryClient.invalidateQueries(['ownRecipes'])
+        ]);
+      },
+      onError: (error, variables, context) => {
+        enqueueSnackbar(t('recipe:snackbar.cooklistError'), { variant: 'warning' });
+      }
+    }
+  );
+
   if (isLoading)
     return (
       <FlexColContainer>
@@ -242,6 +262,7 @@ const RecipeView: React.FunctionComponent = () => {
           primaryImage={recipe.picture}
           images={recipe.additionalPictures!}
           changeMutation={pictureChangeMutation}
+          deleteMutation={deletePictureMutation}
         />
       )}
 

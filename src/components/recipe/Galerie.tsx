@@ -14,6 +14,7 @@ import { useState } from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import { UseMutationResult } from '@tanstack/react-query';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type GalerieProps = {
   open: boolean;
@@ -21,6 +22,7 @@ type GalerieProps = {
   primaryImage: string;
   images: string[];
   changeMutation: UseMutationResult<Response, unknown, number, unknown>;
+  deleteMutation: UseMutationResult<Response, unknown, number, unknown>;
 };
 
 const Galerie: React.FunctionComponent<GalerieProps> = ({
@@ -28,7 +30,8 @@ const Galerie: React.FunctionComponent<GalerieProps> = ({
   close,
   images,
   primaryImage,
-  changeMutation
+  changeMutation,
+  deleteMutation
 }: GalerieProps) => {
   const { t } = useTranslation(['common', 'recipe']);
   const [activeStep, setActiveStep] = useState(0);
@@ -63,18 +66,29 @@ const Galerie: React.FunctionComponent<GalerieProps> = ({
             sx={{
               display: 'flex',
               alignItems: 'center',
-              flexDirection: 'row-reverse',
+              flexDirection: 'row',
               height: 50,
               pl: 2,
               bgcolor: 'background.default'
             }}
           >
+            <IconButton
+              sx={{ mr: 'auto' }}
+              disabled={activeStep === 0}
+              onClick={() => {
+                deleteMutation.mutate(activeStep - 1);
+                close();
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
             <Button
               disabled={activeStep === 0}
               onClick={() => {
                 changeMutation.mutate(activeStep - 1);
                 close();
               }}
+              sx={{ mr: 1 }}
             >
               {t('recipe:galery.primaryButton')}
             </Button>
