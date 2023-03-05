@@ -226,7 +226,13 @@ const RecipeView: React.FunctionComponent = () => {
           url={`${recipe.picture !== '' ? recipe.picture : 'images/no-pictures.png'}`}
           sx={{ mr: 1, my: 1, boxShadow: 3 }}
           rounded
-          onClick={() => setGaleryOpen(true)}
+          onClick={() => {
+            if (recipe.additionalPictures![0] !== '' && recipe.additionalPictures!.length > 0)
+              setGaleryOpen(true);
+          }}
+          additionalPictures={
+            recipe.additionalPictures![0] !== '' && recipe.additionalPictures!.length > 0
+          }
         />
         <FlexCol sx={{ justifyContent: 'space-evenly' }}>
           <Typography variant="h5">{recipe.name}</Typography>
@@ -255,7 +261,7 @@ const RecipeView: React.FunctionComponent = () => {
         recipeID={id!}
       />
 
-      {recipe.additionalPictures![0] !== '' && (
+      {recipe.additionalPictures![0] !== '' && recipe.additionalPictures!.length > 0 && (
         <Galerie
           open={galeryOpen}
           close={() => setGaleryOpen(false)}
