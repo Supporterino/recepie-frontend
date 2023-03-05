@@ -55,6 +55,7 @@ import Review from './Rating';
 import RecipeImage from './RecipeImage';
 import { useTranslation } from 'react-i18next';
 import TagList from './TagList';
+import Galerie from './Galerie';
 
 const RecipeView: React.FunctionComponent = () => {
   const { id } = useParams();
@@ -63,6 +64,7 @@ const RecipeView: React.FunctionComponent = () => {
   const [uploadOpen, setUploadOpen] = useState<boolean>(false);
   const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
   const [reviewOpen, setReviewOpen] = useState<boolean>(false);
+  const [galeryOpen, setGaleryOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const loggedIn = useLoggedIn();
   const { t } = useTranslation(['common', 'recipe']);
@@ -185,6 +187,7 @@ const RecipeView: React.FunctionComponent = () => {
           url={`${recipe.picture !== '' ? recipe.picture : 'images/no-pictures.png'}`}
           sx={{ mr: 1, my: 1, boxShadow: 3 }}
           rounded
+          onClick={() => setGaleryOpen(true)}
         />
         <FlexCol sx={{ justifyContent: 'space-evenly' }}>
           <Typography variant="h5">{recipe.name}</Typography>
@@ -213,11 +216,19 @@ const RecipeView: React.FunctionComponent = () => {
         recipeID={id!}
       />
 
+      {recipe.additionalPictures![0] !== '' && (
+        <Galerie
+          open={galeryOpen}
+          close={() => setGaleryOpen(false)}
+          primaryImage={recipe.picture}
+          images={recipe.additionalPictures!}
+        />
+      )}
+
       <Typography variant="h6">{t('recipe:strings.description')}</Typography>
       <Typography variant="body2" mb={1}>
         {recipe.description}
       </Typography>
-
       <Typography variant="h6">{t('recipe:strings.tags')}</Typography>
       <TagList initialTags={recipe.tags} />
 
@@ -419,7 +430,7 @@ const RecipeView: React.FunctionComponent = () => {
           close={() => {
             setUploadOpen(false);
           }}
-          target={PhotoTypes.RECIPE}
+          target={recipe.picture === '' ? PhotoTypes.RECIPE : PhotoTypes.ADDITION_RECIPE}
           recipeID={id!}
         />
       )}

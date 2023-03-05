@@ -44,5 +44,8 @@
     "uploadImage": "Upload image",
     "edit": "Edit",
     "delete": "Delete"
+  },
+  "galery": {
+    "title": "Gallery"
   }
 }

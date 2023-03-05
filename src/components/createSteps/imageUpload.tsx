@@ -62,7 +62,8 @@ const ImageUpload: React.FunctionComponent<ImageUploadProps> = ({
       const data: FormData = new FormData();
       data.append('target', target);
       if (target === PhotoTypes.AVATAR) data.append('userID', authenticationManager.getUserID());
-      if (target === PhotoTypes.RECIPE) data.append('recipeID', recipeID!);
+      if (target === PhotoTypes.RECIPE || target === PhotoTypes.ADDITION_RECIPE)
+        data.append('recipeID', recipeID!);
       data.append('myfile', (inputFile.current!.children[0]! as HTMLInputElement).files![0]);
 
       uploadMutation.mutate(data);
