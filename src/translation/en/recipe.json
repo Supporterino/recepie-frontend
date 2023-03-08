@@ -1,52 +1,52 @@
 {
-  "deleteDialog": {
-    "title": "Delete recipe ?",
-    "text": "Are you sure that you want to delete this recipe? Deletions cannot be reverted and neither you nor any other users can access the recipe.",
-    "submitButton": "Delete",
-    "error": "Failed to delete recipe."
-  },
-  "editView": {
-    "error": "Failed to edit recipe.",
-    "addIngredient": "Add new ingredient",
-    "addSection": "Add new section",
-    "addStep": "Add new step"
-  },
-  "ratingDialog": {
-    "error": "Failed to set/update your rating.",
-    "title": "Submit a review",
-    "rating": "Your rating"
-  },
-  "strings": {
-    "by": "by",
-    "name": "Name",
-    "description": "Description",
-    "ingredients": "Ingredients",
-    "servings": "Servings",
-    "amount": "Amount",
-    "ingredient": "Ingredient",
-    "steps": "Steps",
-    "share": "Share",
-    "tags": "Tags"
-  },
-  "share": {
-    "string": "Here is a recipe you might like. :)",
-    "error": "Failed to share recipe via nativ drawer."
-  },
-  "snackbar": {
-    "favError": "Failed to set recipe to favorites",
-    "cooklistError": "Failed to place recipe on your cooklist"
-  },
-  "menuItems": {
-    "addFav": "Add to favorites",
-    "rmFav": "Remove from favorites",
-    "addCooklist": "Add to cooklist",
-    "rmCooklist": "Remove from cooklist",
-    "uploadImage": "Upload image",
-    "edit": "Edit",
-    "delete": "Delete"
-  },
-  "galery": {
-    "title": "Gallery",
-    "primaryButton": "Set as primary"
-  }
+    "deleteDialog": {
+        "title": "Delete recipe ?",
+        "text": "Are you sure that you want to delete this recipe? Deletions cannot be reverted and neither you nor any other users can access the recipe.",
+        "submitButton": "Delete",
+        "error": "Failed to delete recipe."
+    },
+    "editView": {
+        "error": "Failed to edit recipe.",
+        "addIngredient": "Add new ingredient",
+        "addSection": "Add new section",
+        "addStep": "Add new step"
+    },
+    "ratingDialog": {
+        "error": "Failed to set/update your rating.",
+        "title": "Submit a review",
+        "rating": "Your rating"
+    },
+    "strings": {
+        "by": "by",
+        "name": "Name",
+        "description": "Description",
+        "ingredients": "Ingredients",
+        "servings": "Servings",
+        "amount": "Amount",
+        "ingredient": "Ingredient",
+        "steps": "Steps",
+        "share": "Share",
+        "tags": "Tags"
+    },
+    "share": {
+        "string": "Here is a recipe you might like. :)",
+        "error": "Failed to share recipe via nativ drawer."
+    },
+    "snackbar": {
+        "favError": "Failed to set recipe to favorites",
+        "cooklistError": "Failed to place recipe on your cooklist"
+    },
+    "menuItems": {
+        "addFav": "Add to favorites",
+        "rmFav": "Remove from favorites",
+        "addCooklist": "Add to cooklist",
+        "rmCooklist": "Remove from cooklist",
+        "uploadImage": "Upload image",
+        "edit": "Edit",
+        "delete": "Delete"
+    },
+    "galery": {
+        "title": "Gallery",
+        "primaryButton": "Set as primary"
+    }
 }

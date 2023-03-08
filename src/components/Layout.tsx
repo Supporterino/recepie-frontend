@@ -17,39 +17,39 @@ import Verification from './auth/Verification';
 import PasswordReset from '../views/PasswordReset';
 
 const Layout: React.FunctionComponent = () => {
-  const isStandalone = useMediaQuery('(display-mode: standalone)');
+    const isStandalone = useMediaQuery('(display-mode: standalone)');
 
-  return (
-    <Box sx={{ height: '100%', overflow: 'hidden' }}>
-      <Box sx={{ display: 'flex', height: window.innerHeight }} flexDirection={'column-reverse'}>
-        <Paper
-          sx={{
-            paddingBottom: isIOS && isStandalone ? 3 : 0,
-            flex: 1
-          }}
-          elevation={0}
-        >
-          <NavBar></NavBar>
-        </Paper>
-        <Paper sx={{ height: '100%', overflowY: 'auto', ...centerTopStyleRow }} elevation={1}>
-          <Routes>
-            <Route path="/login" element={<SignIn />} />
-            <Route path="/register" element={<SignUp />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/create" element={<Create />} />
-            <Route path="/me" element={<UserSite />} />
-            <Route path="/lists" element={<Lists />} />
-            <Route path="/lists/:name" element={<ListView />} />
-            <Route path="/recipe/:id" element={<RecipeView />} />
-            <Route path="/edit/:id" element={<EditRecipeView />} />
-            <Route path="/completeVerification" element={<Verification />} />
-            <Route path="/passwordReset" element={<PasswordReset />} />
-            <Route path="/" element={<Home />} />
-          </Routes>
-        </Paper>
-      </Box>
-    </Box>
-  );
+    return (
+        <Box sx={{ height: '100%', overflow: 'hidden' }}>
+            <Box sx={{ display: 'flex', height: window.innerHeight }} flexDirection={'column-reverse'}>
+                <Paper
+                    sx={{
+                        paddingBottom: isIOS && isStandalone ? 3 : 0,
+                        flex: 1,
+                    }}
+                    elevation={0}
+                >
+                    <NavBar></NavBar>
+                </Paper>
+                <Paper sx={{ height: '100%', overflowY: 'auto', ...centerTopStyleRow }} elevation={1}>
+                    <Routes>
+                        <Route path="/login" element={<SignIn />} />
+                        <Route path="/register" element={<SignUp />} />
+                        <Route path="/settings" element={<Settings />} />
+                        <Route path="/create" element={<Create />} />
+                        <Route path="/me" element={<UserSite />} />
+                        <Route path="/lists" element={<Lists />} />
+                        <Route path="/lists/:name" element={<ListView />} />
+                        <Route path="/recipe/:id" element={<RecipeView />} />
+                        <Route path="/edit/:id" element={<EditRecipeView />} />
+                        <Route path="/completeVerification" element={<Verification />} />
+                        <Route path="/passwordReset" element={<PasswordReset />} />
+                        <Route path="/" element={<Home />} />
+                    </Routes>
+                </Paper>
+            </Box>
+        </Box>
+    );
 };
 
 export default Layout;

@@ -1,14 +1,14 @@
 import {
-  Autocomplete,
-  Chip,
-  createFilterOptions,
-  Divider,
-  IconButton,
-  InputBase,
-  Rating,
-  TextField,
-  Typography,
-  useTheme
+    Autocomplete,
+    Chip,
+    createFilterOptions,
+    Divider,
+    IconButton,
+    InputBase,
+    Rating,
+    TextField,
+    Typography,
+    useTheme,
 } from '@mui/material';
 import Flex from '../layout/Flex';
 import FlexCol from '../layout/FlexCol';
@@ -24,153 +24,138 @@ import { Coronavirus } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 
 type SearchProps = {
-  setRecipes: React.Dispatch<React.SetStateAction<Recipe[]>>;
-  setIsError: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setError: React.Dispatch<unknown>;
+    setRecipes: React.Dispatch<React.SetStateAction<Recipe[]>>;
+    setIsError: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    setError: React.Dispatch<unknown>;
 };
 
-const Search: React.FunctionComponent<SearchProps> = ({
-  setRecipes,
-  setIsError,
-  setIsLoading,
-  setError
-}: SearchProps) => {
-  const { data } = useQuery(['tags'], getAllTags);
-  const [name, setName] = useState<string>('');
-  const [minRating, setMinRating] = useState<number>(0);
-  const [tags, setTags] = useState<string[]>([]);
-  const [moreOptions, setMoreOptions] = useState<boolean>(false);
-  const [rerender, setRerender] = useState<boolean>(false);
-  const theme = useTheme();
-  const { t } = useTranslation('search');
+const Search: React.FunctionComponent<SearchProps> = ({ setRecipes, setIsError, setIsLoading, setError }: SearchProps) => {
+    const { data } = useQuery(['tags'], getAllTags);
+    const [name, setName] = useState<string>('');
+    const [minRating, setMinRating] = useState<number>(0);
+    const [tags, setTags] = useState<string[]>([]);
+    const [moreOptions, setMoreOptions] = useState<boolean>(false);
+    const [rerender, setRerender] = useState<boolean>(false);
+    const theme = useTheme();
+    const { t } = useTranslation('search');
 
-  const deleteTag = (toDelete: string) => {
-    setTags(tags.filter((tag) => tag !== toDelete));
-  };
+    const deleteTag = (toDelete: string) => {
+        setTags(tags.filter(tag => tag !== toDelete));
+    };
 
-  const updateTags = (tags: string[]) => {
-    const cleanedTags: string[] = [];
-    tags.forEach((tag) => cleanedTags.push(tag.trim()));
-    setTags(cleanedTags);
-  };
+    const updateTags = (tags: string[]) => {
+        const cleanedTags: string[] = [];
+        tags.forEach(tag => cleanedTags.push(tag.trim()));
+        setTags(cleanedTags);
+    };
 
-  const filter = createFilterOptions<string>();
+    const filter = createFilterOptions<string>();
 
-  const {
-    isLoading,
-    isError,
-    error,
-    data: recipes,
-    refetch
-  } = useQuery<Recipe[]>(
-    ['recipes'],
-    name !== '' || minRating > 0 || tags.length > 0
-      ? () => getFilteredRecipes({ text: name, ratingMin: minRating, tags: tags })
-      : getAllRecipes
-  );
+    const {
+        isLoading,
+        isError,
+        error,
+        data: recipes,
+        refetch,
+    } = useQuery<Recipe[]>(
+        ['recipes'],
+        name !== '' || minRating > 0 || tags.length > 0
+            ? () => getFilteredRecipes({ text: name, ratingMin: minRating, tags: tags })
+            : getAllRecipes,
+    );
 
-  useEffect(() => {
-    setError(error);
-    setIsError(isError);
-    setIsLoading(isLoading);
-    if (recipes) setRecipes(recipes);
-  }, [isLoading, isError, error, recipes, setError, setIsError, setIsLoading, setRecipes]);
+    useEffect(() => {
+        setError(error);
+        setIsError(isError);
+        setIsLoading(isLoading);
+        if (recipes) setRecipes(recipes);
+    }, [isLoading, isError, error, recipes, setError, setIsError, setIsLoading, setRecipes]);
 
-  useEffect(() => {
-    refetch();
-    setRerender(false);
-  }, [refetch, rerender]);
+    useEffect(() => {
+        refetch();
+        setRerender(false);
+    }, [refetch, rerender]);
 
-  const reset = () => {
-    setName('');
-    setMinRating(0);
-    setTags([]);
-    setRerender(true);
-  };
+    const reset = () => {
+        setName('');
+        setMinRating(0);
+        setTags([]);
+        setRerender(true);
+    };
 
-  return (
-    <FlexCol
-      sx={{
-        boxShadow: 10,
-        borderBottomLeftRadius: 15,
-        borderBottomRightRadius: 15,
-        backgroundColor: theme.palette.mode === 'dark' ? '#121212' : '#f9f9f9',
-        maxWidth: theme.breakpoints.values.lg,
-        width: '100%'
-      }}
-    >
-      <Flex sx={{ p: 1, ...alignCenterJustifyCenter }}>
-        <IconButton onClick={() => setMoreOptions((prev) => !prev)}>
-          {!moreOptions && <Coronavirus />}
-          {moreOptions && <KeyboardArrowDownIcon />}
-        </IconButton>
-        <InputBase
-          fullWidth
-          placeholder={t('placeholder')}
-          sx={{ ml: 1 }}
-          value={name}
-          onChange={(event) => setName(event.target.value)}
-        />
-        <IconButton onClick={() => refetch()} sx={{ mr: 0.5 }}>
-          <SearchIcon />
-        </IconButton>
-        <Divider orientation="vertical" />
-        <IconButton
-          sx={{ ml: 0.25, mr: -0.25 }}
-          disabled={!(name !== '' || minRating > 0 || tags.length > 0)}
-          onClick={reset}
+    return (
+        <FlexCol
+            sx={{
+                boxShadow: 10,
+                borderBottomLeftRadius: 15,
+                borderBottomRightRadius: 15,
+                backgroundColor: theme.palette.mode === 'dark' ? '#121212' : '#f9f9f9',
+                maxWidth: theme.breakpoints.values.lg,
+                width: '100%',
+            }}
         >
-          <DeleteIcon />
-        </IconButton>
-      </Flex>
-      {moreOptions && (
-        <>
-          <Divider />
-          <Flex sx={{ mt: 0.5, p: 1, ...alignCenterJustifyEvenly }}>
-            <Typography variant="body2">{t('minRating')}</Typography>
-            <Rating
-              disabled={isLoading}
-              value={minRating}
-              onChange={(event, value) => setMinRating(value!)}
-            />
-          </Flex>
-          <Flex sx={{ p: 1 }}>
-            <Autocomplete
-              size="small"
-              multiple
-              fullWidth
-              id="tags-filled"
-              options={data.sort().map((option: string) => option)}
-              renderTags={(value: readonly string[]) =>
-                value.map((tag: string) => (
-                  <Chip
-                    label={tag}
-                    key={tag}
-                    id={tag}
-                    sx={{ mx: 0.2 }}
-                    color="secondary"
-                    onDelete={() => deleteTag(tag)}
-                  />
-                ))
-              }
-              value={tags}
-              onChange={(event, value) => updateTags(value)}
-              freeSolo
-              getOptionDisabled={(option) => option.includes('invalid input')}
-              filterOptions={(options, params) => {
-                const filtered = filter(options, params);
-                return filtered;
-              }}
-              renderInput={(params) => (
-                <TextField label={t('tags')} {...params} variant="outlined" />
-              )}
-            />
-          </Flex>
-        </>
-      )}
-    </FlexCol>
-  );
+            <Flex sx={{ p: 1, ...alignCenterJustifyCenter }}>
+                <IconButton onClick={() => setMoreOptions(prev => !prev)}>
+                    {!moreOptions && <Coronavirus />}
+                    {moreOptions && <KeyboardArrowDownIcon />}
+                </IconButton>
+                <InputBase
+                    fullWidth
+                    placeholder={t('placeholder')}
+                    sx={{ ml: 1 }}
+                    value={name}
+                    onChange={event => setName(event.target.value)}
+                />
+                <IconButton onClick={() => refetch()} sx={{ mr: 0.5 }}>
+                    <SearchIcon />
+                </IconButton>
+                <Divider orientation="vertical" />
+                <IconButton sx={{ ml: 0.25, mr: -0.25 }} disabled={!(name !== '' || minRating > 0 || tags.length > 0)} onClick={reset}>
+                    <DeleteIcon />
+                </IconButton>
+            </Flex>
+            {moreOptions && (
+                <>
+                    <Divider />
+                    <Flex sx={{ mt: 0.5, p: 1, ...alignCenterJustifyEvenly }}>
+                        <Typography variant="body2">{t('minRating')}</Typography>
+                        <Rating disabled={isLoading} value={minRating} onChange={(event, value) => setMinRating(value!)} />
+                    </Flex>
+                    <Flex sx={{ p: 1 }}>
+                        <Autocomplete
+                            size="small"
+                            multiple
+                            fullWidth
+                            id="tags-filled"
+                            options={data.sort().map((option: string) => option)}
+                            renderTags={(value: readonly string[]) =>
+                                value.map((tag: string) => (
+                                    <Chip
+                                        label={tag}
+                                        key={tag}
+                                        id={tag}
+                                        sx={{ mx: 0.2 }}
+                                        color="secondary"
+                                        onDelete={() => deleteTag(tag)}
+                                    />
+                                ))
+                            }
+                            value={tags}
+                            onChange={(event, value) => updateTags(value)}
+                            freeSolo
+                            getOptionDisabled={option => option.includes('invalid input')}
+                            filterOptions={(options, params) => {
+                                const filtered = filter(options, params);
+                                return filtered;
+                            }}
+                            renderInput={params => <TextField label={t('tags')} {...params} variant="outlined" />}
+                        />
+                    </Flex>
+                </>
+            )}
+        </FlexCol>
+    );
 };
 
 // TODO: disallow tag creation

@@ -1,17 +1,17 @@
 {
-  "title": "Einloggen",
-  "snackbar": {
-    "error": "Registierung fehlgeschlagen. Versuche es bitte erneut.",
-    "success": "Deine Registrierung war erfolgreich. Du kannst dich jetzt einloggen.",
-    "mailTaken": "Diese E-Mail existiert bereits. Log dich bitte ein."
-  },
-  "formFields": {
-    "email": "E-Mail-Adresse",
-    "password": "Passwort",
-    "username": "Nick"
-  },
-  "buttons": {
-    "signup": "Registrieren",
-    "signin": "Du hast schon ein Konto? Log dich hier ein."
-  }
+    "title": "Einloggen",
+    "snackbar": {
+        "error": "Registierung fehlgeschlagen. Versuche es bitte erneut.",
+        "success": "Deine Registrierung war erfolgreich. Du kannst dich jetzt einloggen.",
+        "mailTaken": "Diese E-Mail existiert bereits. Log dich bitte ein."
+    },
+    "formFields": {
+        "email": "E-Mail-Adresse",
+        "password": "Passwort",
+        "username": "Nick"
+    },
+    "buttons": {
+        "signup": "Registrieren",
+        "signin": "Du hast schon ein Konto? Log dich hier ein."
+    }
 }

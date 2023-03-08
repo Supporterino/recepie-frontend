@@ -7,27 +7,20 @@ import Search from '../components/listViews/search';
 import { useState } from 'react';
 
 const Home: React.FunctionComponent = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
-  const [error, setError] = useState<unknown>();
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isError, setIsError] = useState<boolean>(false);
+    const [error, setError] = useState<unknown>();
+    const [recipes, setRecipes] = useState<Recipe[]>([]);
 
-  return (
-    <FlexColContainer
-      header={
-        <Search
-          setError={setError}
-          setIsError={setIsError}
-          setIsLoading={setIsLoading}
-          setRecipes={setRecipes}
-        />
-      }
-    >
-      {isLoading && <Loader />}
-      {isError && <ErrorDisplay text={`${error}`} />}
-      <RecipeList recipes={recipes} />
-    </FlexColContainer>
-  );
+    return (
+        <FlexColContainer
+            header={<Search setError={setError} setIsError={setIsError} setIsLoading={setIsLoading} setRecipes={setRecipes} />}
+        >
+            {isLoading && <Loader />}
+            {isError && <ErrorDisplay text={`${error}`} />}
+            <RecipeList recipes={recipes} />
+        </FlexColContainer>
+    );
 };
 
 export default Home;

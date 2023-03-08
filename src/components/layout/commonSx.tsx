@@ -10,25 +10,25 @@ const centerTopStyleCol = { display: 'flex', ...alignCenterJustifyStart } as con
 const flexCol = { height: '100%', display: 'flex', flexDirection: 'column' } as const;
 
 const gridOutline = {
-  '--Grid-borderWidth': '1px',
-  // borderTop: 'var(--Grid-borderWidth) solid',
-  // borderLeft: 'var(--Grid-borderWidth) solid',
-  borderColor: 'divider',
-  '& > div': {
-    // borderRight: 'var(--Grid-borderWidth) solid',
-    borderBottom: 'var(--Grid-borderWidth) solid',
-    borderColor: 'divider'
-  }
+    '--Grid-borderWidth': '1px',
+    // borderTop: 'var(--Grid-borderWidth) solid',
+    // borderLeft: 'var(--Grid-borderWidth) solid',
+    borderColor: 'divider',
+    '& > div': {
+        // borderRight: 'var(--Grid-borderWidth) solid',
+        borderBottom: 'var(--Grid-borderWidth) solid',
+        borderColor: 'divider',
+    },
 } as const;
 
 export {
-  alignStartJustifyCenter,
-  centerStyle,
-  alignCenterJustifyCenter,
-  alignCenterJustifyStart,
-  centerTopStyleRow,
-  centerTopStyleCol,
-  flexCol,
-  gridOutline,
-  alignCenterJustifyEvenly
+    alignStartJustifyCenter,
+    centerStyle,
+    alignCenterJustifyCenter,
+    alignCenterJustifyStart,
+    centerTopStyleRow,
+    centerTopStyleCol,
+    flexCol,
+    gridOutline,
+    alignCenterJustifyEvenly,
 };

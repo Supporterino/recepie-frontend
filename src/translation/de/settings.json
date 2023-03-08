@@ -1,25 +1,25 @@
 {
-  "headers": {
-    "language": "Sprache",
-    "theming": "Design",
-    "account": "Konto",
-    "version": "Version"
-  },
-  "theme": {
-    "mode": "Design"
-  },
-  "logoutButton": "Abmelden",
-  "version": {
-    "frontend": "Frontend",
-    "backend": "Backend"
-  },
-  "verification": {
-    "startEmail": "Checke deine E-Mails, um mit der Verifikation fortzuführen.",
-    "failedEmail": "Verifikation fehlgeschlagen, versuche es bitte gleich erneut.",
-    "fetching": "Benutzer wird geladen...",
-    "verified": "Verifiziert",
-    "unverified": "Verifikaiton starten",
-    "pending": "Ausstehend...",
-    "none": "-"
-  }
+    "headers": {
+        "language": "Sprache",
+        "theming": "Design",
+        "account": "Konto",
+        "version": "Version"
+    },
+    "theme": {
+        "mode": "Design"
+    },
+    "logoutButton": "Abmelden",
+    "version": {
+        "frontend": "Frontend",
+        "backend": "Backend"
+    },
+    "verification": {
+        "startEmail": "Checke deine E-Mails, um mit der Verifikation fortzuführen.",
+        "failedEmail": "Verifikation fehlgeschlagen, versuche es bitte gleich erneut.",
+        "fetching": "Benutzer wird geladen...",
+        "verified": "Verifiziert",
+        "unverified": "Verifikaiton starten",
+        "pending": "Ausstehend...",
+        "none": "-"
+    }
 }

@@ -1,23 +1,23 @@
 {
-  "title": "Recepie",
-  "buttons": {
-    "submit": "Einreichen",
-    "cancel": "Abbrechen",
-    "pending": "Ausstehend...",
-    "next": "Vor",
-    "back": "Zurück",
-    "save": "Speichern",
-    "upload": "Hochladen"
-  },
-  "snackbar": {
-    "errorFav": "Rezept konnte nicht zu den Favoriten hinzugefügt werden.",
-    "errorCooklist": "Rezept konnte nicht zu der Kochliste hinzugefügt werden."
-  },
-  "errorDisplay": {
-    "title": "Fehler",
-    "text": "Fehler beim Laden der Ressourcen — "
-  },
-  "loader": {
-    "text": "Laden..."
-  }
+    "title": "Recepie",
+    "buttons": {
+        "submit": "Einreichen",
+        "cancel": "Abbrechen",
+        "pending": "Ausstehend...",
+        "next": "Vor",
+        "back": "Zurück",
+        "save": "Speichern",
+        "upload": "Hochladen"
+    },
+    "snackbar": {
+        "errorFav": "Rezept konnte nicht zu den Favoriten hinzugefügt werden.",
+        "errorCooklist": "Rezept konnte nicht zu der Kochliste hinzugefügt werden."
+    },
+    "errorDisplay": {
+        "title": "Fehler",
+        "text": "Fehler beim Laden der Ressourcen — "
+    },
+    "loader": {
+        "text": "Laden..."
+    }
 }

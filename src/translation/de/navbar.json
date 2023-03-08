@@ -1,8 +1,8 @@
 {
-  "home": "Home",
-  "lists": "Listen",
-  "create": "Neu",
-  "login": "Login",
-  "account": "Konto",
-  "settings": "Einstellungen"
+    "home": "Home",
+    "lists": "Listen",
+    "create": "Neu",
+    "login": "Login",
+    "account": "Konto",
+    "settings": "Einstellungen"
 }

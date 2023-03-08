@@ -1,65 +1,65 @@
 {
-  "broken": "Was auch immer du getan hast - Herzlichen Glückwunsch! Du hast einen unerreichbaren Code erreicht.",
-  "snackbar": {
-    "missing": "Fülle bitte alle erforderlichen Felder aus.",
-    "success": "Rezept wurde hinzugefügt.",
-    "error": "Fehler: Rezept konnte nicht erstellt werden.",
-    "errorFields": "Fülle bitte alle erforderlichen Felder aus.",
-    "emptyStep": "Gebe einen weiteren Schritt ein, sonst bitte abbrechen."
-  },
-  "addDialog": {
-    "title": "Zutat hinzufügen",
-    "text": "Hier kannst du eine weitere Zutat hinzufügen.",
-    "formFields": {
-      "name": "Name",
-      "amount": "Menge",
-      "addAnother": "Füge eine weitere Zutat hinzu.",
-      "submit": "Zutat hinzufügen"
-    }
-  },
-  "stepDialog": {
-    "formFields": {
-      "step": "Schritt",
-      "submit": "Weiteren Schritt hinzufügen",
-      "steps": "Schritte"
-    }
-  },
-  "basic": {
-    "formFields": {
-      "name": "Name",
-      "servings": "Portionen",
-      "description": "Beschreibung",
-      "tags": "Labels"
-    }
-  },
-  "ingredientsDialog": {
-    "formFields": {
-      "name": "Name",
-      "amount": "Menge",
-      "ingredient": "Zutat",
-      "action": "Aktion"
+    "broken": "Was auch immer du getan hast - Herzlichen Glückwunsch! Du hast einen unerreichbaren Code erreicht.",
+    "snackbar": {
+        "missing": "Fülle bitte alle erforderlichen Felder aus.",
+        "success": "Rezept wurde hinzugefügt.",
+        "error": "Fehler: Rezept konnte nicht erstellt werden.",
+        "errorFields": "Fülle bitte alle erforderlichen Felder aus.",
+        "emptyStep": "Gebe einen weiteren Schritt ein, sonst bitte abbrechen."
     },
-    "buttons": {
-      "add": "Neue Zutat hinzufügen",
-      "section": "Neue Sektion erstellen"
+    "addDialog": {
+        "title": "Zutat hinzufügen",
+        "text": "Hier kannst du eine weitere Zutat hinzufügen.",
+        "formFields": {
+            "name": "Name",
+            "amount": "Menge",
+            "addAnother": "Füge eine weitere Zutat hinzu.",
+            "submit": "Zutat hinzufügen"
+        }
     },
-    "title": {
-      "add": "Hinzufügen",
-      "edit": "Bearbeiten",
-      "section": "Sektion"
+    "stepDialog": {
+        "formFields": {
+            "step": "Schritt",
+            "submit": "Weiteren Schritt hinzufügen",
+            "steps": "Schritte"
+        }
+    },
+    "basic": {
+        "formFields": {
+            "name": "Name",
+            "servings": "Portionen",
+            "description": "Beschreibung",
+            "tags": "Labels"
+        }
+    },
+    "ingredientsDialog": {
+        "formFields": {
+            "name": "Name",
+            "amount": "Menge",
+            "ingredient": "Zutat",
+            "action": "Aktion"
+        },
+        "buttons": {
+            "add": "Neue Zutat hinzufügen",
+            "section": "Neue Sektion erstellen"
+        },
+        "title": {
+            "add": "Hinzufügen",
+            "edit": "Bearbeiten",
+            "section": "Sektion"
+        }
+    },
+    "imageUpload": {
+        "title": "Bild hochladen",
+        "text": "Lade unten eine Bilddatei hoch.",
+        "error": "Hochladen fehlgeschlagen. Versuche es bitte erneut."
+    },
+    "sectionDialog": {
+        "title": "Sektion benennen",
+        "text": "Wie soll deine Sektionn heißen?",
+        "formFields": {
+            "name": "Name",
+            "submit": "Benennen"
+        }
     }
-  },
-  "imageUpload": {
-    "title": "Bild hochladen",
-    "text": "Lade unten eine Bilddatei hoch.",
-    "error": "Hochladen fehlgeschlagen. Versuche es bitte erneut."
-  },
-  "sectionDialog": {
-    "title": "Sektion benennen",
-    "text": "Wie soll deine Sektionn heißen?",
-    "formFields": {
-      "name": "Name",
-      "submit": "Benennen"
-    }
-  }
 }

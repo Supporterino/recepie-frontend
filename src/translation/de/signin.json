@@ -1,24 +1,24 @@
 {
-  "title": "Einloggen",
-  "snackbar": {
-    "success": "Erfolgreich eingeloggt.",
-    "failed": "Einloggen fehlgeschlagen, versuche es bitte erneut.",
-    "wrongMail": "Es konnte kein Konto zu der E-Mail-Adresse gefunden werden.",
-    "unverified": "Deine E-Mail ist nicht verifiziert, kontaktiere bitte unseren Support.",
-    "error": "Server-Fehler. Versuche es bitte erneut.",
-    "successReset": "E-Mail zum Zurücksetzten des Passworts wurde vershcickt. Checke deine E-Mails."
-  },
-  "formFields": {
-    "email": "E-Mail Adresse",
-    "password": "Passwort"
-  },
-  "buttons": {
-    "signin": "Einloggen",
-    "forgot": "Passwort vergessen?",
-    "signup": "Noch kein Konto? Hier kannst du dich registrieren."
-  },
-  "resetDialog": {
-    "title": "Passwort zurücksetzten?",
-    "text": "Deine E-Mail muss verifiziert sein, damit du eine E-Mail mit einem Link bekommst, mit dem du dein Passwort zurück setzten kannst. Wenn deine E-Mail nicht verifiziert ist, kontaktiere unseren Support."
-  }
+    "title": "Einloggen",
+    "snackbar": {
+        "success": "Erfolgreich eingeloggt.",
+        "failed": "Einloggen fehlgeschlagen, versuche es bitte erneut.",
+        "wrongMail": "Es konnte kein Konto zu der E-Mail-Adresse gefunden werden.",
+        "unverified": "Deine E-Mail ist nicht verifiziert, kontaktiere bitte unseren Support.",
+        "error": "Server-Fehler. Versuche es bitte erneut.",
+        "successReset": "E-Mail zum Zurücksetzten des Passworts wurde vershcickt. Checke deine E-Mails."
+    },
+    "formFields": {
+        "email": "E-Mail Adresse",
+        "password": "Passwort"
+    },
+    "buttons": {
+        "signin": "Einloggen",
+        "forgot": "Passwort vergessen?",
+        "signup": "Noch kein Konto? Hier kannst du dich registrieren."
+    },
+    "resetDialog": {
+        "title": "Passwort zurücksetzten?",
+        "text": "Deine E-Mail muss verifiziert sein, damit du eine E-Mail mit einem Link bekommst, mit dem du dein Passwort zurück setzten kannst. Wenn deine E-Mail nicht verifiziert ist, kontaktiere unseren Support."
+    }
 }

@@ -28,36 +28,36 @@ import recipe_en from '../translation/en/recipe.json';
 import recipe_de from '../translation/de/recipe.json';
 
 export const resources = {
-  en: {
-    common: common_en,
-    search: search_en,
-    settings: settings_en,
-    language: language_en,
-    signin: signin_en,
-    signup: signup_en,
-    passwordReset: passwordReset_en,
-    navbar: navbar_en,
-    create: create_en,
-    verification: verification_en,
-    user: user_en,
-    lists: lists_en,
-    recipe: recipe_en
-  },
-  de: {
-    common: common_de,
-    search: search_de,
-    settings: settings_de,
-    language: language_de,
-    signin: signin_de,
-    signup: signup_de,
-    passwordReset: passwordReset_de,
-    navbar: navbar_de,
-    create: create_de,
-    verification: verification_de,
-    user: user_de,
-    lists: lists_de,
-    recipe: recipe_de
-  }
+    en: {
+        common: common_en,
+        search: search_en,
+        settings: settings_en,
+        language: language_en,
+        signin: signin_en,
+        signup: signup_en,
+        passwordReset: passwordReset_en,
+        navbar: navbar_en,
+        create: create_en,
+        verification: verification_en,
+        user: user_en,
+        lists: lists_en,
+        recipe: recipe_en,
+    },
+    de: {
+        common: common_de,
+        search: search_de,
+        settings: settings_de,
+        language: language_de,
+        signin: signin_de,
+        signup: signup_de,
+        passwordReset: passwordReset_de,
+        navbar: navbar_de,
+        create: create_de,
+        verification: verification_de,
+        user: user_de,
+        lists: lists_de,
+        recipe: recipe_de,
+    },
 };
 
 export type availableLanguagesType = keyof typeof resources;
@@ -65,11 +65,11 @@ export const availableLanguages = Object.keys(resources);
 export const defaultNS = 'common';
 
 i18next.use(initReactI18next).init({
-  interpolation: { escapeValue: false }, // React already does escaping
-  lng: 'en',
-  resources,
-  defaultNS,
-  fallbackLng: 'en'
+    interpolation: { escapeValue: false }, // React already does escaping
+    lng: 'en',
+    resources,
+    defaultNS,
+    fallbackLng: 'en',
 });
 
 export default i18next;

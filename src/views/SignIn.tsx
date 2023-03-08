@@ -24,85 +24,85 @@ import { useMutation } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 
 const SignIn: React.FunctionComponent = () => {
-  type IFormData = { email: string; password: string };
-  const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();
-  const { register, handleSubmit } = useForm<IFormData>();
-  const [resetOpen, setResetOpen] = useState<boolean>(false);
-  const { t } = useTranslation('signin');
+    type IFormData = { email: string; password: string };
+    const navigate = useNavigate();
+    const { enqueueSnackbar } = useSnackbar();
+    const { register, handleSubmit } = useForm<IFormData>();
+    const [resetOpen, setResetOpen] = useState<boolean>(false);
+    const { t } = useTranslation('signin');
 
-  const loginMutation = useMutation((data: IFormData) => sendRequest(loginUrl, 'POST', data), {
-    onSuccess: async (data, variables, context) => {
-      const loginData = (await data.json()) as LoginResponse;
-      authenticationManager.updateAuthData({
-        jwt: loginData.jwtToken,
-        refreshToken: loginData.refreshToken,
-        userID: loginData.userID,
-        jwtExpiry: moment().add(15, 'm').toDate(),
-        refreshTokenExpiry: moment().add(7, 'd').toDate()
-      });
-      enqueueSnackbar(t('snackbar.success'), { variant: 'success' });
-      navigate('/');
-    },
-    onError: (error, variables, context) => {
-      enqueueSnackbar(t('snackbar.failed'), { variant: 'warning' });
-    },
-    retry: false
-  });
+    const loginMutation = useMutation((data: IFormData) => sendRequest(loginUrl, 'POST', data), {
+        onSuccess: async (data, variables, context) => {
+            const loginData = (await data.json()) as LoginResponse;
+            authenticationManager.updateAuthData({
+                jwt: loginData.jwtToken,
+                refreshToken: loginData.refreshToken,
+                userID: loginData.userID,
+                jwtExpiry: moment().add(15, 'm').toDate(),
+                refreshTokenExpiry: moment().add(7, 'd').toDate(),
+            });
+            enqueueSnackbar(t('snackbar.success'), { variant: 'success' });
+            navigate('/');
+        },
+        onError: (error, variables, context) => {
+            enqueueSnackbar(t('snackbar.failed'), { variant: 'warning' });
+        },
+        retry: false,
+    });
 
-  const login: SubmitHandler<IFormData> = async (data: IFormData) => {
-    loginMutation.mutate(data);
-  };
+    const login: SubmitHandler<IFormData> = async (data: IFormData) => {
+        loginMutation.mutate(data);
+    };
 
-  return (
-    <FlexColContainer>
-      <ResetPasswordStart open={resetOpen} close={() => setResetOpen(false)} />
-      <FlexCol sx={{ pt: 8, ...alignCenterJustifyCenter }}>
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          {t('title')}
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit(login)} sx={{ mt: 1 }}>
-          <TextField
-            {...register('email')}
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label={t('formFields.email')}
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <PasswordInput
-            formRegister={register('password')}
-            name="password"
-            label={t('formFields.password')}
-            id="password"
-            autoComplete="current-password"
-          />
-          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-            {t('buttons.signin')}
-          </Button>
-          <Flex sx={{ width: '100%' }}>
-            <Link onClick={() => setResetOpen(true)} variant="body2" sx={{ flexGrow: 1 }}>
-              {t('buttons.forgot')}
-            </Link>
-            <Link
-              onClick={() => {
-                navigate('/register');
-              }}
-              variant="body2"
-            >
-              {t('buttons.signup')}
-            </Link>
-          </Flex>
-        </Box>
-      </FlexCol>
-    </FlexColContainer>
-  );
+    return (
+        <FlexColContainer>
+            <ResetPasswordStart open={resetOpen} close={() => setResetOpen(false)} />
+            <FlexCol sx={{ pt: 8, ...alignCenterJustifyCenter }}>
+                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                    <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    {t('title')}
+                </Typography>
+                <Box component="form" onSubmit={handleSubmit(login)} sx={{ mt: 1 }}>
+                    <TextField
+                        {...register('email')}
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="email"
+                        label={t('formFields.email')}
+                        name="email"
+                        autoComplete="email"
+                        autoFocus
+                    />
+                    <PasswordInput
+                        formRegister={register('password')}
+                        name="password"
+                        label={t('formFields.password')}
+                        id="password"
+                        autoComplete="current-password"
+                    />
+                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                        {t('buttons.signin')}
+                    </Button>
+                    <Flex sx={{ width: '100%' }}>
+                        <Link onClick={() => setResetOpen(true)} variant="body2" sx={{ flexGrow: 1 }}>
+                            {t('buttons.forgot')}
+                        </Link>
+                        <Link
+                            onClick={() => {
+                                navigate('/register');
+                            }}
+                            variant="body2"
+                        >
+                            {t('buttons.signup')}
+                        </Link>
+                    </Flex>
+                </Box>
+            </FlexCol>
+        </FlexColContainer>
+    );
 };
 
 export default SignIn;

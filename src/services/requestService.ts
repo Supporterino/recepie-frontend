@@ -27,74 +27,65 @@ export const startVerifyUrl = baseUrl + secured + 'v1/verification/verifyEmail';
 export const changePrimaryPictureUrl = baseUrl + secured + 'v1/photo/setPrimaryPicture';
 export const deleteAdditionalPictureUrl = baseUrl + secured + 'v1/photo/deleteAdditionalPicture';
 export const resetPasswordUrl = baseUrl + unSecured + 'v1/verification/passwordReset';
-export const completePasswordResetUrl =
-  baseUrl + unSecured + 'v1/verification/completePasswordReset';
+export const completePasswordResetUrl = baseUrl + unSecured + 'v1/verification/completePasswordReset';
 
-export const getByIDUrl = () =>
-  baseUrl + (authenticationManager.hasUser() ? secured : unSecured) + 'v1/recipe-provider/getById';
-export const receipesURL = () =>
-  baseUrl +
-  (authenticationManager.hasUser() ? secured : unSecured) +
-  'v1/recipe-provider/featuredRecipes';
-export const tagsURL = () =>
-  baseUrl + (authenticationManager.hasUser() ? secured : unSecured) + 'v1/tags/getAsStrings';
-export const backendVersionUrl = () =>
-  baseUrl + (authenticationManager.hasUser() ? secured : unSecured) + 'v1/meta/version';
-export const recipesFilteredUrl = () =>
-  baseUrl + (authenticationManager.hasUser() ? secured : unSecured) + 'v1/recipe-provider/filter';
+export const getByIDUrl = () => baseUrl + (authenticationManager.hasUser() ? secured : unSecured) + 'v1/recipe-provider/getById';
+export const receipesURL = () => baseUrl + (authenticationManager.hasUser() ? secured : unSecured) + 'v1/recipe-provider/featuredRecipes';
+export const tagsURL = () => baseUrl + (authenticationManager.hasUser() ? secured : unSecured) + 'v1/tags/getAsStrings';
+export const backendVersionUrl = () => baseUrl + (authenticationManager.hasUser() ? secured : unSecured) + 'v1/meta/version';
+export const recipesFilteredUrl = () => baseUrl + (authenticationManager.hasUser() ? secured : unSecured) + 'v1/recipe-provider/filter';
 
 const getToken = async (): Promise<string> => {
-  const validAuth = await authenticationManager.refreshJWT();
-  console.log('Has auth:', validAuth);
-  if (!validAuth) return '';
-  return authenticationManager.getJWT();
+    const validAuth = await authenticationManager.refreshJWT();
+    console.log('Has auth:', validAuth);
+    if (!validAuth) return '';
+    return authenticationManager.getJWT();
 };
 
 const buildHeaders = async (isJSON: boolean, needsAuth: boolean): Promise<Headers> => {
-  const header: Headers = new Headers();
-  if (isJSON) header.set('Content-Type', 'application/json');
-  if (needsAuth) {
-    const token = await getToken();
-    header.set('Authorization', `Token ${token}`);
-  }
-  return header;
+    const header: Headers = new Headers();
+    if (isJSON) header.set('Content-Type', 'application/json');
+    if (needsAuth) {
+        const token = await getToken();
+        header.set('Authorization', `Token ${token}`);
+    }
+    return header;
 };
 
 const sendRequest = async (url: string, method: string, data?: any, isJSON: boolean = true) => {
-  console.log('--- REQUEST ---');
-  console.log(url);
-  const fetchOptions: RequestInit = {
-    method: method,
-    headers: await buildHeaders(isJSON, url.includes(secured) || url === imageUploadUrl),
-    ...(method !== 'GET' && { body: isJSON ? JSON.stringify(data) : data })
-  };
-  console.log('--- OPTIONS ---');
-  console.log(fetchOptions.headers?.toString());
+    console.log('--- REQUEST ---');
+    console.log(url);
+    const fetchOptions: RequestInit = {
+        method: method,
+        headers: await buildHeaders(isJSON, url.includes(secured) || url === imageUploadUrl),
+        ...(method !== 'GET' && { body: isJSON ? JSON.stringify(data) : data }),
+    };
+    console.log('--- OPTIONS ---');
+    console.log(fetchOptions.headers?.toString());
 
-  const res: Response | null = await fetch(url, fetchOptions);
-  if (!res) throw new Error('No response received');
-  console.log('--- RESPONSE ---');
-  console.log(res);
-  console.log('--- -------- ---');
-  if (!res.ok)
-    throw new NonOKStatusCode(`Non OK Status code. ${res.status} - ${res.statusText}`, res.status);
-  return res;
+    const res: Response | null = await fetch(url, fetchOptions);
+    if (!res) throw new Error('No response received');
+    console.log('--- RESPONSE ---');
+    console.log(res);
+    console.log('--- -------- ---');
+    if (!res.ok) throw new NonOKStatusCode(`Non OK Status code. ${res.status} - ${res.statusText}`, res.status);
+    return res;
 };
 
 export default sendRequest;
 class NonOKStatusCode extends Error {
-  private _statusCode: number;
-  public get statusCode(): number {
-    return this._statusCode;
-  }
-  public set statusCode(value: number) {
-    this._statusCode = value;
-  }
-  constructor(msg: string, sC: number) {
-    super(msg);
-    Object.setPrototypeOf(this, NonOKStatusCode.prototype);
-    this._statusCode = sC;
-  }
+    private _statusCode: number;
+    public get statusCode(): number {
+        return this._statusCode;
+    }
+    public set statusCode(value: number) {
+        this._statusCode = value;
+    }
+    constructor(msg: string, sC: number) {
+        super(msg);
+        Object.setPrototypeOf(this, NonOKStatusCode.prototype);
+        this._statusCode = sC;
+    }
 }
 
 export { NonOKStatusCode };
