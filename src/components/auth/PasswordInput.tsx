@@ -1,57 +1,75 @@
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { IconButton, InputAdornment, TextField } from '@mui/material';
-import { useState } from 'react';
-import { UseFormRegisterReturn } from 'react-hook-form';
+import {
+  Visibility,
+  VisibilityOff,
+} from '@mui/icons-material';
+import {
+  IconButton,
+  InputAdornment,
+  TextField,
+} from '@mui/material';
+import {
+  useState,
+} from 'react';
+import {
+  type UseFormRegisterReturn,
+} from 'react-hook-form';
 
 type PasswordInputProps = {
-    label: string;
-    name: string;
-    autoComplete: string;
-    id: string;
-    formRegister: UseFormRegisterReturn;
-    error?: boolean;
-    errorText?: string;
+  autoComplete: string,
+  error?: boolean,
+  errorText?: string,
+  formRegister: UseFormRegisterReturn,
+  id: string,
+  label: string,
+  name: string,
 };
 
 const PasswordInput: React.FunctionComponent<PasswordInputProps> = ({
-    label,
-    name,
-    autoComplete,
-    id,
-    formRegister,
-    error,
-    errorText,
+  label,
+  name,
+  autoComplete,
+  id,
+  formRegister,
+  error,
+  errorText,
 }: PasswordInputProps) => {
-    const [showPassword, setShowPassword] = useState(false);
+  const [
+    showPassword,
+    setShowPassword,
+  ] = useState(false);
 
-    return (
-        <TextField
-            {...formRegister}
-            label={label}
-            name={name}
-            autoComplete={autoComplete}
-            id={id}
-            error={error}
-            helperText={error ? errorText : undefined}
-            type={showPassword ? 'text' : 'password'}
-            margin="normal"
-            required
-            fullWidth
-            InputProps={{
-                endAdornment: (
-                    <InputAdornment position="end">
-                        <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={() => setShowPassword(!showPassword)}
-                            onMouseDown={() => setShowPassword(!showPassword)}
-                        >
-                            {showPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
-                    </InputAdornment>
-                ),
-            }}
-        />
-    );
+  return (
+    <TextField
+      {...formRegister}
+      InputProps={{
+        endAdornment:
+  <InputAdornment position='end'>
+    <IconButton
+      aria-label='toggle password visibility'
+      onClick={() => {
+        return setShowPassword(!showPassword);
+      }}
+      onMouseDown={() => {
+        return setShowPassword(!showPassword);
+      }}
+    >
+      {showPassword ? <Visibility /> : <VisibilityOff />}
+    </IconButton>
+  </InputAdornment>
+        ,
+      }}
+      autoComplete={autoComplete}
+      error={error}
+      fullWidth
+      helperText={error ? errorText : undefined}
+      id={id}
+      label={label}
+      margin='normal'
+      name={name}
+      required
+      type={showPassword ? 'text' : 'password'}
+    />
+  );
 };
 
 export default PasswordInput;

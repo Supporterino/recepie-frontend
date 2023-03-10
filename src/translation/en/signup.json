@@ -1,17 +1,17 @@
 {
-    "title": "Sign in",
-    "snackbar": {
-        "error": "Registration failed on serversode. Please try again.",
-        "success": "Registration complete. You can log in now.",
-        "mailTaken": "E-Mail already in use for an account. Please sign in."
-    },
-    "formFields": {
-        "email": "Mail address",
-        "password": "Password",
-        "username": "Username"
-    },
-    "buttons": {
-        "signup": "Sign Up",
-        "signin": "Already have an account? Sign in"
-    }
+  "buttons": {
+    "signin": "Already have an account? Sign in",
+    "signup": "Sign Up"
+  },
+  "formFields": {
+    "email": "Mail address",
+    "password": "Password",
+    "username": "Username"
+  },
+  "snackbar": {
+    "error": "Registration failed on serversode. Please try again.",
+    "mailTaken": "E-Mail already in use for an account. Please sign in.",
+    "success": "Registration complete. You can log in now."
+  },
+  "title": "Sign in"
 }

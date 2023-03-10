@@ -1,5 +1,5 @@
 {
-    "placeholder": "Suchen",
-    "minRating": "Niedrigste Bewertung",
-    "tags": "Labels"
+  "minRating": "Niedrigste Bewertung",
+  "placeholder": "Suchen",
+  "tags": "Labels"
 }

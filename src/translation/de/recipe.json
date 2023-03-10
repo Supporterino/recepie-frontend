@@ -1,52 +1,52 @@
 {
-    "deleteDialog": {
-        "title": "Willst du das Rezept löschen?",
-        "text": "Bist du sicher, dass du dein Rezept löschen willst? Das kann nicht rückgängig gemacht werden und niemand wird mehr Zugriff darauf haben.",
-        "submitButton": "Löschen",
-        "error": "Löschen fehlgeschlagene."
-    },
-    "editView": {
-        "error": "Bearbeiten fehlgeschlagen.",
-        "addIngredient": "Füge eine neue Zutat hinzu.",
-        "addSection": "Füge eine neue Sektion hinzu.",
-        "addStep": "Füge einen neuen Schritt hinzu."
-    },
-    "ratingDialog": {
-        "error": "Bewerten fehlgeschlagen.",
-        "title": "Rezept bewerten",
-        "rating": "Deine Bewertung"
-    },
-    "strings": {
-        "by": "von",
-        "name": "Name",
-        "description": "Beschreibung",
-        "ingredients": "Zutaten",
-        "servings": "Portionen",
-        "amount": "Menge",
-        "ingredient": "Zutat",
-        "steps": "Schritte",
-        "share": "Teilen",
-        "tags": "Tags"
-    },
-    "share": {
-        "string": "Hier ist ein Rezept, das dir gefallen könnte. :)",
-        "error": "Rezept konnte nicht geteilt werden."
-    },
-    "snackbar": {
-        "favError": "Rezept konnte nicht zu den Favoriten hinzugefügt werden",
-        "cooklistError": "Rezept konnte nicht zu der Kochliste hinzugefügt werden"
-    },
-    "menuItems": {
-        "addFav": "Zu den Favoriten hinzufügen",
-        "rmFav": "Aus Favoriten entfernen",
-        "addCooklist": "Zur Kochliste hinzufügen",
-        "rmCooklist": "Aus der Kochliste entfernen.",
-        "uploadImage": "Bild hochladen",
-        "edit": "Bearbeiten",
-        "delete": "Löschen"
-    },
-    "galery": {
-        "title": "Gallery",
-        "primaryButton": "Set as primary"
-    }
+  "deleteDialog": {
+    "error": "Löschen fehlgeschlagene.",
+    "submitButton": "Löschen",
+    "text": "Bist du sicher, dass du dein Rezept löschen willst? Das kann nicht rückgängig gemacht werden und niemand wird mehr Zugriff darauf haben.",
+    "title": "Willst du das Rezept löschen?"
+  },
+  "editView": {
+    "addIngredient": "Füge eine neue Zutat hinzu.",
+    "addSection": "Füge eine neue Sektion hinzu.",
+    "addStep": "Füge einen neuen Schritt hinzu.",
+    "error": "Bearbeiten fehlgeschlagen."
+  },
+  "galery": {
+    "primaryButton": "Set as primary",
+    "title": "Gallery"
+  },
+  "menuItems": {
+    "addCooklist": "Zur Kochliste hinzufügen",
+    "addFav": "Zu den Favoriten hinzufügen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "rmCooklist": "Aus der Kochliste entfernen.",
+    "rmFav": "Aus Favoriten entfernen",
+    "uploadImage": "Bild hochladen"
+  },
+  "ratingDialog": {
+    "error": "Bewerten fehlgeschlagen.",
+    "rating": "Deine Bewertung",
+    "title": "Rezept bewerten"
+  },
+  "share": {
+    "error": "Rezept konnte nicht geteilt werden.",
+    "string": "Hier ist ein Rezept, das dir gefallen könnte. :)"
+  },
+  "snackbar": {
+    "cooklistError": "Rezept konnte nicht zu der Kochliste hinzugefügt werden",
+    "favError": "Rezept konnte nicht zu den Favoriten hinzugefügt werden"
+  },
+  "strings": {
+    "amount": "Menge",
+    "by": "von",
+    "description": "Beschreibung",
+    "ingredient": "Zutat",
+    "ingredients": "Zutaten",
+    "name": "Name",
+    "servings": "Portionen",
+    "share": "Teilen",
+    "steps": "Schritte",
+    "tags": "Tags"
+  }
 }

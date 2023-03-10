@@ -1,77 +1,139 @@
-import { Autocomplete, Chip, createFilterOptions, TextField } from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
-import { t } from 'i18next';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { getAllTags } from '../../services/requests';
+import {
+  getAllTags,
+} from '../../services/requests';
 import Flex from '../layout/Flex';
+import {
+  Autocomplete,
+  Chip,
+  createFilterOptions,
+  TextField,
+} from '@mui/material';
+import {
+  useQuery,
+} from '@tanstack/react-query';
+import {
+  t,
+} from 'i18next';
+import {
+  type Dispatch,
+  type SetStateAction,
+} from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 
 type TagListProps = {
-    initialTags: string[];
-    editable?: boolean;
-    updateHook?: Dispatch<SetStateAction<string[]>>;
+  editable?: boolean,
+  initialTags: string[],
+  updateHook?: Dispatch<SetStateAction<string[]>>,
 };
 
-const TagList: React.FunctionComponent<TagListProps> = ({ initialTags, editable, updateHook }: TagListProps) => {
-    const { data } = useQuery(['tags'], getAllTags);
-    const [tags, setTags] = useState<string[]>(initialTags);
+const TagList: React.FunctionComponent<TagListProps> = ({
+  initialTags,
+  editable,
+  updateHook,
+}: TagListProps) => {
+  const {
+    data,
+  } = useQuery([
+    'tags',
+  ], getAllTags);
+  const [
+    tags,
+    setTags,
+  ] = useState<string[]>(initialTags);
 
-    useEffect(() => {
-        if (updateHook) updateHook(tags);
-    }, [tags, updateHook]);
+  useEffect(() => {
+    if (updateHook) {
+      updateHook(tags);
+    }
+  }, [
+    tags,
+    updateHook,
+  ]);
 
-    const deleteTag = (toDelete: string) => {
-        setTags(tags.filter(tag => tag !== toDelete));
-    };
+  const deleteTag = (toDelete: string) => {
+    setTags(tags.filter((tag) => {
+      return tag !== toDelete;
+    }));
+  };
 
-    const updateTags = (tags: string[]) => {
-        const cleanedTags: string[] = [];
-        tags.forEach(tag => cleanedTags.push(tag.replace('create new tag:', '').trim()));
-        setTags(cleanedTags);
-    };
+  const updateTags = (newTags: string[]) => {
+    const cleanedTags: string[] = [];
+    for (const tag of newTags) {
+      cleanedTags.push(tag.replace('create new tag:', '').trim());
+      continue;
+    }
 
-    const filter = createFilterOptions<string>();
+    setTags(cleanedTags);
+  };
 
-    return (
-        <Flex sx={{ flexWrap: 'wrap', mt: 1, mb: 1, width: '100%' }}>
-            {!editable ? (
-                tags.map((tag: string) => <Chip label={tag} sx={{ mx: 0.2 }} />)
-            ) : (
-                <Autocomplete
-                    multiple
-                    fullWidth
-                    id="tags-filled"
-                    options={data.sort().map((option: string) => option)}
-                    renderTags={(value: readonly string[]) =>
-                        value.map((tag: string) => (
-                            <Chip label={tag} key={tag} id={tag} sx={{ mx: 0.2 }} color="secondary" onDelete={() => deleteTag(tag)} />
-                        ))
-                    }
-                    value={tags}
-                    onChange={(event, value) => updateTags(value)}
-                    freeSolo
-                    getOptionDisabled={option => option.includes('invalid input')}
-                    filterOptions={(options, params) => {
-                        const filtered = filter(options, params);
+  const filter = createFilterOptions<string>();
 
-                        const inputValue = params.inputValue.trim();
-                        // Suggest the creation of a new value
-                        const isExisting = options.some(option => inputValue === option);
+  return (
+    <Flex sx={{
+      flexWrap: 'wrap',
+      mb: 1,
+      mt: 1,
+      width: '100%',
+    }}
+    >
+      {editable ?
+        <Autocomplete
+          filterOptions={(options, parameters) => {
+            const filtered = filter(options, parameters);
 
-                        if (inputValue.includes(' ')) {
-                            filtered.push(`invalid input: ${inputValue}`);
-                        } else if (inputValue !== '' && !isExisting) {
-                            filtered.push(`create new tag: ${inputValue}`);
-                        }
+            const inputValue = parameters.inputValue.trim();
+            // Suggest the creation of a new value
+            const isExisting = options.includes(inputValue);
 
-                        return filtered;
-                    }}
-                    renderInput={params => (
-                        <TextField label={t('create:basic.formFields.tags')} margin="normal" required {...params} variant="outlined" />
-                    )}
-                />
-            )}
-        </Flex>
-    );
+            if (inputValue.includes(' ')) {
+              filtered.push(`invalid input: ${inputValue}`);
+            } else if (inputValue !== '' && !isExisting) {
+              filtered.push(`create new tag: ${inputValue}`);
+            }
+
+            return filtered;
+          }}
+          freeSolo
+          fullWidth
+          getOptionDisabled={(option) => {
+            return option.includes('invalid input');
+          }}
+          id='tags-filled'
+          multiple
+          onChange={(event, value) => {
+            return updateTags(value);
+          }}
+          options={data.sort().map((option: string) => {
+            return option;
+          })}
+          renderInput={(parameters) => {
+            return <TextField label={t('create:basic.formFields.tags')} margin='normal' required {...parameters} variant='outlined' />;
+          }}
+          renderTags={(value: readonly string[]) => {
+            return value.map((tag: string) => {
+              return <Chip
+                color='secondary' id={tag} key={tag}
+                label={tag} onDelete={() => {
+                  return deleteTag(tag);
+                }} sx={{
+                  mx: 0.2,
+                }}
+              />;
+            });
+          }}
+          value={tags}
+        /> : tags.map((tag: string) => {
+          return <Chip
+            key={tag} label={tag} sx={{
+              mx: 0.2,
+            }}
+          />;
+        })}
+    </Flex>
+  );
 };
 
 export default TagList;

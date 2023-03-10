@@ -1,5 +1,5 @@
 {
-    "loading": "E-Mail-Adresse wird verifiziert.",
-    "success": "Verifizierung erfolgreich",
-    "home": "Zu Honme."
+  "home": "Zu Honme.",
+  "loading": "E-Mail-Adresse wird verifiziert.",
+  "success": "Verifizierung erfolgreich"
 }

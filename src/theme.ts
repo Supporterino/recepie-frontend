@@ -1,28 +1,38 @@
-import { createTheme, Theme } from '@mui/material/styles';
-import { blueGrey, grey, indigo, red } from '@mui/material/colors';
+import {
+  blueGrey,
+  grey,
+  indigo,
+  red,
+} from '@mui/material/colors';
+import {
+  type Theme,
+} from '@mui/material/styles';
+import {
+  createTheme,
+} from '@mui/material/styles';
 
 export const colorDefinition = {
-    primary: indigo[500],
-    secondary: blueGrey[500],
-    error: red.A400,
-    background: grey[900],
+  background: grey[900],
+  error: red.A400,
+  primary: indigo[500],
+  secondary: blueGrey[500],
 };
 
-export const theme = (mode: 'light' | 'dark'): Theme => {
-    return createTheme({
-        palette: {
-            mode: mode,
-            primary: {
-                main: colorDefinition.primary,
-            },
-            secondary: {
-                main: colorDefinition.secondary,
-            },
-            error: {
-                main: colorDefinition.error,
-            },
-        },
-    });
+export const theme = (mode: 'dark' | 'light'): Theme => {
+  return createTheme({
+    palette: {
+      error: {
+        main: colorDefinition.error,
+      },
+      mode,
+      primary: {
+        main: colorDefinition.primary,
+      },
+      secondary: {
+        main: colorDefinition.secondary,
+      },
+    },
+  });
 };
 
 export default theme;

@@ -1,7 +1,12 @@
-import { resources, defaultNS } from '../utils/i18n';
+/* eslint-disable canonical/filename-match-regex */
+import {
+  type defaultNS,
+  type resources,
+} from '../utils/i18n';
+
 declare module 'i18next' {
-    interface CustomTypeOptions {
-        defaultNS: typeof defaultNS;
-        resources: typeof resources['en'];
-    }
+  type CustomTypeOptions = {
+    defaultNS: typeof defaultNS,
+    resources: typeof resources['en'],
+  };
 }

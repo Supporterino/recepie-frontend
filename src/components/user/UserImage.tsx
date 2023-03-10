@@ -1,77 +1,113 @@
-import { Box, IconButton, Popover, Skeleton } from '@mui/material';
-import { Image } from 'mui-image';
-import { useState } from 'react';
+import {
+  centerStyle,
+} from '../layout/commonSx';
 import EditIcon from '@mui/icons-material/Edit';
-import { centerStyle } from '../layout/commonSx';
+import {
+  Box,
+  IconButton,
+  Popover,
+  Skeleton,
+} from '@mui/material';
+import {
+  Image,
+} from 'mui-image';
+import {
+  useState,
+} from 'react';
 
 type UserImageProps = {
-    onClick?: () => void;
-    url: string;
-    height: string;
-    width: string;
-    sx?: {};
-    rounded?: boolean;
-    round?: boolean;
+  height: string,
+  onClick?: () => void,
+  round?: boolean,
+  rounded?: boolean,
+  sx?: {},
+  url: string,
+  width: string,
 };
 
-const UserImage: React.FunctionComponent<UserImageProps> = ({ onClick, url, height, width, sx, rounded, round }: UserImageProps) => {
-    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-    const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handlePopoverClose = () => {
-        setAnchorEl(null);
-    };
-    const open = Boolean(anchorEl);
+const UserImage: React.FunctionComponent<UserImageProps> = ({
+  onClick,
+  url,
+  height,
+  width,
+  sx,
+  rounded,
+  round,
+}: UserImageProps) => {
+  const [
+    anchorElement,
+    setAnchorElement,
+  ] = useState<HTMLElement | null>(null);
+  const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElement(event.currentTarget);
+  };
 
-    const borderStyle = rounded ? { borderRadius: 4, border: 0 } : round ? { borderRadius: '50%' } : {};
-    return (
-        <Box onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose} onClick={onClick} sx={{ height: height, m: 1, ...sx }}>
-            <Popover
-                id="mouse-over-popover"
-                sx={{
-                    pointerEvents: 'none',
-                }}
-                PaperProps={{
-                    style: {
-                        backgroundColor: 'transparent',
-                        boxShadow: 'none',
-                        ...borderStyle,
-                    },
-                }}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handlePopoverClose}
-                marginThreshold={0}
-                disableRestoreFocus
-                disableEnforceFocus
-            >
-                <Box
-                    sx={{
-                        height: height,
-                        width: width,
-                        m: 0,
-                        ...centerStyle,
-                        backgroundColor: '#00000080',
-                        ...borderStyle,
-                    }}
-                >
-                    <IconButton>
-                        <EditIcon fontSize="large" />
-                    </IconButton>
-                </Box>
-            </Popover>
-            <Image
-                style={borderStyle}
-                src={url}
-                width={width}
-                height={'100%'}
-                fit={'cover'}
-                duration={100}
-                showLoading={<Skeleton height={height} width={width} variant="circular" animation="wave" />}
-            />
+  const handlePopoverClose = () => {
+    setAnchorElement(null);
+  };
+
+  const open = Boolean(anchorElement);
+
+  const borderStyle = rounded ? {
+    border: 0,
+    borderRadius: 4,
+  // eslint-disable-next-line unicorn/no-nested-ternary, object-curly-newline
+  } : round ? { borderRadius: '50%' } : {};
+  return (
+    <Box
+      onClick={onClick} onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}
+      sx={{
+        height,
+        m: 1,
+        ...sx,
+      }}
+    >
+      <Popover
+        PaperProps={{
+          style: {
+            backgroundColor: 'transparent',
+            boxShadow: 'none',
+            ...borderStyle,
+          },
+        }}
+        anchorEl={anchorElement}
+        disableEnforceFocus
+        disableRestoreFocus
+        id='mouse-over-popover'
+        marginThreshold={0}
+        onClose={handlePopoverClose}
+        open={open}
+        sx={{
+          pointerEvents: 'none',
+        }}
+      >
+        <Box
+          sx={{
+            height,
+            m: 0,
+            width,
+            ...centerStyle,
+            backgroundColor: '#00000080',
+            ...borderStyle,
+          }}
+        >
+          <IconButton>
+            <EditIcon fontSize='large' />
+          </IconButton>
         </Box>
-    );
+      </Popover>
+      <Image
+        duration={100}
+        fit='cover'
+        height='100%'
+        showLoading={<Skeleton animation='wave' height={height} variant='circular' width={width} />}
+        src={url}
+        // eslint-disable-next-line react/forbid-component-props
+        style={borderStyle}
+        width={width}
+      />
+    </Box>
+  );
 };
 
 export default UserImage;
